@@ -146,7 +146,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
           <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
             <HStack alignItems="center" spacing="4">
               <Image src={logo} alt="logo" boxSize="50px" />
-              <Text fontSize="2xl" style={{color:"#454545"}}>HarvestMart</Text>
+              <Text fontSize="2xl" style={{ color: "#454545" }}>HarvestMart</Text>
             </HStack>
           </Link>
         </Flex>
@@ -158,14 +158,14 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
               alignItems="center"
               onClick={handleMenuClick}
               cursor="pointer"
-              
+
             >
-              <Icon as={FiMenu} boxSize={6} style={{backgroundColor:"white", color:"#454545"}}/>
+              <Icon as={FiMenu} boxSize={6} style={{ backgroundColor: "white", color: "#454545" }} />
             </Box>
           </>
         ) : (
           <>
-            <HStack spacing={8} style={{color:"#454545"}}>
+            <HStack spacing={8} style={{ color: "#454545" }}>
               <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
                 <Text>Home</Text>
               </Link>
@@ -201,7 +201,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
               )}
             </HStack>
 
-            <HStack spacing={8} alignItems="center"  style={{color:"#454545"}}>
+            <HStack spacing={8} alignItems="center" style={{ color: "#454545" }}>
               <Link to="/cart">
                 <Icon as={BiCart} boxSize={6} />
                 <span>{counterOfCart}</span>
@@ -214,7 +214,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
                   </Link>
                 </>
               ) : (
-                <Link to="/">
+                <Link to="/ProfilePage">
                   <Icon as={BiUser} boxSize={6} />
                 </Link>
               )}
@@ -224,7 +224,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
       </Flex>
 
       {isSmallerThanMd && isMenuOpen && (
-        <Box p={4} bg="" style={{color:"#454545"}} >
+        <Box p={4} bg="" style={{ color: "#454545" }} >
           <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
             <Text mb={2}>Home</Text>
           </Link>
@@ -265,6 +265,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
             </Text>
           </Link>
           {displayName ? (
+            
             <>
               <Text mb={2}>Hi {displayName}!</Text>
               <Link to="/" onClick={handleLogout}>
@@ -272,7 +273,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
               </Link>
             </>
           ) : (
-            <Link to="/">
+            <Link to="/ProfilePage">
               <Icon as={BiUser} boxSize={6} />
             </Link>
           )}

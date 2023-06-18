@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, HStack, Img, Input, Stack, Text } from "@chakra-ui/react";
+import { Button, HStack, Img, Input, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { colors } from "../utils/colors";
@@ -7,9 +7,11 @@ import logo from "../assets/logo.png";
 import loginImg from "../assets/login-img.png";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
 const Login = ({ setDisplayName }) => {
   const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { error, login } = useAuth();
 
@@ -22,6 +24,10 @@ const Login = ({ setDisplayName }) => {
       setDisplayName(name);
       navigate("/");
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -49,13 +55,19 @@ const Login = ({ setDisplayName }) => {
             size="md"
             mb={4}
           />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Password"
-            size="md"
-            mb={4}
-          />
+          <InputGroup size="md" mb={4}>
+            <Input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              pr="4.5rem"
+            />
+            <InputRightElement width="4.5rem">
+              <Button h="1.75rem" size="sm" onClick={togglePasswordVisibility} style={{backgroundColor:"white"}}>
+                {showPassword ? <HiEyeOff /> : <HiEye />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
           <Button
             bg={colors.primary}
             color="white"

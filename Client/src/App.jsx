@@ -13,6 +13,7 @@ import { useAuth } from "./hooks/useAuth";
 import Contact from "./components/Contact";
 import PayMent from './pages/PayMent'
 import Check from './pages/Check'
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   const [displayName, setDisplayName] = useState("");
@@ -61,6 +62,10 @@ const App = () => {
         <Route
           path="/Contact"
           element={<Contact />}
+        />
+        <Route
+          path="/ProfilePage"
+          element={<ProfilePage />}
         />
         <Route
           path="/Agriculturalnursery"
