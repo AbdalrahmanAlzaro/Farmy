@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Pangolin&display=swap");
+
+* {
+  font-family: "Pangolin", cursive;
+  /* color: #454545; */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #454545 !important;
+}
+
+.active-link {
+  color: #519341 !important;
+}
