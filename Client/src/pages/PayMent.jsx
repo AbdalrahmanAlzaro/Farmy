@@ -311,7 +311,7 @@ export default function App() {
                                 </GridItem>
                                 <GridItem colSpan={7}>
                                     <FormControl>
-                                        <FormLabel htmlFor="billingAddress">Billing Address</FormLabel>
+                                        <FormLabel htmlFor="billingAddress">Shipping Address</FormLabel>
                                         <Input
                                             id="billingAddress"
                                             type="text"
