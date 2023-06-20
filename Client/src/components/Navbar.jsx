@@ -1,100 +1,3 @@
-// import { HStack, Icon, Image, Text, border } from "@chakra-ui/react";
-// import logo from "../assets/logo.png";
-// import { BiCart, BiUser } from "react-icons/bi";
-// import { Link, useLocation } from "react-router-dom";
-// const Navbar = ({ displayName, handleLogout, cartProducts }) => {
-
-//   const location = useLocation();
-//   const isActiveLink = (path) => {
-//     return location.pathname === path;
-//   };
-//   const counterOfCart = cartProducts.map(el => {
-//     return el.quantity
-//   }).reduce((acc, cur) => {
-//     return acc + cur
-//   }, 0)
-
-
-//   return (
-//     <>
-//       <HStack mt="3" mb="3"
-//         alignItems="center"
-//         justifyContent="space-around"
-//       >
-//         <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
-//           <HStack alignItems="center" spacing="4">
-//             <Image src={logo} alt="logo" boxSize="50px" />
-//             <Text fontSize="2xl">HarvestMart</Text>
-//           </HStack>
-//         </Link>
-//         <HStack spacing={8}>
-//           <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
-//             <Text>Home</Text>
-//           </Link>
-//           <Link
-//             to="/Agriculturalnursery"
-//             className={isActiveLink("/Agriculturalnursery") ? "active-link" : ""}
-//           >
-//             <Text>Agricultural nursery</Text>
-//           </Link>
-//           <Link
-//             to="/AnimalFarm"
-//             className={isActiveLink("/AnimalFarm") ? "active-link" : ""}
-//           >
-//             <Text>Animal farm</Text>
-//           </Link>
-//           <Link
-//             to="/products"
-//             className={isActiveLink("/products") ? "active-link" : ""}
-//           >
-//             <Text>Products</Text>
-//           </Link>
-//           {!displayName && (
-//             <>
-//               {/* <Link
-//                 to="/login"
-//                 className={isActiveLink("/login") ? "active-link" : ""}
-//               >
-//                 <Text>Login</Text>
-//               </Link> */}
-//               <Link
-//                 to="/signup"
-//                 className={isActiveLink("/signup") ? "active-link" : ""}
-//               >
-//                 <Text>Signup</Text>
-//               </Link>
-//             </>
-//           )}
-//         </HStack>
-//         <HStack spacing={8} alignItems="center">
-//           <Link to="/cart">
-//             <Icon as={BiCart} w={6} h={6} />
-//             <span >{counterOfCart}</span>
-//             {/* style={{ border: '1px solid', borderRadius: "15px", padding: "5px", backgroundColor: "green", color: "#FFFF" }} */}
-//           </Link>
-//           {displayName ? (
-//             <>
-//               <Text>Hi {displayName}!</Text>
-//               <Link to="/" onClick={handleLogout}>
-//                 <Text>Logout</Text>
-//               </Link>
-//             </>
-//           ) : (
-//             <Link to="/">
-//               <Icon as={BiUser} w={6} h={6} />
-//             </Link>
-//           )}
-//         </HStack>
-//       </HStack>
-//     </>
-//   );
-// };
-
-// export default Navbar;
-
-
-
-
 
 
 import { useState } from "react";
@@ -189,7 +92,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
               >
                 <Text>Products</Text>
               </Link>
-              {!displayName && (
+           
                 <>
                   <Link
                     to="/signup"
@@ -198,7 +101,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
                     <Text>Signup</Text>
                   </Link>
                 </>
-              )}
+              
             </HStack>
 
             <HStack spacing={8} alignItems="center" style={{ color: "#454545" }}>
@@ -206,18 +109,18 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
                 <Icon as={BiCart} boxSize={6} />
                 <span>{counterOfCart}</span>
               </Link>
-              {displayName ? (
+            
                 <>
-                  <Text>Hi {displayName}!</Text>
+                  <Text>Hi !</Text>
                   <Link to="/" onClick={handleLogout}>
                     <Text>Logout</Text>
                   </Link>
                 </>
-              ) : (
+              
                 <Link to="/ProfilePage">
                   <Icon as={BiUser} boxSize={6} />
                 </Link>
-              )}
+              
             </HStack>
           </>
         )}
@@ -248,7 +151,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
           >
             <Text mb={2}>Products</Text>
           </Link>
-          {!displayName && (
+          
             <>
               <Link
                 to="/signup"
@@ -257,26 +160,26 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
                 <Text mb={2}>Signup</Text>
               </Link>
             </>
-          )}
+        
           <Link to="/cart" onClick={handleMenuClick}>
             <Text mb={2}>
               <Icon as={BiCart} boxSize={6} />
               {counterOfCart}
             </Text>
           </Link>
-          {displayName ? (
+        
             
             <>
-              <Text mb={2}>Hi {displayName}!</Text>
+              <Text mb={2}>Hi !</Text>
               <Link to="/" onClick={handleLogout}>
                 <Text>Logout</Text>
               </Link>
             </>
-          ) : (
+          
             <Link to="/ProfilePage">
               <Icon as={BiUser} boxSize={6} />
             </Link>
-          )}
+          
         </Box>
       )}
     </>

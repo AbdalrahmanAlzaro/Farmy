@@ -9,55 +9,27 @@ import Products from "./pages/Products";
 import Agriculturalnursery from "./pages/Agriculturalnursery";
 import AnimalFarm from "./pages/AnimalFarm";
 import Cart from "./pages/Cart";
-import { useAuth } from "./hooks/useAuth";
 import Contact from "./components/Contact";
 import PayMent from './pages/PayMent'
 import Check from './pages/Check'
 import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
-  const [displayName, setDisplayName] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
-  const { signup, login, logout } = useAuth();
 
-
-
-  const handleSignup = async (email, password) => {
-    // Perform signup logic
-    await signup(email, password);
-
-    // Update display name
-    setDisplayName(email);
-  };
-
-  const handleLogin = async (email, password) => {
-    // Perform login logic
-    await login(email, password);
-
-    // Update display name
-    setDisplayName(email);
-  };
-
-  const handleLogout = async () => {
-    // Perform logout logic
-    await logout();
-
-    // Clear display name
-    setDisplayName("");
-  };
 
   return (
     <Router>
-      <Navbar displayName={displayName} handleLogout={handleLogout} cartProducts={cartProducts} />
+      <Navbar  cartProducts={cartProducts} />
       <Routes>
-        <Route path="/" element={<Home displayName={displayName} />} />
+        <Route path="/" element={<Home  />} />
         <Route
           path="/login"
-          element={<Login setDisplayName={setDisplayName} />}
+          element={<Login  />}
         />
         <Route
           path="/signup"
-          element={<Signup handleSignup={handleSignup} />}
+          element={<Signup  />}
         />
         <Route
           path="/Contact"

@@ -1,31 +1,54 @@
 import { useState } from "react";
-import { Button, HStack, Img, Input, InputGroup, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  Img,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { colors } from "../utils/colors";
 import logo from "../assets/logo.png";
 import loginImg from "../assets/login-img.png";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import axios from 'axios';
 
-const Signup = ({ handleSignup }) => {
-  const [displayName, setDisplayName] = useState("");
+const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { error } = useAuth();
   const navigate = useNavigate();
+
+  const [values, setValues] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    localStorage.setItem('values', JSON.stringify(values));
 
     try {
-      await handleSignup(email, password);
-      navigate("/");
+      const response = await axios.post('http://localhost:3000/Register', {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      });
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      console.log(response);
     } catch (error) {
-      console.error("Signup error:", error);
+      console.log(error);
     }
+  };
+
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
   };
 
   const togglePasswordVisibility = () => {
@@ -33,22 +56,28 @@ const Signup = ({ handleSignup }) => {
   };
 
   return (
-    <HStack spacing={10} mt={20} mb={20} justifyContent="space-around">
-      <Stack spacing={5} alignItems="center" w={400}>
+    <Stack
+      direction={["column", "column", "row"]}
+      spacing={10}
+      mt={20}
+      mb={20}
+      justifyContent="space-around"
+    >
+      <Stack spacing={5} alignItems="center" maxW={["100%", "100%", "400px"]}>
         <Img src={logo} w={14} h={14} />
-        <Text fontSize="2xl" fontWeight="bold">
+        <Text fontSize={["xl", "xl", "2xl"]} fontWeight="bold">
           Create an Account
         </Text>
         <Text fontSize="xs">Please Enter your Details</Text>
         <form onSubmit={handleSubmit}>
           <Input
-            name="displayName"
+            name="username"
             type="text"
             placeholder="Name"
             size="md"
             mb={4}
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            value={values.username}
+            onChange={handleInput}
           />
           <Input
             name="email"
@@ -56,6 +85,8 @@ const Signup = ({ handleSignup }) => {
             placeholder="Email"
             size="md"
             mb={4}
+            value={values.email}
+            onChange={handleInput}
           />
           <InputGroup size="md" mb={4}>
             <Input
@@ -63,9 +94,16 @@ const Signup = ({ handleSignup }) => {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               pr="4.5rem"
+              value={values.password}
+              onChange={handleInput}
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={togglePasswordVisibility} style={{backgroundColor:"white"}}>
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={togglePasswordVisibility}
+                bg="transparent"
+              >
                 {showPassword ? <HiEyeOff /> : <HiEye />}
               </Button>
             </InputRightElement>
@@ -82,11 +120,10 @@ const Signup = ({ handleSignup }) => {
             Continue
           </Button>
         </form>
-        {error && <Text color="red">{error}</Text>}
         <Text>Or</Text>
         <Button
           leftIcon={<FcGoogle fontSize={20} />}
-          bg={"white"}
+          bg="white"
           color={colors.primary}
           size="md"
           fontWeight="thin"
@@ -95,7 +132,7 @@ const Signup = ({ handleSignup }) => {
         </Button>
         <Button
           leftIcon={<FaFacebook color="#1877F2" fontSize={20} />}
-          bg={"white"}
+          bg="white"
           color={colors.primary}
           size="md"
           fontWeight="thin"
@@ -104,11 +141,13 @@ const Signup = ({ handleSignup }) => {
         </Button>
         <Link to="/login">
           Already have an account?{" "}
-          <span style={{ fontWeight: "bold" }}>Login</span>
+          <Text as="span" fontWeight="bold">
+            Login
+          </Text>
         </Link>
       </Stack>
-      <Img src={loginImg} w={450} h={450} />
-    </HStack>
+      <Img src={loginImg} w={["100%", "100%", "450px"]} h={["auto", "auto", "450px"]} />
+    </Stack>
   );
 };
 
