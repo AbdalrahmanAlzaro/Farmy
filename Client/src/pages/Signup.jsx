@@ -28,32 +28,89 @@ const Signup = () => {
     password: '',
   });
 
+  const [errors, setErrors] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+
+  const validateField = (fieldName, value) => {
+    let errorMessage = '';
+
+    switch (fieldName) {
+      case 'username':
+        if (!value.trim()) {
+          errorMessage = 'Username is required';
+        }
+        break;
+      case 'email':
+        if (!value.trim()) {
+          errorMessage = 'Email is required';
+        } else if (!emailRegex.test(value)) {
+          errorMessage = 'Invalid email address';
+        }
+        break;
+      case 'password':
+        if (!value.trim()) {
+          errorMessage = 'Password is required';
+        } else if (!passwordRegex.test(value)) {
+          errorMessage = 'Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, and one number';
+        }
+        break;
+      default:
+        break;
+    }
+
+    return errorMessage;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('values', JSON.stringify(values));
+    const validationErrors = {};
 
-    try {
-      const response = await axios.post('http://localhost:3000/Register', {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-      });
-      const { token } = response.data;
-      localStorage.setItem('token', token);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    Object.keys(values).forEach((fieldName) => {
+      const errorMessage = validateField(fieldName, values[fieldName]);
+      validationErrors[fieldName] = errorMessage;
+    });
+
+    setErrors(validationErrors);
+
+    const isValid = Object.values(validationErrors).every((error) => !error);
+
+    if (isValid) {
+      // localStorage.setItem('values', JSON.stringify(values));
+
+      try {
+        const response = await axios.post('http://localhost:3000/Register', {
+          username: values.username,
+          email: values.email,
+          password: values.password,
+        });
+        const { token } = response.data;
+        localStorage.setItem('token', token);
+        navigate('/')
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const handleInput = (event) => {
     const { name, value } = event.target;
+    const errorMessage = validateField(name, value);
+
     setValues((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: errorMessage }));
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
 
   return (
     <Stack
@@ -76,9 +133,16 @@ const Signup = () => {
             placeholder="Name"
             size="md"
             mb={4}
+            style={{ width: "25rem" }}
             value={values.username}
             onChange={handleInput}
+            isInvalid={!!errors.username}
           />
+          {errors.username && (
+            <Text fontSize="sm" color="red.500">
+              {errors.username}
+            </Text>
+          )}
           <Input
             name="email"
             type="email"
@@ -87,7 +151,13 @@ const Signup = () => {
             mb={4}
             value={values.email}
             onChange={handleInput}
+            isInvalid={!!errors.email}
           />
+          {errors.email && (
+            <Text fontSize="sm" color="red.500">
+              {errors.email}
+            </Text>
+          )}
           <InputGroup size="md" mb={4}>
             <Input
               name="password"
@@ -96,6 +166,7 @@ const Signup = () => {
               pr="4.5rem"
               value={values.password}
               onChange={handleInput}
+              isInvalid={!!errors.password}
             />
             <InputRightElement width="4.5rem">
               <Button
@@ -108,6 +179,11 @@ const Signup = () => {
               </Button>
             </InputRightElement>
           </InputGroup>
+          {errors.password && (
+            <Text fontSize="sm" color="red.500">
+              {errors.password}
+            </Text>
+          )}
           <Button
             bg={colors.primary}
             color="white"

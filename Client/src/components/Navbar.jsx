@@ -37,6 +37,7 @@ const Navbar = ({ displayName, handleLogout, cartProducts }) => {
   return (
     <>
       <Flex
+     
         as="nav"
         align="center"
         justify="space-between"
