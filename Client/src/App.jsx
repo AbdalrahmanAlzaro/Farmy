@@ -13,27 +13,35 @@ import Contact from "./components/Contact";
 import PayMent from './pages/PayMent'
 import Check from './pages/Check'
 import ProfilePage from "./pages/ProfilePage";
+import TranslationPage from "./components/Transletor";
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
+  const [isLog, updateIsLog] = useState(localStorage.getItem("token") ? true : false);
+  // console.log(isLog);
+  // console.log(updateIsLog);
 
 
   return (
     <Router>
-      <Navbar  cartProducts={cartProducts} />
+      <Navbar cartProducts={cartProducts} isLog={isLog} updateIsLog={updateIsLog} />
       <Routes>
-        <Route path="/" element={<Home  />} />
+        <Route path="/" element={<Home />} />
         <Route
           path="/login"
-          element={<Login  />}
+          element={<Login updateIsLog={updateIsLog} />}
         />
         <Route
           path="/signup"
-          element={<Signup  />}
+          element={<Signup updateIsLog={updateIsLog} />}
         />
         <Route
           path="/Contact"
           element={<Contact />}
+        />
+        <Route
+          path="/TranslationPage"
+          element={<TranslationPage />}
         />
         <Route
           path="/ProfilePage"

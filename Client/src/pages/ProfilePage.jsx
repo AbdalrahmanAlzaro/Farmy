@@ -49,7 +49,7 @@ const ProfilePage = () => {
 
     return (
         <Flex direction="column" align="center" p={8}>
-            <Avatar size="xl" src={user.avatarUrl} mb={4} />
+            <Avatar size="xl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU" mb={4} />
             <Flex
                 direction="column"
                 align="center"

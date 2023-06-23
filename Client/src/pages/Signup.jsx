@@ -18,7 +18,9 @@ import { FaFacebook } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from 'axios';
 
-const Signup = () => {
+const Signup = ({ updateIsLog }) => {
+  console.log(updateIsLog)
+  // const [path, setPath] = useState("/");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -91,6 +93,7 @@ const Signup = () => {
         });
         const { token } = response.data;
         localStorage.setItem('token', token);
+        updateIsLog(true);
         navigate('/')
         console.log(response);
       } catch (error) {
