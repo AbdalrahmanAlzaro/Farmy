@@ -67,16 +67,6 @@ app.post('/Register', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
 app.post('/LogIn', (req, res) => {
   const { email, password } = req.body; // Assuming the email and password are provided in the request body
 
@@ -107,28 +97,52 @@ app.post('/LogIn', (req, res) => {
 
 
 
-app.get("/checkToken", authenticateToken, (req, res) => {
-  res.send(req.user);
+// app.get("/checkToken", authenticateToken, (req, res) => {
+//   res.send(req.user);
+// });
+
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers.authorization;
+//   console.log(authHeader);
+//   const token = authHeader && authHeader.split(" ")[1];
+
+//   if (!token) {
+//     return res.status(401).json({ error: "Not found" });
+//   }
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, decoded) => {
+//     if (err) {
+//       return res.status(403).json({ error: "Invalid" });
+//     }
+
+//     req.user = decoded;
+//     next();
+//   });
+// }
+
+
+
+
+app.put("/user/:id", async (req, res) => {
+
+  try {
+
+      const { id } = req.params;
+      const { username, email } = req.body;
+    console.log(username, email, id)
+      const sql = `UPDATE public."user" SET  username= $1, email= $2 WHERE id= $3`;
+      const editValues = [username, email, id];
+      const updateService = await pool.query(sql, editValues);
+      console.log(editValues)
+
+      res.json(updateService.rows);
+  } catch (error) {
+      res.status(500).json({ error: "can't edit data" })
+  }
 });
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  console.log(authHeader);
-  const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ error: "Not found" });
-  }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ error: "Invalid" });
-    }
-
-    req.user = decoded;
-    next();
-  });
-}
 
 
 app.listen(port, () => {

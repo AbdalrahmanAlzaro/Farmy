@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 import {
     Avatar,
     Box,
@@ -17,39 +18,74 @@ import {
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 
-const ProfilePage = () => {
+const ProfilePage = ({ isLog, updateIsLog }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
+    const [userName, setUserName] = useState("");
+    const [userEmail, setUserEmail] = useState("");
+    const [id, setId] = useState("");
 
-    const user = {
-        name: "John Doe",
-        email: "johndoe@example.com",
-        phoneNumber: "0782111991",
-        location: "New York, USA",
-        avatarUrl: "https://example.com/avatar.png",
-    };
+    useEffect(() => {
+        const getUserNameFromToken = () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                const decodedToken = jwt_decode(token);
+                const name = decodedToken.username;
+                const email = decodedToken.email;
+                const id1 = decodedToken.id;
+                setId(id1);
+                setUserName(name);
+                setUserEmail(email);
+                console.log(id1)
+            }
+        };
 
-    const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
-    const [location, setLocation] = useState(user.location);
+        getUserNameFromToken();
+    }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Perform update logic here
-        toast({
-            title: "Profile Updated",
-            description: "Your profile information has been updated.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
-        onClose();
+
+        try {
+            const response = await axios.put(`http://localhost:3000/user/${id}`, {
+                username: userName,
+                email: userEmail,
+            });
+            console.log(id)
+
+            if (response.status === 200) {
+                toast({
+                    title: "Profile Updated",
+                    description: "Your profile information has been updated.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+
+                onClose();
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            toast({
+                title: "Error",
+                description: "Failed to update profile.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
+
 
     return (
         <Flex direction="column" align="center" p={8}>
-            <Avatar size="xl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU" mb={4} />
+            <Avatar
+                size="xl"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU"
+                mb={4}
+            />
             <Flex
                 direction="column"
                 align="center"
@@ -63,26 +99,24 @@ const ProfilePage = () => {
                 boxShadow="md"
             >
                 <Heading as="h1" size="xl" mb={2}>
-                    {user.name}
+                    {userName}
                 </Heading>
                 <Stack spacing={2} align="start">
                     <Text fontSize="lg">
-                        <strong>Email:</strong> {user.email}
-                    </Text>
-                    <Text fontSize="lg">
-                        <strong>Phone Number:</strong> {user.phoneNumber}
-                    </Text>
-                    <Text fontSize="lg">
-                        <strong>Location:</strong> {user.location}
+                        <strong>Email:</strong> {userEmail}
                     </Text>
                 </Stack>
             </Flex>
 
-            <Button mt={8} colorScheme="teal" onClick={onOpen} style={{backgroundColor:"#454545"}}>
+            <Button
+                mt={8}
+                colorScheme="teal"
+                onClick={onOpen}
+                style={{ backgroundColor: "#454545" }}
+            >
                 Edit Profile
             </Button>
 
-            {/* Edit Profile Modal */}
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -97,8 +131,8 @@ const ProfilePage = () => {
                                         <input
                                             type="text"
                                             id="name"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
+                                            value={userName}
+                                            onChange={(e) => setUserName(e.target.value)}
                                             required
                                             className="chakra-input"
                                             style={{
@@ -114,25 +148,8 @@ const ProfilePage = () => {
                                         <input
                                             type="email"
                                             id="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                            className="chakra-input"
-                                            style={{
-                                                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                                                borderRadius: "4px",
-                                            }}
-                                        />
-                                    </Flex>
-                                </Box>
-                                <Box>
-                                    <Flex justifyContent="space-between" alignItems="center">
-                                        <label htmlFor="location">Location:</label>
-                                        <input
-                                            type="text"
-                                            id="location"
-                                            value={location}
-                                            onChange={(e) => setLocation(e.target.value)}
+                                            value={userEmail}
+                                            onChange={(e) => setUserEmail(e.target.value)}
                                             required
                                             className="chakra-input"
                                             style={{
@@ -145,7 +162,12 @@ const ProfilePage = () => {
                             </Stack>
                         </ModalBody>
                         <ModalFooter>
-                            <Button type="submit" colorScheme="teal" mr={3} style={{backgroundColor:"#454545"}}>
+                            <Button
+                                type="submit"
+                                colorScheme="teal"
+                                mr={3}
+                                style={{ backgroundColor: "#454545" }}
+                            >
                                 Save Changes
                             </Button>
                             <Button onClick={onClose}>Cancel</Button>

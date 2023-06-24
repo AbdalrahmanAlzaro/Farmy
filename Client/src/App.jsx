@@ -45,7 +45,7 @@ const App = () => {
         />
         <Route
           path="/ProfilePage"
-          element={<ProfilePage />}
+          element={<ProfilePage updateIsLog={updateIsLog} />}
         />
         <Route
           path="/Agriculturalnursery"
