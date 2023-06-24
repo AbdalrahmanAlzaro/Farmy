@@ -9,9 +9,7 @@ export default function Success() {
             Operation accomplished successfully
             </Heading>
             <Text color={'gray.500'}>
-                {/* Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-                voluptua. */}
+           
             </Text>
         </Box>
     );

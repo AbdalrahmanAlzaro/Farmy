@@ -127,19 +127,106 @@ app.put("/user/:id", async (req, res) => {
 
   try {
 
-      const { id } = req.params;
-      const { username, email } = req.body;
+    const { id } = req.params;
+    const { username, email } = req.body;
     console.log(username, email, id)
-      const sql = `UPDATE public."user" SET  username= $1, email= $2 WHERE id= $3`;
-      const editValues = [username, email, id];
-      const updateService = await pool.query(sql, editValues);
-      console.log(editValues)
+    const sql = `UPDATE public."user" SET  username= $1, email= $2 WHERE id= $3`;
+    const editValues = [username, email, id];
+    const updateService = await pool.query(sql, editValues);
+    console.log(editValues)
 
-      res.json(updateService.rows);
+    res.json(updateService.rows);
   } catch (error) {
-      res.status(500).json({ error: "can't edit data" })
+    res.status(500).json({ error: "can't edit data" })
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.post('/confirmationPayment', (req, res) => {
+  const {
+    
+    Username,
+    Email,
+    CardNumber,
+    ExpDate,
+    CVV,
+    Subtotal,
+    OrderNumber,
+    Date,
+    PhoneNumber,
+    Address,
+  } = req.body;
+
+  const sql = `
+    INSERT INTO ConfirmationPayment (
+     
+      Username,
+      Email,
+      CardNumber,
+      ExpDate,
+      CVV,
+      Subtotal,
+      OrderNumber,
+      Date,
+      PhoneNumber,
+      Address
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  `;
+  const values = [
+  
+    Username,
+    Email,
+    CardNumber,
+    ExpDate,
+    CVV,
+    Subtotal,
+    OrderNumber,
+    Date,
+    PhoneNumber,
+    Address,
+  ];
+
+  pool.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error creating ConfirmationPayment:', err);
+      res.status(500).json({ error: 'Failed to create ConfirmationPayment' });
+    } else {
+      console.log('ConfirmationPayment created');
+      res.sendStatus(200);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

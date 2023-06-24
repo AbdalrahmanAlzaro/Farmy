@@ -1,125 +1,3 @@
-// import React from "react";
-// import {
-//     Box,
-//     Button,
-//     Container,
-//     FormControl,
-//     FormLabel,
-//     Grid,
-//     GridItem,
-//     Input,
-//     Stack,
-//     Text,
-// } from "@chakra-ui/react";
-// import { colors } from "../utils/colors";
-// import { Link } from "react-router-dom";
-
-// export default function App() {
-//     return (
-//         <Container
-//             py={5}
-//             maxW="50%"
-//         >
-//             <Grid placeItems="center" >
-//                 <GridItem md="10" lg="8" xl="5">
-//                     <Box rounded="md" bg="white" p={4}>
-//                         <Stack spacing={4}>
-//                             <Box textAlign="center" mb={4}>
-//                                 <Text fontSize="xl" fontWeight="bold">
-//                                     Payment
-//                                 </Text>
-//                             </Box>
-//                             <FormControl>
-//                                 <FormLabel htmlFor="form3">Cardholder's Name</FormLabel>
-//                                 <Input
-//                                     id="form3"
-//                                     type="text"
-//                                     size="lg"
-//                                 />
-//                             </FormControl>
-//                             <FormControl>
-//                                 <FormLabel htmlFor="form3">Cardholder's Email</FormLabel>
-//                                 <Input
-//                                     id="form3"
-//                                     type="text"
-//                                     size="lg"
-//                                 />
-//                             </FormControl>
-//                             <Grid templateColumns="repeat(12, 1fr)" gap={4} my={4}>
-//                                 <GridItem colSpan={7}>
-//                                     <FormControl>
-//                                         <FormLabel htmlFor="form4">Card Number</FormLabel>
-//                                         <Input
-//                                             id="form4"
-//                                             type="text"
-//                                             size="lg"
-//                                         />
-//                                     </FormControl>
-//                                 </GridItem>
-//                                 <GridItem colSpan={3}>
-//                                     <FormControl>
-//                                         <FormLabel htmlFor="form5">Expire</FormLabel>
-//                                         <Input
-//                                             id="form5"
-//                                             type="text"
-//                                             size="lg"
-//                                             placeholder="MM/YYYY"
-//                                         />
-//                                     </FormControl>
-//                                 </GridItem>
-//                                 <GridItem colSpan={2}>
-//                                     <FormControl>
-//                                         <FormLabel htmlFor="form6">CVV</FormLabel>
-//                                         <Input
-//                                             id="form6"
-//                                             type="text"
-//                                             size="lg"
-//                                             placeholder="CVV"
-//                                         />
-//                                     </FormControl>
-//                                 </GridItem>
-//                                 <GridItem colSpan={7}>
-//                                     <FormControl>
-//                                         <FormLabel htmlFor="form4">Billing Address</FormLabel>
-//                                         <Input
-//                                             id="form4"
-//                                             type="text"
-//                                             size="lg"
-//                                             placeholder="Street Address"
-//                                         />
-//                                     </FormControl>
-//                                 </GridItem>
-//                                 <GridItem colSpan={3}>
-//                                     <FormControl>
-//                                         <FormLabel htmlFor="form5">ZIP</FormLabel>
-//                                         <Input
-//                                             id="form5"
-//                                             type="text"
-//                                             size="lg"
-//                                             placeholder="ZIP"
-//                                         />
-//                                     </FormControl>
-//                                 </GridItem>
-//                             </Grid>
-//                             <Button bg={colors.primary} color="white" size="lg" >
-//                                 <Link to="/Check">
-//                                     Place Order
-//                                 </Link>
-//                             </Button>
-//                         </Stack>
-//                     </Box>
-//                 </GridItem>
-//             </Grid>
-//         </Container>
-//     );
-// }
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import {
     Box,
@@ -137,6 +15,22 @@ import { colors } from "../utils/colors";
 import { Link } from "react-router-dom";
 
 export default function App() {
+
+    const generateOrderNumber = () => {
+        const prefix = "HM-";
+        const randomNum = Math.floor(Math.random() * 1000000);
+        const paddedNum = randomNum.toString().padStart(6, "0");
+        return prefix + paddedNum;
+    };
+
+    const getCurrentDate = () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+        const day = String(currentDate.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
     const [formValues, setFormValues] = useState({
         cardholderName: "",
         cardholderEmail: "",
@@ -145,6 +39,10 @@ export default function App() {
         cvv: "",
         billingAddress: "",
         zip: "",
+        subtotal:"",
+        ordernumber: generateOrderNumber(),
+        date: getCurrentDate(),
+        phoneNumber: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -153,9 +51,17 @@ export default function App() {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
+
     const validateForm = () => {
-        const { cardholderEmail, cardNumber, expire, cvv, billingAddress, zip } =
-            formValues;
+        const {
+            cardholderEmail,
+            cardNumber,
+            expire,
+            cvv,
+            billingAddress,
+            zip,
+            phoneNumber,
+        } = formValues;
         const errors = {};
 
         // Email validation
@@ -191,6 +97,12 @@ export default function App() {
         const zipRegex = /^\d{5}$/;
         if (!zip.match(zipRegex)) {
             errors.zip = "Invalid ZIP code";
+        }
+
+        // Phone number validation
+        const phoneRegex = /^\d{10}$/;
+        if (!phoneNumber.match(phoneRegex)) {
+            errors.phoneNumber = "Invalid phone number";
         }
 
         setErrors(errors);
@@ -347,6 +259,52 @@ export default function App() {
                                                 {errors.zip}
                                             </Text>
                                         )}
+                                    </FormControl>
+                                </GridItem>
+                                <GridItem colSpan={12}>
+                                    <FormControl>
+                                        <FormLabel htmlFor="subtotal">Subtotal</FormLabel>
+                                        <Input
+                                            id="subtotal"
+                                            type="number"
+                                            step="0.01"
+                                            size="lg"
+                                            name="subtotal"
+                                            value={formValues.subtotal}
+                                            onChange={handleChange}
+                                        />
+                                    </FormControl>
+                                </GridItem>
+                                <GridItem colSpan={7}>
+                                    <FormControl>
+                                        <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+                                        <Input
+                                            id="phoneNumber"
+                                            type="tel"
+                                            size="lg"
+                                            name="phoneNumber"
+                                            value={formValues.phoneNumber}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.phoneNumber}
+                                        />
+                                        {errors.phoneNumber && (
+                                            <Text color="red" fontSize="sm">
+                                                {errors.phoneNumber}
+                                            </Text>
+                                        )}
+                                    </FormControl>
+                                </GridItem>
+                                <GridItem colSpan={5}>
+                                    <FormControl>
+                                        <FormLabel htmlFor="ordernumber">Order Number</FormLabel>
+                                        <Input
+                                            id="ordernumber"
+                                            type="text"
+                                            size="lg"
+                                            name="ordernumber"
+                                            value={formValues.ordernumber}
+                                            readOnly
+                                        />
                                     </FormControl>
                                 </GridItem>
                             </Grid>
