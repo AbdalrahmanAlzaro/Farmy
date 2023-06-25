@@ -14,10 +14,12 @@ import o3 from "../assets/products/O3.jpg";
 import o4 from "../assets/products/O4.jpg";
 import o5 from "../assets/products/O5.jpg";
 import o6 from "../assets/products/O6.jpg";
+import { v4 as uuidv4 } from "uuid"; // Import the uuidv4 function
+
 
 const products = [
   {
-    id: 1,
+    id: uuidv4(),
     name: "Low Fat Cow Milk",
     img: d1,
     price: "$45.00",
@@ -26,7 +28,7 @@ const products = [
   },
 
   {
-    id: 2,
+    id: uuidv4(),
     name: "Premium Cheese",
     img: d2,
     price: "$33.00",
@@ -34,7 +36,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 3,
+    id: uuidv4(),
     name: "Mozzarella",
     img: d3,
     price: "$27.00",
@@ -42,7 +44,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 4,
+    id: uuidv4(),
     name: "Haloumi",
     img: d4,
     price: "$22.00",
@@ -50,7 +52,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 5,
+    id: uuidv4(),
     name: "Roquefort",
     img: d5,
     price: "$40.00",
@@ -58,7 +60,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 6,
+    id: uuidv4(),
     name: "Fresh Goat Milk",
     img: d6,
     price: "$28.00",
@@ -67,7 +69,7 @@ const products = [
   },
 
   {
-    id: 7,
+    id: uuidv4(),
     name: "Baby Plum Tomatoes",
     img: o1,
     price: "$28.00",
@@ -75,7 +77,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 8,
+    id: uuidv4(),
     name: "Diet Snapple Tea",
     img: o2,
     price: "$40.00",
@@ -83,7 +85,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 9,
+    id: uuidv4(),
     name: "Fresh Grapes",
     img: o3,
     price: "$22.00",
@@ -91,7 +93,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 10,
+    id: uuidv4(),
     name: "Fresh Kiwi",
     img: o4,
     price: "$45.00",
@@ -99,7 +101,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 11,
+    id: uuidv4(),
     name: "Blue Raisins",
     img: o5,
     price: "$27.00",
@@ -107,7 +109,7 @@ const products = [
     quantity: 0,
   },
   {
-    id: 12,
+    id: uuidv4(),
     name: "Sweet Mixed Grapes",
     img: o6,
     price: "$33.00",
@@ -115,6 +117,8 @@ const products = [
     quantity: 0,
   },
 ];
+
+
 
 const Products = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");

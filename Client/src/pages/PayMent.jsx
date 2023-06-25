@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -11,10 +11,37 @@ import {
     Stack,
     Text,
 } from "@chakra-ui/react";
+import jwt_decode from "jwt-decode";
 import { colors } from "../utils/colors";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-export default function App() {
+
+const PayMent = () => {
+    const [id, setId] = useState("");
+
+    useEffect(() => {
+        const getUserNameFromToken = () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                const decodedToken = jwt_decode(token);
+                const id1 = decodedToken.id;
+                setId(id1);
+                console.log(id1);
+            }
+        };
+
+        getUserNameFromToken();
+    }, []);
+
+
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const total = searchParams.get("total");
+    console.log(total)
+
 
     const generateOrderNumber = () => {
         const prefix = "HM-";
@@ -32,17 +59,18 @@ export default function App() {
     };
 
     const [formValues, setFormValues] = useState({
-        cardholderName: "",
-        cardholderEmail: "",
-        cardNumber: "",
-        expire: "",
-        cvv: "",
-        billingAddress: "",
-        zip: "",
-        subtotal:"",
-        ordernumber: generateOrderNumber(),
-        date: getCurrentDate(),
-        phoneNumber: "",
+        Username: "",
+        Email: "",
+        CardNumber: "",
+        ExpDate: "",
+        CVV: "",
+        StreetName: "",
+        ZipCode: "",
+        Subtotal: total || "",
+        PhoneNumber: "",
+        OrderNumber: generateOrderNumber(),
+        Date: getCurrentDate(),
+
     });
 
     const [errors, setErrors] = useState({});
@@ -51,58 +79,57 @@ export default function App() {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
-
     const validateForm = () => {
         const {
-            cardholderEmail,
-            cardNumber,
-            expire,
-            cvv,
-            billingAddress,
-            zip,
-            phoneNumber,
+            Email,
+            CardNumber,
+            ExpDate,
+            CVV,
+            StreetName,
+            ZipCode,
+            PhoneNumber,
         } = formValues;
         const errors = {};
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!cardholderEmail.match(emailRegex)) {
-            errors.cardholderEmail = "Invalid email address";
+        if (!Email.match(emailRegex)) {
+            errors.Email = "Invalid email address";
         }
 
         // Card number validation
         const cardNumberRegex = /^[0-9]{16}$/;
-        if (!cardNumber.match(cardNumberRegex)) {
-            errors.cardNumber = "Invalid card number";
+        if (!CardNumber.match(cardNumberRegex)) {
+            errors.CardNumber = "Invalid card number";
         }
 
         // Expire validation
         const expireRegex = /^(0[1-9]|1[0-2])\/[0-9]{4}$/;
-        if (!expire.match(expireRegex)) {
-            errors.expire = "Invalid expiration date";
+        if (!ExpDate.match(expireRegex)) {
+            errors.ExpDate = "Invalid expiration date";
         }
 
         // CVV validation
         const cvvRegex = /^[0-9]{3}$/;
-        if (!cvv.match(cvvRegex)) {
-            errors.cvv = "Invalid CVV";
+        if (!CVV.match(cvvRegex)) {
+            errors.CVV = "Invalid CVV";
         }
 
         // Billing address validation
-        if (billingAddress.trim() === "") {
-            errors.billingAddress = "Billing address is required";
+        if (StreetName.trim() === "") {
+            errors.StreetName = "Billing address is required";
         }
 
         // ZIP validation
         const zipRegex = /^\d{5}$/;
-        if (!zip.match(zipRegex)) {
-            errors.zip = "Invalid ZIP code";
+        if (!ZipCode.match(zipRegex)) {
+            errors.ZipCode = "Invalid ZIP code";
         }
 
         // Phone number validation
         const phoneRegex = /^\d{10}$/;
-        if (!phoneNumber.match(phoneRegex)) {
-            errors.phoneNumber = "Invalid phone number";
+        if (!PhoneNumber.match(phoneRegex)) {
+            errors.PhoneNumber = "Invalid phone number";
         }
 
         setErrors(errors);
@@ -111,14 +138,21 @@ export default function App() {
         return Object.keys(errors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validateForm();
 
         if (isValid) {
-            // Process the form submission or navigate to the next page
-            // For now, just console.log the form values
-            console.log("Form values:", formValues);
+            try {
+                // Send the form values to the server
+                const response = await axios.post(`http://localhost:3000/confirmationPayment/${id}`, formValues);
+                console.log("Form values:", formValues);
+                console.log("Server response:", response.data);
+                // TODO: Handle the response and navigate to the next page
+            } catch (error) {
+                console.error("Error submitting form:", error);
+                // TODO: Handle the error
+            }
         }
     };
 
@@ -134,182 +168,183 @@ export default function App() {
                                 </Text>
                             </Box>
                             <FormControl>
-                                <FormLabel htmlFor="cardholderName">Cardholder's Name</FormLabel>
+                                <FormLabel htmlFor="Username">Cardholder's Name</FormLabel>
                                 <Input
-                                    id="cardholderName"
+                                    id="Username"
                                     type="text"
                                     size="lg"
-                                    name="cardholderName"
-                                    value={formValues.cardholderName}
+                                    name="Username"
+                                    value={formValues.Username}
                                     onChange={handleChange}
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="cardholderEmail">Cardholder's Email</FormLabel>
+                                <FormLabel htmlFor="Email">Cardholder's Email</FormLabel>
                                 <Input
-                                    id="cardholderEmail"
+                                    id="Email"
                                     type="email"
                                     size="lg"
-                                    name="cardholderEmail"
-                                    value={formValues.cardholderEmail}
+                                    name="Email"
+                                    value={formValues.Email}
                                     onChange={handleChange}
-                                    isInvalid={!!errors.cardholderEmail}
+                                    isInvalid={!!errors.Email}
                                 />
-                                {errors.cardholderEmail && (
+                                {errors.Email && (
                                     <Text color="red" fontSize="sm">
-                                        {errors.cardholderEmail}
+                                        {errors.Email}
                                     </Text>
                                 )}
                             </FormControl>
                             <Grid templateColumns="repeat(12, 1fr)" gap={4} my={4}>
                                 <GridItem colSpan={7}>
                                     <FormControl>
-                                        <FormLabel htmlFor="cardNumber">Card Number</FormLabel>
+                                        <FormLabel htmlFor="CardNumber">Card Number</FormLabel>
                                         <Input
-                                            id="cardNumber"
+                                            id="CardNumber"
                                             type="text"
                                             size="lg"
-                                            name="cardNumber"
-                                            value={formValues.cardNumber}
+                                            name="CardNumber"
+                                            value={formValues.CardNumber}
                                             onChange={handleChange}
-                                            isInvalid={!!errors.cardNumber}
+                                            isInvalid={!!errors.CardNumber}
                                         />
-                                        {errors.cardNumber && (
+                                        {errors.CardNumber && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.cardNumber}
+                                                {errors.CardNumber}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={3}>
                                     <FormControl>
-                                        <FormLabel htmlFor="expire">Expire</FormLabel>
+                                        <FormLabel htmlFor="ExpDate">Expire</FormLabel>
                                         <Input
-                                            id="expire"
+                                            id="ExpDate"
                                             type="text"
                                             size="lg"
-                                            name="expire"
-                                            value={formValues.expire}
+                                            name="ExpDate"
+                                            value={formValues.ExpDate}
                                             onChange={handleChange}
                                             placeholder="MM/YYYY"
-                                            isInvalid={!!errors.expire}
+                                            isInvalid={!!errors.ExpDate}
                                         />
-                                        {errors.expire && (
+                                        {errors.ExpDate && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.expire}
+                                                {errors.ExpDate}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={2}>
                                     <FormControl>
-                                        <FormLabel htmlFor="cvv">CVV</FormLabel>
+                                        <FormLabel htmlFor="CVV">CVV</FormLabel>
                                         <Input
-                                            id="cvv"
+                                            id="CVV"
                                             type="text"
                                             size="lg"
-                                            name="cvv"
-                                            value={formValues.cvv}
+                                            name="CVV"
+                                            value={formValues.CVV}
                                             onChange={handleChange}
                                             placeholder="CVV"
-                                            isInvalid={!!errors.cvv}
+                                            isInvalid={!!errors.CVV}
                                         />
-                                        {errors.cvv && (
+                                        {errors.CVV && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.cvv}
+                                                {errors.CVV}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={7}>
                                     <FormControl>
-                                        <FormLabel htmlFor="billingAddress">Shipping Address</FormLabel>
+                                        <FormLabel htmlFor="StreetName">Shipping Address</FormLabel>
                                         <Input
-                                            id="billingAddress"
+                                            id="StreetName"
                                             type="text"
                                             size="lg"
-                                            name="billingAddress"
-                                            value={formValues.billingAddress}
+                                            name="StreetName"
+                                            value={formValues.StreetName}
                                             onChange={handleChange}
                                             placeholder="Street Address"
-                                            isInvalid={!!errors.billingAddress}
+                                            isInvalid={!!errors.StreetName}
                                         />
-                                        {errors.billingAddress && (
+                                        {errors.StreetName && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.billingAddress}
+                                                {errors.StreetName}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={3}>
                                     <FormControl>
-                                        <FormLabel htmlFor="zip">ZIP</FormLabel>
+                                        <FormLabel htmlFor="ZipCode">ZIP</FormLabel>
                                         <Input
-                                            id="zip"
+                                            id="ZipCode"
                                             type="text"
                                             size="lg"
-                                            name="zip"
-                                            value={formValues.zip}
+                                            name="ZipCode"
+                                            value={formValues.ZipCode}
                                             onChange={handleChange}
                                             placeholder="ZIP"
-                                            isInvalid={!!errors.zip}
+                                            isInvalid={!!errors.ZipCode}
                                         />
-                                        {errors.zip && (
+                                        {errors.ZipCode && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.zip}
+                                                {errors.ZipCode}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={12}>
                                     <FormControl>
-                                        <FormLabel htmlFor="subtotal">Subtotal</FormLabel>
+                                        <FormLabel htmlFor="Subtotal">Subtotal</FormLabel>
                                         <Input
-                                            id="subtotal"
+                                            id="Subtotal"
                                             type="number"
                                             step="0.01"
                                             size="lg"
-                                            name="subtotal"
-                                            value={formValues.subtotal}
+                                            readOnly
+                                            name="Subtotal"
+                                            value={formValues.Subtotal}
                                             onChange={handleChange}
                                         />
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={7}>
                                     <FormControl>
-                                        <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+                                        <FormLabel htmlFor="PhoneNumber">Phone Number</FormLabel>
                                         <Input
-                                            id="phoneNumber"
+                                            id="PhoneNumber"
                                             type="tel"
                                             size="lg"
-                                            name="phoneNumber"
-                                            value={formValues.phoneNumber}
+                                            name="PhoneNumber"
+                                            value={formValues.PhoneNumber}
                                             onChange={handleChange}
-                                            isInvalid={!!errors.phoneNumber}
+                                            isInvalid={!!errors.PhoneNumber}
                                         />
-                                        {errors.phoneNumber && (
+                                        {errors.PhoneNumber && (
                                             <Text color="red" fontSize="sm">
-                                                {errors.phoneNumber}
+                                                {errors.PhoneNumber}
                                             </Text>
                                         )}
                                     </FormControl>
                                 </GridItem>
                                 <GridItem colSpan={5}>
                                     <FormControl>
-                                        <FormLabel htmlFor="ordernumber">Order Number</FormLabel>
+                                        <FormLabel htmlFor="OrderNumber">Order Number</FormLabel>
                                         <Input
-                                            id="ordernumber"
+                                            id="OrderNumber"
                                             type="text"
                                             size="lg"
-                                            name="ordernumber"
-                                            value={formValues.ordernumber}
+                                            name="OrderNumber"
+                                            value={formValues.OrderNumber}
                                             readOnly
                                         />
                                     </FormControl>
                                 </GridItem>
                             </Grid>
                             <Button bg={colors.primary} color="white" size="lg" onClick={handleSubmit}>
-                                <Link to="/Check">Place Order</Link>
+                                Place Order
                             </Button>
                         </Stack>
                     </Box>
@@ -317,4 +352,6 @@ export default function App() {
             </Grid>
         </Container>
     );
-}
+};
+
+export default PayMent;

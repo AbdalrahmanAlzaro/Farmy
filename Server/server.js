@@ -156,60 +156,30 @@ app.put("/user/:id", async (req, res) => {
 
 
 
-app.post('/confirmationPayment', (req, res) => {
-  const {
-    
-    Username,
-    Email,
-    CardNumber,
-    ExpDate,
-    CVV,
-    Subtotal,
-    OrderNumber,
-    Date,
-    PhoneNumber,
-    Address,
-  } = req.body;
+app.post('/confirmationPayment/:id', async (req, res) => {
+  const id = req.params.id; // Get the value of the id parameter from the request
 
-  const sql = `
-    INSERT INTO ConfirmationPayment (
-     
-      Username,
-      Email,
-      CardNumber,
-      ExpDate,
-      CVV,
-      Subtotal,
-      OrderNumber,
-      Date,
-      PhoneNumber,
-      Address
-    )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-  `;
-  const values = [
-  
-    Username,
-    Email,
-    CardNumber,
-    ExpDate,
-    CVV,
-    Subtotal,
-    OrderNumber,
-    Date,
-    PhoneNumber,
-    Address,
-  ];
+  // Retrieve other data from the request body
+  const { Username, Email, CardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date } = req.body;
 
-  pool.query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error creating ConfirmationPayment:', err);
-      res.status(500).json({ error: 'Failed to create ConfirmationPayment' });
-    } else {
-      console.log('ConfirmationPayment created');
-      res.sendStatus(200);
-    }
-  });
+  try {
+    // Hash the CardNumber using bcrypt
+    const hashedCardNumber = await bcrypt.hash(CardNumber, 10);
+
+    // Insert the data into the ConfirmationPayment table
+    const query = `INSERT INTO ConfirmationPayment (ID, Username, Email, CardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date) 
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
+    const values = [id, Username, Email, hashedCardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date];
+
+    await pool.query(query, values);
+
+    // Return a response indicating successful insertion
+    res.status(200).json({ message: 'ConfirmationPayment record created successfully' });
+  } catch (error) {
+    console.error('Error inserting data:', error);
+    // Return an error response if there's an issue with the insertion
+    res.status(500).json({ message: 'Error creating ConfirmationPayment record' });
+  }
 });
 
 
