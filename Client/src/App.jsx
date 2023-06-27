@@ -14,14 +14,16 @@ import PayMent from './pages/PayMent'
 import Check from './pages/Check'
 import ProfilePage from "./pages/ProfilePage";
 import TranslationPage from "./components/Transletor";
+import ProductCard from "./components/ProductCard";
+
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [isLog, updateIsLog] = useState(localStorage.getItem("token") ? true : false);
   // console.log(isLog);
   // console.log(updateIsLog);
-
-
+  
+  
   return (
     <Router>
       <Navbar cartProducts={cartProducts} isLog={isLog} updateIsLog={updateIsLog} />
@@ -49,22 +51,24 @@ const App = () => {
         />
         <Route
           path="/Agriculturalnursery"
-          element={<Agriculturalnursery setCartProductss={setCartProducts} />}
+          element={<Agriculturalnursery setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
         />
         <Route
           path="/AnimalFarm"
-          element={<AnimalFarm setCartProductss={setCartProducts} />}
+          element={<AnimalFarm setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
         />
         <Route
           path="/products"
-          element={<Products setCartProductss={setCartProducts} />}
+          element={<Products setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
         />
         <Route path="/PayMent" element={<PayMent />} />
+        <Route path="/ProductCard" element={<ProductCard isLog={isLog} />} />
         <Route path="/Check" element={<Check />} />
         <Route
           path="/cart"
           element={
             <Cart
+              isLog={isLog}
               cartProductss={cartProducts}
               setCartProductss={setCartProducts}
             />

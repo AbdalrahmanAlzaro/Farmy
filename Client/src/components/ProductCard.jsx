@@ -1,7 +1,7 @@
 import { HStack, Icon, Img, Stack, Text } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 
-const ProductCard = ({ product, setCartProducts }) => {
+const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
   const addToCart = () => {
     setCartProducts((prevCartProducts) => {
       // Check if the product is already in the cart
@@ -21,6 +21,7 @@ const ProductCard = ({ product, setCartProducts }) => {
         return [...prevCartProducts, { ...product, quantity: 1 }];
       }
     });
+    onAddToCart(product.id);
   };
 
   return (

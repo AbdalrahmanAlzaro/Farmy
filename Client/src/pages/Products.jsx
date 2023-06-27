@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, Text, SimpleGrid } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
+import jwt_decode from "jwt-decode"; // Import jwt-decode library
 import d1 from "../assets/products/D1.png";
 import d2 from "../assets/products/D2.webp";
 import d3 from "../assets/products/D3.webp";
@@ -122,6 +123,8 @@ const products = [
 
 const Products = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [userid, setUserid] = useState("");
+  const [cartProducts, setCartProducts] = useState([]);
 
   const filteredProducts =
     selectedCategory === "all"
@@ -131,13 +134,65 @@ const Products = (props) => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id = decodedToken.id;
+        setUserid(id);
+      }
+    };
+
+    if (props.isLog) {
+      getUserNameFromToken();
+      getLocal();
+    }
+  }, [props.isLog]);
+
+  const getLocal = () => {
+    const storedCarts = JSON.parse(localStorage.getItem("Carts"));
+    if (storedCarts) {
+      const userCart = storedCarts.find((user) => user.id === userid);
+      if (userCart) {
+        setCartProducts(userCart.cart);
+      }
+    }
+  };
+
+  const handleAddToCart = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    if (product) {
+      const updatedCartProducts = [...cartProducts];
+      const existingProduct = updatedCartProducts.find(
+        (p) => p.id === productId
+      );
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        updatedCartProducts.push({ ...product, quantity: 1 });
+      }
+      setCartProducts(updatedCartProducts);
+      saveToLocalStorage(updatedCartProducts);
+    }
+  };
+
+  const saveToLocalStorage = (cart) => {
+    const storedCarts = JSON.parse(localStorage.getItem("Carts")) || [];
+    const updatedCarts = storedCarts.filter((user) => user.id !== userid);
+    updatedCarts.push({ id: userid, cart });
+    
+    localStorage.setItem("Carts", JSON.stringify(updatedCarts));
+  };
+
   return (
     <>
       <Text fontSize="3xl" textAlign="center" ml={25}>
-        Explore <span style={{ color: colors.green }}>Nature's </span> Finest
+        Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection
       </Text>
-      <Stack padding={10} spacing="72" direction="row" >
+      <Stack padding={10} spacing="72" direction="row">
         <Stack spacing={10}>
           <Text
             cursor="pointer"
@@ -166,8 +221,9 @@ const Products = (props) => {
         <SimpleGrid columns={4} spacing={12} alignItems="center">
           {filteredProducts.map((product) => (
             <ProductCard
-              product={product}
               key={product.id}
+              product={product}
+              onAddToCart={handleAddToCart}
               setCartProducts={props.setCartProductss}
             />
           ))}
@@ -176,4 +232,5 @@ const Products = (props) => {
     </>
   );
 };
+
 export default Products;

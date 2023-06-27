@@ -8,9 +8,9 @@ function AnimalFarm(props) {
   return (
     <div>
       <AnimalFarmHero />
-      <AnimalFarmProduct onAddToCart={props.setCartProductss} />
+      <AnimalFarmProduct onAddToCart={props.setCartProductss} setCartProductss={props.setCartProductss} isLog={props.isLog} cartProductss={props.cartProducts} />
       <AnimalFarmTools />
-      <AnimalFarmProductTools onAddToCart={props.setCartProductss} />
+      <AnimalFarmProductTools onAddToCart={props.setCartProductss} setCartProductss={props.setCartProductss} isLog={props.isLog} cartProductss={props.cartProducts} />
     </div>
   )
 }

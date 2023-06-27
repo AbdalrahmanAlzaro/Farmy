@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, Text, SimpleGrid } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
+import jwt_decode from "jwt-decode"; // Import jwt-decode library
+
 import d1 from "../assets/products2/A1.jpeg";
 import d2 from "../assets/products2/A2.jpg";
 import d3 from "../assets/products2/A3.jpeg";
@@ -165,8 +167,11 @@ const products = [
   },
 ];
 
-const AgriculturalNurseryProdacut = (props) => {
+
+const AgriculturalProduct = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [userid, setUserid] = useState("");
+  const [cartProducts, setCartProducts] = useState([]);
 
   const filteredProducts =
     selectedCategory === "all"
@@ -176,58 +181,103 @@ const AgriculturalNurseryProdacut = (props) => {
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id = decodedToken.id;
+        setUserid(id);
+      }
+    };
+
+    if (props.isLog) {
+      getUserNameFromToken();
+      getLocal();
+    }
+  }, [props.isLog]);
+
+  const getLocal = () => {
+    const storedCarts = JSON.parse(localStorage.getItem("Carts"));
+    if (storedCarts) {
+      const userCart = storedCarts.find((user) => user.id === userid);
+      if (userCart) {
+        setCartProducts(userCart.cart);
+      }
+    }
+  };
+
+  const handleAddToCart = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    if (product) {
+      const updatedCartProducts = [...cartProducts];
+      const existingProduct = updatedCartProducts.find(
+        (p) => p.id === productId
+      );
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        updatedCartProducts.push({ ...product, quantity: 1 });
+      }
+      setCartProducts(updatedCartProducts);
+      saveToLocalStorage(updatedCartProducts);
+    }
+  };
+
+  const saveToLocalStorage = (cart) => {
+    const storedCarts = JSON.parse(localStorage.getItem("Carts")) || [];
+    const updatedCarts = storedCarts.filter((user) => user.id !== userid);
+    updatedCarts.push({ id: userid, cart });
+    localStorage.setItem("Carts", JSON.stringify(updatedCarts));
+  };
+
   return (
     <>
-      <Text fontSize="3xl" textAlign="center" ml={35} mt={50}>
-        Explore <span style={{ color: colors.green }}>Nature's </span> Finest
+      <Text fontSize="3xl" textAlign="center" ml={25}>
+        Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection
       </Text>
-      <Stack spacing={100} direction="row" ml={500} mt={50}>
-        <Text
-          cursor="pointer"
-          onClick={() => handleCategoryClick("all")}
-          textDecoration={selectedCategory === "all" ? "underline" : "none"}
-        >
-          All
-        </Text>
-        <Text
-          cursor="pointer"
-          onClick={() => handleCategoryClick("fruitful")}
-          textDecoration={selectedCategory === "fruitful" ? "underline" : "none"}
-        >
-          Fruitful
-        </Text>
-        <Text
-          cursor="pointer"
-          onClick={() => handleCategoryClick("decoration")}
-          textDecoration={
-            selectedCategory === "decoration" ? "underline" : "none"
-          }
-        >
-          Decoration
-        </Text>
-        <Text
-          cursor="pointer"
-          onClick={() => handleCategoryClick("forest trees")}
-          textDecoration={
-            selectedCategory === "forest trees" ? "underline" : "none"
-          }
-        >
-          Forest trees
-        </Text>
-      </Stack>
-      <Stack padding={10} spacing="72" direction="row"  >
-        <SimpleGrid columns={5} spacing={12} alignItems="center" ml={220} >
+      <Stack padding={10} spacing="72" direction="row">
+        <Stack spacing={10}>
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("all")}
+            textDecoration={selectedCategory === "all" ? "underline" : "none"}
+          >
+            All
+          </Text>
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("dairy")}
+            textDecoration={selectedCategory === "dairy" ? "underline" : "none"}
+          >
+            Dairy
+          </Text>
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("organic")}
+            textDecoration={
+              selectedCategory === "organic" ? "underline" : "none"
+            }
+          >
+            Organic
+          </Text>
+        </Stack>
+        <SimpleGrid columns={4} spacing={12} alignItems="center">
           {filteredProducts.map((product) => (
             <ProductCard
-              product={product}
               key={product.id}
-              setCartProducts={props.onAddToCart}
+              product={product}
+              onAddToCart={handleAddToCart}
+              setCartProducts={props.setCartProductss}
             />
+
           ))}
         </SimpleGrid>
       </Stack>
     </>
   );
 };
-export default AgriculturalNurseryProdacut;
+
+export default AgriculturalProduct;

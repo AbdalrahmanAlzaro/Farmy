@@ -9,9 +9,9 @@ function Agriculturalnursery(props) {
   return (
     <div>
       <AgriculturalHero />
-      <AgriculturaNnurseryProdacut onAddToCart={props.setCartProductss} />
-      <AgriculturaTool/>
-      <AgriculturaNnurseryTool onAddToCart={props.setCartProductss} />
+      <AgriculturaNnurseryProdacut onAddToCart={props.setCartProductss} setCartProductss={props.setCartProductss} isLog={props.isLog} cartProductss={props.cartProducts} />
+      <AgriculturaTool />
+      <AgriculturaNnurseryTool onAddToCart={props.setCartProductss} setCartProductss={props.setCartProductss} isLog={props.isLog} cartProductss={props.cartProducts} />
 
     </div>
   )
