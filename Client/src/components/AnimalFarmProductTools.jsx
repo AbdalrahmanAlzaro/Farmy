@@ -162,26 +162,40 @@ const AnimalFarmProductTools = (props) => {
     const handleAddToCart = (productId) => {
         const product = products.find((p) => p.id === productId);
         if (product) {
-            const updatedCartProducts = [...cartProducts];
-            const existingProduct = updatedCartProducts.find(
-                (p) => p.id === productId
-            );
-            if (existingProduct) {
-                existingProduct.quantity += 1;
-            } else {
-                updatedCartProducts.push({ ...product, quantity: 1 });
-            }
-            setCartProducts(updatedCartProducts);
-            saveToLocalStorage(updatedCartProducts);
+          const updatedCartProducts = [...cartProducts];
+          const existingProductIndex = updatedCartProducts.findIndex(
+            (p) => p.id === productId
+          );
+    
+          if (existingProductIndex !== -1) {
+            // Update the quantity of the existing product
+            updatedCartProducts[existingProductIndex].quantity += 1;
+          } else {
+            // Add the new product to the cart
+            updatedCartProducts.push({ ...product, quantity: 1 });
+          }
+    
+          setCartProducts(updatedCartProducts);
+          saveToLocalStorage(updatedCartProducts);
         }
-    };
-
-    const saveToLocalStorage = (cart) => {
-        const storedCarts = JSON.parse(localStorage.getItem("Carts")) || [];
-        const updatedCarts = storedCarts.filter((user) => user.id !== userid);
-        updatedCarts.push({ id: userid, cart });
-        localStorage.setItem("Carts", JSON.stringify(updatedCarts));
-    };
+        
+      };
+    
+      const saveToLocalStorage = (cart) => {
+        localStorage.setItem('Carts', JSON.stringify(cart));
+      }
+    
+      useEffect(() => {
+        const getCartFromLocalStorage = () => {
+          const storedCart = localStorage.getItem("Carts");
+          if (storedCart) {
+            const parsedCart = JSON.parse(storedCart);
+            setCartProducts(parsedCart);
+          }
+        };
+    
+        getCartFromLocalStorage();
+      }, []);
 
     return (
         <>

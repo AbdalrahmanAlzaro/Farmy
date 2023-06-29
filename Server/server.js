@@ -34,10 +34,7 @@ app.use(cors()); // Enable CORS for all routes
 
 // Define your routes and middleware here
 
-
-
 //register and log in 
-
 
 
 app.post('/Register', async (req, res) => {
@@ -95,34 +92,6 @@ app.post('/LogIn', (req, res) => {
 });
 
 
-
-
-// app.get("/checkToken", authenticateToken, (req, res) => {
-//   res.send(req.user);
-// });
-
-// function authenticateToken(req, res, next) {
-//   const authHeader = req.headers.authorization;
-//   console.log(authHeader);
-//   const token = authHeader && authHeader.split(" ")[1];
-
-//   if (!token) {
-//     return res.status(401).json({ error: "Not found" });
-//   }
-
-//   jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, decoded) => {
-//     if (err) {
-//       return res.status(403).json({ error: "Invalid" });
-//     }
-
-//     req.user = decoded;
-//     next();
-//   });
-// }
-
-
-
-
 app.put("/user/:id", async (req, res) => {
 
   try {
@@ -142,18 +111,26 @@ app.put("/user/:id", async (req, res) => {
 });
 
 
+app.post('/orders/:user_id', (req, res) => {
+  const { user_id } = req.params; // Retrieve the user_id from the request URL parameter
+  const {  product_data } = req.body;
 
-
-
-
-
-
-
-
-
-
-
-
+  // Assuming you have a database connection and a query execution function
+  // Insert the data into the orders table
+  const query = 'INSERT INTO orders ( product_data, user_id) VALUES ($1, $2)';
+  const values = [ product_data, user_id];
+  
+  // Execute the query and handle any errors
+  // Replace `executeQuery` with your actual function to execute the query
+  pool.query(query, values)
+    .then(() => {
+      res.status(200).json({ message: 'Data stored successfully.' });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while storing data.' });
+    });
+});
 
 
 app.post('/confirmationPayment/:id', async (req, res) => {
@@ -181,25 +158,6 @@ app.post('/confirmationPayment/:id', async (req, res) => {
     res.status(500).json({ message: 'Error creating ConfirmationPayment record' });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.listen(port, () => {

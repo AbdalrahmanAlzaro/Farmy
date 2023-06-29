@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Box,
   SimpleGrid,
@@ -15,18 +17,55 @@ import {
 } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import { FiTrash, FiPlus, FiMinus } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Cart = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const cartProducts = props.cartProductss;
-  const setCartProducts = props.setCartProductss;
+  const [cartProducts, setCartProducts] = useState([]);
+  const [id, setId] = useState("");
+  const navigate = useNavigate();
+
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id1 = decodedToken.id;
+        setId(id1);
+        console.log(id1);
+      }
+    };
+
+    const getCartProductsFromStorage = () => {
+      const storedCartProducts = localStorage.getItem("Carts");
+      if (storedCartProducts) {
+        setCartProducts(JSON.parse(storedCartProducts));
+      }
+    };
+
+    getUserNameFromToken();
+    getCartProductsFromStorage();
+  }, []);
+
+  const updateCartProductsInStorage = (updatedCart) => {
+    setCartProducts(updatedCart);
+    localStorage.setItem("Carts", JSON.stringify(updatedCart));
+  };
 
   const handleDeleteProduct = (productId) => {
     const updatedCart = cartProducts.filter(
       (product) => product.id !== productId
     );
-    setCartProducts(updatedCart);
+    updateCartProductsInStorage(updatedCart);
   };
 
   const handleIncreaseQuantity = (productId) => {
@@ -36,7 +75,7 @@ const Cart = (props) => {
       }
       return product;
     });
-    setCartProducts(updatedCart);
+    updateCartProductsInStorage(updatedCart);
   };
 
   const handleDecreaseQuantity = (productId) => {
@@ -46,7 +85,7 @@ const Cart = (props) => {
       }
       return product;
     });
-    setCartProducts(updatedCart);
+    updateCartProductsInStorage(updatedCart);
   };
 
   const calculateTotal = () => {
@@ -64,7 +103,11 @@ const Cart = (props) => {
   };
 
   const handleOpenModal = () => {
-    setIsOpen(true);
+    if (id) {
+      setIsOpen(true);
+    } else {
+      navigate("/signup");
+    }
   };
 
   return (
@@ -113,7 +156,7 @@ const Cart = (props) => {
                         variant="ghost"
                         colorScheme="blue"
                         size="sm"
-                        onClick={() => handleDecreaseQuantity(product.id)}
+                        onClick={(e) => handleDecreaseQuantity(product.id)}
                       />
                       <IconButton
                         icon={<FiPlus />}
@@ -121,7 +164,7 @@ const Cart = (props) => {
                         variant="ghost"
                         colorScheme="blue"
                         size="sm"
-                        onClick={() => handleIncreaseQuantity(product.id)}
+                        onClick={(e) => handleIncreaseQuantity(product.id)}
                       />
                     </Box>
                   </Box>
@@ -140,7 +183,7 @@ const Cart = (props) => {
                   position="absolute"
                   top={2}
                   right={2}
-                  onClick={() => handleDeleteProduct(product.id)}
+                  onClick={(e) => handleDeleteProduct(product.id)}
                 />
               </Box>
             ))}
@@ -171,10 +214,22 @@ const Cart = (props) => {
                 {/* Add your payment form here */}
               </ModalBody>
               <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={handleCloseModal} style={{ backgroundColor: "#454545" }}>
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={handleCloseModal}
+                  style={{ backgroundColor: "#454545" }}
+                >
                   Cancel
                 </Button>
-                <Button variant="ghost" as={Link} to={{ pathname: "/payment", search: `?total=${calculateTotal()}` }}>
+                <Button
+                  variant="ghost"
+                  as={Link}
+                  to={{
+                    pathname: "/payment",
+                    search: `?total=${calculateTotal()}`,
+                  }}
+                >
                   Go to Payment
                 </Button>
               </ModalFooter>

@@ -11,6 +11,15 @@ CREATE TABLE ConfirmationPayment (
   PhoneNumber VARCHAR(20),
   OrderNumber VARCHAR(10),
   Date DATE,
-  FOREIGN KEY (ID) REFERENCES User(id)
+  FOREIGN KEY (ID) REFERENCES public.user(id)
 );
 
+
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(255),
+    product_data JSONB,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User (id)
+);

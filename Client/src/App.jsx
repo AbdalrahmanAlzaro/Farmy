@@ -20,8 +20,7 @@ import ProductCard from "./components/ProductCard";
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [isLog, updateIsLog] = useState(localStorage.getItem("token") ? true : false);
-  // console.log(isLog);
-  // console.log(updateIsLog);
+
   
   
   return (

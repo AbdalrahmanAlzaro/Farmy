@@ -22,7 +22,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
   const location = useLocation();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [userName, setUserName] = useState(""); // State to store user's name
-
+  const [counterOfCart, setCounterOfCart] = useState(0); // State to store the counter of cart products
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -43,9 +43,14 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
     return location.pathname === path;
   };
 
-  const counterOfCart = cartProducts.reduce((acc, cur) => {
-    return acc + cur.quantity;
-  }, 0);
+  useEffect(() => {
+    // Update the counter of cart products when the cartProducts array changes
+    const cartProductsFromStorage = JSON.parse(
+      localStorage.getItem("Carts")
+    );
+    const count = cartProductsFromStorage ? cartProductsFromStorage.length : 0;
+    setCounterOfCart(count);
+  }, []);
 
   const handleMenuClick = () => {
     setMenuOpen(!isMenuOpen);
@@ -111,14 +116,14 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
               >
                 <Text>Animal farm</Text>
               </Link>
+              <Link
+                to="/products"
+                className={isActiveLink("/products") ? "active-link" : ""}
+              >
+                <Text>Products</Text>
+              </Link>
               {isLog ? (
                 <>
-                  <Link
-                    to="/products"
-                    className={isActiveLink("/products") ? "active-link" : ""}
-                  >
-                    <Text>Products</Text>
-                  </Link>
                   <Link to="/" onClick={handleLogout}>
                     <Text>Logout</Text>
                   </Link>
@@ -140,12 +145,15 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
             </HStack>
 
             {isLog && (
-              <HStack spacing={8} alignItems="center" style={{ color: "#454545" }}>
+              <HStack
+                spacing={8}
+                alignItems="center"
+                style={{ color: "#454545" }}
+              >
                 <Link to="/cart">
                   <Icon as={BiCart} boxSize={6} />
                   <span>{counterOfCart}</span>
                 </Link>
-
                 <Text>Hi, {userName}!</Text> {/* Display user's name */}
                 <Link to="/ProfilePage">
                   <Icon as={BiUser} boxSize={6} />

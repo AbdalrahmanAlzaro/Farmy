@@ -182,28 +182,38 @@ const AnimalFarmProduct = (props) => {
     const product = products.find((p) => p.id === productId);
     if (product) {
       const updatedCartProducts = [...cartProducts];
-      const existingProduct = updatedCartProducts.find(
+      const existingProductIndex = updatedCartProducts.findIndex(
         (p) => p.id === productId
       );
-      if (existingProduct) {
-        existingProduct.quantity += 1;
+
+      if (existingProductIndex !== -1) {
+        // Update the quantity of the existing product
+        updatedCartProducts[existingProductIndex].quantity += 1;
       } else {
+        // Add the new product to the cart
         updatedCartProducts.push({ ...product, quantity: 1 });
       }
+
       setCartProducts(updatedCartProducts);
       saveToLocalStorage(updatedCartProducts);
     }
   };
 
   const saveToLocalStorage = (cart) => {
-    // console.log(cart)
-    const storedCarts = JSON.parse(localStorage.getItem("Carts")) || [];
-    console.log(storedCarts);
-    const updatedCarts = storedCarts.filter((user) => user.id !== userid);
-    // console.log(updatedCarts)
-    updatedCarts.push({ id: userid, cart });
-    localStorage.setItem("Carts", JSON.stringify(updatedCarts));
+    localStorage.setItem("Carts", JSON.stringify(cart));
   };
+
+  useEffect(() => {
+    const getCartFromLocalStorage = () => {
+      const storedCart = localStorage.getItem("Carts");
+      if (storedCart) {
+        const parsedCart = JSON.parse(storedCart);
+        setCartProducts(parsedCart);
+      }
+    };
+
+    getCartFromLocalStorage();
+  }, []);
 
   return (
     <>
