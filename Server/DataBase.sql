@@ -14,8 +14,6 @@ CREATE TABLE ConfirmationPayment (
   FOREIGN KEY (ID) REFERENCES public.user(id)
 );
 
-
-
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     category VARCHAR(255),

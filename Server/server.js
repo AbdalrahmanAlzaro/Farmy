@@ -160,6 +160,49 @@ app.post('/confirmationPayment/:id', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+app.get('/join-data/:user_id', (req, res) => {
+  const userId = req.params.user_id;
+console.log(req.params.user_id)
+  const query = `
+    SELECT orders.user_id, ConfirmationPayment.Subtotal, ConfirmationPayment.OrderNumber, orders.product_data
+    FROM ConfirmationPayment
+    JOIN orders ON ConfirmationPayment.ID = orders.user_id
+    WHERE orders.user_id = $1;
+  `;
+
+  pool.query(query, [userId])
+    .then((result) => {
+      res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while fetching data.' });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

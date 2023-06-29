@@ -154,22 +154,9 @@ const PayMent = () => {
     }
 
     const product_data = localStorage.getItem("Carts");
-    // const name = localStorage.getItem("name");
-    // const price = localStorage.getItem("price");
-    // const quantity = localStorage.getItem("quantity");
-    // const user_id = localStorage.getItem("id");
-
-    // Create an object to store the data
-    // const product_data = {
-    //   name,
-    //   price,
-    //   quantity,
-    // };
-
+    
     const data = {
-    //   category,
       product_data,
-      // user_id,
     };
 
     // Make the POST request to the endpoint using Axios
