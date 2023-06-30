@@ -160,14 +160,6 @@ app.post('/confirmationPayment/:id', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
 app.get('/join-data/:user_id', (req, res) => {
   const userId = req.params.user_id;
 console.log(req.params.user_id)
@@ -188,6 +180,17 @@ console.log(req.params.user_id)
     });
 });
 
+
+app.get('/allUsers', (req, res) => {
+  pool.query('SELECT * FROM public."user"', (error, result) => {
+    if (error) {
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.status(200).json(result.rows);
+    }
+  });
+});
 
 
 

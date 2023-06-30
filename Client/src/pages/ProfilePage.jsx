@@ -18,6 +18,7 @@ import {
   useDisclosure,
   useToast,
   Card,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { Fragment } from "react";
@@ -192,24 +193,27 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
           </ModalContent>
         </Modal>
       </Flex>
+
       <Box mt={8}>
-      {userData.map((item) => (
-        <Fragment key={item.ordernumber}>
-          <Box p={4} borderWidth="1px" borderRadius="md" boxShadow="md">
-            <Text fontWeight="bold">Order Number: {item.ordernumber}</Text>
-            <Text>Subtotal: {item.subtotal}</Text>
-            <Text fontWeight="bold">Product Data:</Text>
-            {item.product_data.map((element) => (
-              <Box key={element.name} ml={4}>
-                <Text>Name: {element.name}</Text>
-                <Text>Price: {element.price}</Text>
-                <Text>Quantity: {element.quantity}</Text>
+        <SimpleGrid columns={3} spacing={4}>
+          {userData.map((item) => (
+            <Fragment key={item.ordernumber}>
+              <Box p={4} borderWidth="1px" borderRadius="md" boxShadow="md">
+                <Text fontWeight="bold">Order Number: {item.ordernumber}</Text>
+                <Text>Subtotal: {item.subtotal}</Text>
+                <Text fontWeight="bold">Product Data:</Text>
+                {item.product_data.map((element, index) => (
+                  <Box key={element.name} ml={4} mt={index !== 0 ? 2 : 0}>
+                    <Text>Name: {element.name}</Text>
+                    <Text>Price: {element.price}</Text>
+                    <Text>Quantity: {element.quantity}</Text>
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
-        </Fragment>
-      ))}
-    </Box>
+            </Fragment>
+          ))}
+        </SimpleGrid>
+      </Box>
     </>
   );
 };
