@@ -193,6 +193,20 @@ app.get('/allUsers', (req, res) => {
 });
 
 
+app.get('/allOrders', (req, res) => {
+  pool.query('SELECT * FROM public."orders"', (error, result) => {
+    if (error) {
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.status(200).json(result.rows);
+    }
+  });
+});
+
+
+
+
 
 
 
