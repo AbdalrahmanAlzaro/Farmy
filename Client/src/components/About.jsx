@@ -1,4 +1,12 @@
-import { Box, HStack, Img, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import aboutBG from "../assets/aboutBG.png";
 import aboutBlob from "../assets/aboutBlob.png";
 import jam from "../assets/jam.png";
@@ -24,14 +32,28 @@ const services = [
     img: sprout,
   },
 ];
+
 const About = () => {
+  const stackDirection = useBreakpointValue({ base: "column", md: "row" });
+  const stackSpacing = useBreakpointValue({ base: 4, md: 10 });
+  const gridColumns = useBreakpointValue({ base: 1, md: 2 });
+  const imageWidth = useBreakpointValue({ base: "200px", md: "300px" });
+  const imageHeight = useBreakpointValue({ base: "auto", md: "400px" });
+
   return (
-    <HStack alignItems="center" justifyContent="space-around" mb={28} mt={100}>
+    <HStack
+      alignItems="center"
+      justifyContent="space-around"
+      mb={28}
+      mt={100}
+      direction={stackDirection}
+      spacing={{ base: 10, md: 0 }}
+    >
       <Stack>
-        <Img src={aboutBlob} w={300} h={400} marginLeft={10} />
-        <Img src={aboutBG} w={350} h={300} position="absolute" top={1515} />
+        <Image src={aboutBlob} w={imageWidth} h={imageHeight} marginLeft={10} />
+        <Image src={aboutBG} w={350} h={300} position="absolute" top={2070} />
       </Stack>
-      <Stack spacing={10}>
+      <Stack spacing={stackSpacing} maxW={{ base: "100%", md: "500px" }}>
         <Text fontSize="3xl">Our Commitment to Quality</Text>
         <Text maxW={500}>
           We believe in the power of nature and its ability to provide us with
@@ -41,10 +63,10 @@ const About = () => {
           artisanal cheeses and wholesome dairy products, every item in our
           collection is carefully curated with your well-being in mind.
         </Text>
-        <SimpleGrid columns={2} spacing={10} alignItems="center">
+        <SimpleGrid columns={gridColumns} spacing={10} alignItems="center">
           {services.map((service) => (
             <HStack alignItems="center" spacing={4} key={service.text}>
-              <Img src={service.img} w={50} h={50} />
+              <Image src={service.img} boxSize="50px" />
               <Text maxW={150}>{service.text}</Text>
             </HStack>
           ))}
@@ -53,4 +75,5 @@ const About = () => {
     </HStack>
   );
 };
+
 export default About;

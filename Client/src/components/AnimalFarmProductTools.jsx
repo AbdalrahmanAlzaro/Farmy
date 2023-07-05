@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Stack, Text, SimpleGrid } from "@chakra-ui/react";
+import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
 import jwt_decode from "jwt-decode"; // Import jwt-decode library
@@ -18,230 +18,241 @@ import o6 from "../assets/products2/E6.jpg";
 import { v4 as uuidv4 } from "uuid"; // Import the uuidv4 function
 
 const products = [
-    {
-        id: uuidv4(),
-        name: "Sulfopotash",
-        img: d1,
-        price: "$45.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
+  {
+    id: uuidv4(),
+    name: "Sulfopotash",
+    img: d1,
+    price: "$45.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
 
-    {
-        id: uuidv4(),
-        name: "Novaqua",
-        img: d2,
-        price: "$33.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Radix",
-        img: d3,
-        price: "$27.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Aggis",
-        img: d4,
-        price: "$22.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Libro",
-        img: d5,
-        price: "$40.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Medotec",
-        img: d6,
-        price: "$28.00",
-        category: "fertilizers",
-        quantity: 0,
-    },
+  {
+    id: uuidv4(),
+    name: "Novaqua",
+    img: d2,
+    price: "$33.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Radix",
+    img: d3,
+    price: "$27.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Aggis",
+    img: d4,
+    price: "$22.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Libro",
+    img: d5,
+    price: "$40.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Medotec",
+    img: d6,
+    price: "$28.00",
+    category: "fertilizers",
+    quantity: 0,
+  },
 
-    {
-        id: uuidv4(),
-        name: "Baby Plum Tomatoes",
-        img: o1,
-        price: "$28.00",
-        category: "equipment",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Diet Snapple Tea",
-        img: o2,
-        price: "$40.00",
-        category: "equipment",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Fresh Grapes",
-        img: o3,
-        price: "$22.00",
-        category: "equipment",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Fresh Kiwi",
-        img: o4,
-        price: "$45.00",
-        category: "equipment",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Blue Raisins",
-        img: o5,
-        price: "$27.00",
-        category: "equipment",
-        quantity: 0,
-    },
-    {
-        id: uuidv4(),
-        name: "Sweet Mixed Grapes",
-        img: o6,
-        price: "$33.00",
-        category: "equipment",
-        quantity: 0,
-    },
+  {
+    id: uuidv4(),
+    name: "Baby Plum Tomatoes",
+    img: o1,
+    price: "$28.00",
+    category: "equipment",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Diet Snapple Tea",
+    img: o2,
+    price: "$40.00",
+    category: "equipment",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Fresh Grapes",
+    img: o3,
+    price: "$22.00",
+    category: "equipment",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Fresh Kiwi",
+    img: o4,
+    price: "$45.00",
+    category: "equipment",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Blue Raisins",
+    img: o5,
+    price: "$27.00",
+    category: "equipment",
+    quantity: 0,
+  },
+  {
+    id: uuidv4(),
+    name: "Sweet Mixed Grapes",
+    img: o6,
+    price: "$33.00",
+    category: "equipment",
+    quantity: 0,
+  },
 ];
 
-
 const AnimalFarmProductTools = (props) => {
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [userid, setUserid] = useState("");
-    const [cartProducts, setCartProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [userid, setUserid] = useState("");
+  const [cartProducts, setCartProducts] = useState([]);
 
-    const filteredProducts =
-        selectedCategory === "all"
-            ? products
-            : products.filter((product) => product.category === selectedCategory);
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
-    const handleCategoryClick = (category) => {
-        setSelectedCategory(category);
-    };
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
 
-    useEffect(() => {
-        const getUserNameFromToken = () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                const decodedToken = jwt_decode(token);
-                const id = decodedToken.id;
-                setUserid(id);
-            }
-        };
-
-        if (props.isLog) {
-            getUserNameFromToken();
-            getLocal();
-        }
-    }, [props.isLog]);
-
-    const getLocal = () => {
-        const storedCarts = JSON.parse(localStorage.getItem("Carts"));
-        if (storedCarts) {
-            const userCart = storedCarts.find((user) => user.id === userid);
-            if (userCart) {
-                setCartProducts(userCart.cart);
-            }
-        }
-    };
-
-    const handleAddToCart = (productId) => {
-        const product = products.find((p) => p.id === productId);
-        if (product) {
-          const updatedCartProducts = [...cartProducts];
-          const existingProductIndex = updatedCartProducts.findIndex(
-            (p) => p.id === productId
-          );
-    
-          if (existingProductIndex !== -1) {
-            // Update the quantity of the existing product
-            updatedCartProducts[existingProductIndex].quantity += 1;
-          } else {
-            // Add the new product to the cart
-            updatedCartProducts.push({ ...product, quantity: 1 });
-          }
-    
-          setCartProducts(updatedCartProducts);
-          saveToLocalStorage(updatedCartProducts);
-        }
-        
-      };
-    
-      const saveToLocalStorage = (cart) => {
-        localStorage.setItem('Carts', JSON.stringify(cart));
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id = decodedToken.id;
+        setUserid(id);
       }
-    
-      useEffect(() => {
-        const getCartFromLocalStorage = () => {
-          const storedCart = localStorage.getItem("Carts");
-          if (storedCart) {
-            const parsedCart = JSON.parse(storedCart);
-            setCartProducts(parsedCart);
-          }
-        };
-    
-        getCartFromLocalStorage();
-      }, []);
+    };
 
-    return (
-        <>
-            <Text fontSize="3xl" textAlign="center" ml={25}>
-                Explore <span style={{ color: colors.green }}>Nature's</span> Finest
-                Selection
-            </Text>
-            <Stack padding={10} spacing="72" direction="row">
-                <Stack spacing={10}>
-                    <Text
-                        cursor="pointer"
-                        onClick={() => handleCategoryClick("all")}
-                        textDecoration={selectedCategory === "all" ? "underline" : "none"}
-                    >
-                        All
-                    </Text>
-                    <Text
-                        cursor="pointer"
-                        onClick={() => handleCategoryClick("dairy")}
-                        textDecoration={selectedCategory === "dairy" ? "underline" : "none"}
-                    >
-                        Dairy
-                    </Text>
-                    <Text
-                        cursor="pointer"
-                        onClick={() => handleCategoryClick("organic")}
-                        textDecoration={
-                            selectedCategory === "organic" ? "underline" : "none"
-                        }
-                    >
-                        Organic
-                    </Text>
-                </Stack>
-                <SimpleGrid columns={4} spacing={12} alignItems="center">
-                    {filteredProducts.map((product) => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            onAddToCart={handleAddToCart}
-                            setCartProducts={props.setCartProductss}
-                        />
-                    ))}
-                </SimpleGrid>
-            </Stack>
-        </>
-    );
+    if (props.isLog) {
+      getUserNameFromToken();
+      getLocal();
+    }
+  }, [props.isLog]);
+
+  const getLocal = () => {
+    const storedCarts = JSON.parse(localStorage.getItem("Carts"));
+    if (storedCarts) {
+      const userCart = storedCarts.find((user) => user.id === userid);
+      if (userCart) {
+        setCartProducts(userCart.cart);
+      }
+    }
+  };
+
+  const handleAddToCart = (productId) => {
+    const product = products.find((p) => p.id === productId);
+    if (product) {
+      const updatedCartProducts = [...cartProducts];
+      const existingProductIndex = updatedCartProducts.findIndex(
+        (p) => p.id === productId
+      );
+
+      if (existingProductIndex !== -1) {
+        // Update the quantity of the existing product
+        updatedCartProducts[existingProductIndex].quantity += 1;
+      } else {
+        // Add the new product to the cart
+        updatedCartProducts.push({ ...product, quantity: 1 });
+      }
+
+      setCartProducts(updatedCartProducts);
+      saveToLocalStorage(updatedCartProducts);
+    }
+  };
+
+  const saveToLocalStorage = (cart) => {
+    localStorage.setItem("Carts", JSON.stringify(cart));
+  };
+
+  useEffect(() => {
+    const getCartFromLocalStorage = () => {
+      const storedCart = localStorage.getItem("Carts");
+      if (storedCart) {
+        const parsedCart = JSON.parse(storedCart);
+        setCartProducts(parsedCart);
+      }
+    };
+
+    getCartFromLocalStorage();
+  }, []);
+
+  return (
+    <>
+      <br />
+      <br />
+      <br />
+      <br />
+      <Text fontSize="3xl" textAlign="center" ml={25}>
+        Explore <span style={{ color: colors.green }}>Nature's</span> Finest
+        Selection
+      </Text>
+      <Flex justifyContent="center">
+        <Stack spacing={10} direction="row">
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("all")}
+            textDecoration={selectedCategory === "all" ? "underline" : "none"}
+          >
+            All
+          </Text>
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("dairy")}
+            textDecoration={selectedCategory === "dairy" ? "underline" : "none"}
+          >
+            Dairy
+          </Text>
+          <Text
+            cursor="pointer"
+            onClick={() => handleCategoryClick("organic")}
+            textDecoration={
+              selectedCategory === "organic" ? "underline" : "none"
+            }
+          >
+            Organic
+          </Text>
+        </Stack>
+      </Flex>
+
+      <Stack
+        padding={10}
+        spacing={["4", "6", "8"]}
+        direction={["column", "row"]}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <SimpleGrid columns={[1, 2, 4]} spacing={12}>
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={handleAddToCart}
+              setCartProducts={props.setCartProductss}
+            />
+          ))}
+        </SimpleGrid>
+      </Stack>
+    </>
+  );
 };
 
 export default AnimalFarmProductTools;

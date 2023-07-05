@@ -114,7 +114,7 @@ const Login = ({ updateIsLog }) => {
             placeholder="Email"
             size="md"
             mb={4}
-            style={{ width: "25rem" }}
+            style={{ width: "23rem" }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             isInvalid={!!errors.email}

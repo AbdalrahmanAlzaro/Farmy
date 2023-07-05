@@ -12,13 +12,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import jwt_decode from "jwt-decode";
-import { colors } from "../utils/colors";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 const PayMent = () => {
   const [id, setId] = useState("");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -154,7 +155,7 @@ const PayMent = () => {
     }
 
     const product_data = localStorage.getItem("Carts");
-    
+
     const data = {
       product_data,
     };
@@ -168,10 +169,12 @@ const PayMent = () => {
       .catch((error) => {
         console.error(error); // Log any errors that occurred during the request
       });
+
+      navigate('/Check');
   };
 
   return (
-    <Container py={5} maxW="50%">
+      <Container py={5} maxW="50%">
       <Grid placeItems="center">
         <GridItem md="10" lg="8" xl="5">
           <Box rounded="md" bg="white" p={4}>
@@ -209,10 +212,17 @@ const PayMent = () => {
                   </Text>
                 )}
               </FormControl>
-              <Grid templateColumns="repeat(12, 1fr)" gap={4} my={4}>
-                <GridItem colSpan={7}>
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(12, 1fr)",
+                }}
+                gap={4}
+                my={4}
+              >
+                <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
-                    <FormLabel htmlFor="CardNumber">Card Number</FormLabel>
+                    <FormLabel htmlFor="CardNumber">Card Number <span style={{color:"red"}}>*</span></FormLabel>
                     <Input
                       id="CardNumber"
                       type="text"
@@ -229,9 +239,9 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={3}>
+                <GridItem colSpan={{ base: 1, md: 3 }}>
                   <FormControl>
-                    <FormLabel htmlFor="ExpDate">Expire</FormLabel>
+                    <FormLabel htmlFor="ExpDate">Expire <span style={{color:"red"}}>*</span></FormLabel>
                     <Input
                       id="ExpDate"
                       type="text"
@@ -249,9 +259,9 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={2}>
+                <GridItem colSpan={{ base: 1, md: 2 }}>
                   <FormControl>
-                    <FormLabel htmlFor="CVV">CVV</FormLabel>
+                    <FormLabel htmlFor="CVV">CVV <span style={{color:"red"}}>*</span></FormLabel>
                     <Input
                       id="CVV"
                       type="text"
@@ -269,9 +279,11 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={7}>
+                <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
-                    <FormLabel htmlFor="StreetName">Shipping Address</FormLabel>
+                    <FormLabel htmlFor="StreetName">
+                      Shipping Address <span style={{color:"red"}}>*</span>
+                    </FormLabel>
                     <Input
                       id="StreetName"
                       type="text"
@@ -289,9 +301,9 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={3}>
+                <GridItem colSpan={{ base: 1, md: 3 }}>
                   <FormControl>
-                    <FormLabel htmlFor="ZipCode">ZIP</FormLabel>
+                    <FormLabel htmlFor="ZipCode">ZIP <span style={{color:"red"}}>*</span></FormLabel>
                     <Input
                       id="ZipCode"
                       type="text"
@@ -309,7 +321,7 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={12}>
+                <GridItem colSpan={{ base: 1, md: 12 }}>
                   <FormControl>
                     <FormLabel htmlFor="Subtotal">Subtotal</FormLabel>
                     <Input
@@ -324,9 +336,9 @@ const PayMent = () => {
                     />
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={7}>
+                <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
-                    <FormLabel htmlFor="PhoneNumber">Phone Number</FormLabel>
+                    <FormLabel htmlFor="PhoneNumber">Phone Number <span style={{color:"red"}}>*</span></FormLabel>
                     <Input
                       id="PhoneNumber"
                       type="tel"
@@ -343,7 +355,7 @@ const PayMent = () => {
                     )}
                   </FormControl>
                 </GridItem>
-                <GridItem colSpan={5}>
+                <GridItem colSpan={{ base: 1, md: 5 }}>
                   <FormControl>
                     <FormLabel htmlFor="OrderNumber">Order Number</FormLabel>
                     <Input
@@ -358,10 +370,11 @@ const PayMent = () => {
                 </GridItem>
               </Grid>
               <Button
-                bg={colors.primary}
+                // bg="primary"
                 color="white"
                 size="lg"
                 onClick={handleSubmit}
+                style={{backgroundColor:"#454545"}}
               >
                 Place Order
               </Button>

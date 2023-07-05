@@ -1,4 +1,4 @@
-import { HStack, Icon, Img, Stack, Text } from "@chakra-ui/react";
+import { Stack, Box, Img, Text, HStack, Icon } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 
 const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
@@ -25,14 +25,38 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
   };
 
   return (
-    <Stack alignItems="center" mb={10}>
-      <Img src={product.img} alt={product.name} w={170} h={170} />
-      <Text>{product.name}</Text>
-      <HStack spacing={8} alignItems="center">
-        <Text>{product.price}</Text>
-        <Icon as={BiCart} w={6} h={6} cursor="pointer" onClick={addToCart} />
-      </HStack>
-    </Stack>
+    <Box
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      shadow="md"
+      _hover={{ shadow: "xl" }}
+    >
+      <Img
+        src={product.img}
+        alt={product.name}
+        w="100%"
+        h={200}
+        objectFit="cover"
+      />
+      <Box p={4}>
+        <Text fontSize="xl" fontWeight="bold" mb={2}>
+          {product.name}
+        </Text>
+        <HStack justifyContent="space-between" alignItems="center">
+          <Text fontWeight="semibold">{product.price}</Text>
+          <Icon
+            as={BiCart}
+            w={6}
+            h={6}
+            cursor="pointer"
+            _hover={{ color: "blue.500" }}
+            onClick={addToCart}
+          />
+        </HStack>
+      </Box>
+    </Box>
   );
 };
 

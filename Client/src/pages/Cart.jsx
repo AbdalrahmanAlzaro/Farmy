@@ -25,15 +25,6 @@ const Cart = (props) => {
   const [id, setId] = useState("");
   const navigate = useNavigate();
 
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     const getUserNameFromToken = () => {
       const token = localStorage.getItem("token");
@@ -215,10 +206,10 @@ const Cart = (props) => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  colorScheme="blue"
+                  // colorScheme="blue"
                   mr={3}
                   onClick={handleCloseModal}
-                  style={{ backgroundColor: "#454545" }}
+                 
                 >
                   Cancel
                 </Button>
@@ -229,6 +220,7 @@ const Cart = (props) => {
                     pathname: "/payment",
                     search: `?total=${calculateTotal()}`,
                   }}
+                  style={{ backgroundColor: "#454545", color:"white" }}
                 >
                   Go to Payment
                 </Button>

@@ -4,20 +4,25 @@ import { Link } from "react-router-dom";
 
 export default function Success() {
   return (
-    <Box textAlign="center" py={10} px={6}>
-      <CheckCircleIcon boxSize={"50px"} color={"green.500"} />
-      <Heading as="h2" size="xl" mt={6} mb={2}>
+    <Box textAlign="center" py={10} px={6} mt={150}>
+      <CheckCircleIcon boxSize={50} color="green.500" mb={6} />
+
+      <Heading as="h2" size="xl" mb={2}>
         Operation accomplished successfully
       </Heading>
-      <Text color={"gray.500"}></Text>
+
+      <Text color="gray.500" fontSize="lg" mb={6}>
+        Thank you for your order!
+      </Text>
+
       <Button
-      style={{backgroundColor:"#454545", color:"white"}}
         as={Link}
         to="/"
-        // colorScheme="blue"
-        mt={6}
+        colorScheme="white"
         size="lg"
-        // fontWeight="thin"
+        fontWeight="thin"
+        borderRadius="md"
+       style={{backgroundColor:"#454545"}}
       >
         Go Back Home
       </Button>

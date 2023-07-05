@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Stack, Text, SimpleGrid } from "@chakra-ui/react";
+import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
 import jwt_decode from "jwt-decode"; // Import jwt-decode library
@@ -122,7 +122,6 @@ const Products = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
-  
 
   const filteredProducts =
     selectedCategory === "all"
@@ -178,12 +177,11 @@ const Products = (props) => {
       setCartProducts(updatedCartProducts);
       saveToLocalStorage(updatedCartProducts);
     }
-    
   };
 
   const saveToLocalStorage = (cart) => {
-    localStorage.setItem('Carts', JSON.stringify(cart));
-  }
+    localStorage.setItem("Carts", JSON.stringify(cart));
+  };
 
   useEffect(() => {
     const getCartFromLocalStorage = () => {
@@ -197,15 +195,14 @@ const Products = (props) => {
     getCartFromLocalStorage();
   }, []);
 
-
   return (
     <>
       <Text fontSize="3xl" textAlign="center" ml={25}>
         Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection
       </Text>
-      <Stack padding={10} spacing="72" direction="row">
-        <Stack spacing={10}>
+      <Flex justifyContent="center">
+        <Stack spacing={10} direction="row">
           <Text
             cursor="pointer"
             onClick={() => handleCategoryClick("all")}
@@ -230,7 +227,16 @@ const Products = (props) => {
             Organic
           </Text>
         </Stack>
-        <SimpleGrid columns={4} spacing={12} alignItems="center">
+      </Flex>
+
+      <Stack
+        padding={10}
+        spacing={["4", "6", "8"]}
+        direction={["column", "row"]}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <SimpleGrid columns={[1, 2, 4]} spacing={12}>
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}

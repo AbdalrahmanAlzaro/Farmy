@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Footer from './components/Footer'
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,55 +10,73 @@ import Agriculturalnursery from "./pages/Agriculturalnursery";
 import AnimalFarm from "./pages/AnimalFarm";
 import Cart from "./pages/Cart";
 import Contact from "./components/Contact";
-import PayMent from './pages/PayMent'
-import Check from './pages/Check'
+import PayMent from "./pages/PayMent";
+import Check from "./pages/Check";
 import ProfilePage from "./pages/ProfilePage";
 import TranslationPage from "./components/Transletor";
 import ProductCard from "./components/ProductCard";
 
-
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
-  const [isLog, updateIsLog] = useState(localStorage.getItem("token") ? true : false);
+  const [isLog, updateIsLog] = useState(
+    localStorage.getItem("token") ? true : false
+  );
 
-  
-  
   return (
     <Router>
-      <Navbar cartProducts={cartProducts} isLog={isLog} updateIsLog={updateIsLog} />
+      <Navbar
+        cartProducts={cartProducts}
+        isLog={isLog}
+        updateIsLog={updateIsLog}
+      />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route
-          path="/login"
-          element={<Login updateIsLog={updateIsLog} />}
+          path="/"
+          element={
+            <Home
+              setCartProductss={setCartProducts}
+              isLog={isLog}
+              cartProductss={cartProducts}
+            />
+          }
         />
-        <Route
-          path="/signup"
-          element={<Signup updateIsLog={updateIsLog} />}
-        />
-        <Route
-          path="/Contact"
-          element={<Contact />}
-        />
-        <Route
-          path="/TranslationPage"
-          element={<TranslationPage />}
-        />
+        <Route path="/login" element={<Login updateIsLog={updateIsLog} />} />
+        <Route path="/signup" element={<Signup updateIsLog={updateIsLog} />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/TranslationPage" element={<TranslationPage />} />
         <Route
           path="/ProfilePage"
           element={<ProfilePage updateIsLog={updateIsLog} />}
         />
         <Route
           path="/Agriculturalnursery"
-          element={<Agriculturalnursery setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
+          element={
+            <Agriculturalnursery
+              setCartProductss={setCartProducts}
+              isLog={isLog}
+              cartProductss={cartProducts}
+            />
+          }
         />
         <Route
           path="/AnimalFarm"
-          element={<AnimalFarm setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
+          element={
+            <AnimalFarm
+              setCartProductss={setCartProducts}
+              isLog={isLog}
+              cartProductss={cartProducts}
+            />
+          }
         />
         <Route
           path="/products"
-          element={<Products setCartProductss={setCartProducts} isLog={isLog} cartProductss={cartProducts} />}
+          element={
+            <Products
+              setCartProductss={setCartProducts}
+              isLog={isLog}
+              cartProductss={cartProducts}
+            />
+          }
         />
         <Route path="/PayMent" element={<PayMent />} />
         <Route path="/ProductCard" element={<ProductCard isLog={isLog} />} />

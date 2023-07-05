@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 export default function SmallWithNavigation() {
     return (
         <Box
-            mt={100}
+            mt={135}
             bg="#454545"
             color="white"
             
