@@ -136,7 +136,7 @@ const Signup = ({ updateIsLog }) => {
             placeholder="Name"
             size="md"
             mb={4}
-            style={{ width: "23rem" }}
+            // style={{ width: "23rem" }}
             value={values.username}
             onChange={handleInput}
             isInvalid={!!errors.username}

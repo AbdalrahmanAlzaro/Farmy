@@ -15,6 +15,7 @@ import Check from "./pages/Check";
 import ProfilePage from "./pages/ProfilePage";
 import TranslationPage from "./components/Transletor";
 import ProductCard from "./components/ProductCard";
+import About from "./pages/About";
 
 const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -42,7 +43,8 @@ const App = () => {
         />
         <Route path="/login" element={<Login updateIsLog={updateIsLog} />} />
         <Route path="/signup" element={<Signup updateIsLog={updateIsLog} />} />
-        <Route path="/Contact" element={<Contact />} />
+        <Route path="/Contact" element={<Contact isLog={isLog} />} />
+        <Route path="/About" element={<About isLog={isLog} />} />
         <Route path="/TranslationPage" element={<TranslationPage />} />
         <Route
           path="/ProfilePage"

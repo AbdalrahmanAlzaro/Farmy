@@ -21,3 +21,12 @@ CREATE TABLE orders (
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES User (id)
 );
+
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50),
+  email VARCHAR(100),
+  message TEXT,
+  user_id INT REFERENCES "User" (id)
+);

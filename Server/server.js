@@ -206,18 +206,26 @@ app.get('/allOrders', (req, res) => {
 
 
 
+app.post('/messages/:user_id', async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const { name, email, message } = req.body;
 
+    const query = `
+      INSERT INTO messages (name, email, message, user_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, name, email, message, user_id;
+    `;
 
+    const values = [name, email, message, user_id];
+    const result = await pool.query(query, values);
 
-
-
-
-
-
-
-
-
-
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error inserting data:', error);
+    res.status(500).json({ error: 'An error occurred while inserting data.' });
+  }
+});
 
 
 app.listen(port, () => {

@@ -27,7 +27,7 @@ export default function SmallWithNavigation() {
                 align={{ base: 'center', md: 'center' }}>
                 <Stack direction={'row'} spacing={6}>
                     <Link to={'/'}>Home</Link>
-                    <Link to={'#'}>About</Link>
+                    <Link to={'/About'}>About</Link>
                     <Link to={'/Contact'}>Contact</Link>
                 </Stack>
                 <Text>© 2023 HarvestMart. All rights reserved</Text>
