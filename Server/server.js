@@ -113,23 +113,29 @@ app.put("/user/:id", async (req, res) => {
 
 app.post('/orders/:user_id', (req, res) => {
   const { user_id } = req.params; // Retrieve the user_id from the request URL parameter
-  const {  product_data } = req.body;
+  const { product_data } = req.body;
+  const { OrderNumber } = req.body;
 
-  // Assuming you have a database connection and a query execution function
-  // Insert the data into the orders table
-  const query = 'INSERT INTO orders ( product_data, user_id) VALUES ($1, $2)';
-  const values = [ product_data, user_id];
-  
-  // Execute the query and handle any errors
-  // Replace `executeQuery` with your actual function to execute the query
-  pool.query(query, values)
-    .then(() => {
-      res.status(200).json({ message: 'Data stored successfully.' });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: 'An error occurred while storing data.' });
-    });
+  try {
+    // Assuming you have a database connection and a query execution function
+    // Insert the data into the orders table
+    const query = 'INSERT INTO orders (product_data, user_id, OrderNumber) VALUES ($1, $2, $3)';
+    const values = [product_data, user_id, OrderNumber];
+
+    // Execute the query and handle any errors
+    // Replace `executeQuery` with your actual function to execute the query
+    pool.query(query, values)
+      .then(() => {
+        res.status(200).json({ message: 'Data stored successfully.' });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while storing data.' });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while processing the request.' });
+  }
 });
 
 
@@ -137,16 +143,44 @@ app.post('/confirmationPayment/:id', async (req, res) => {
   const id = req.params.id; // Get the value of the id parameter from the request
 
   // Retrieve other data from the request body
-  const { Username, Email, CardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date } = req.body;
+  const {
+    Username,
+    Email,
+    CardNumber,
+    ExpDate,
+    CVV,
+    StreetName,
+    ZipCode,
+    Subtotal,
+    PhoneNumber,
+    OrderNumber,
+    Date,
+  } = req.body;
 
   try {
     // Hash the CardNumber using bcrypt
     const hashedCardNumber = await bcrypt.hash(CardNumber, 10);
 
     // Insert the data into the ConfirmationPayment table
-    const query = `INSERT INTO ConfirmationPayment (ID, Username, Email, CardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date) 
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
-    const values = [id, Username, Email, hashedCardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date];
+    const query = `
+      INSERT INTO ConfirmationPayment ( Username, Email, CardNumber, ExpDate, CVV, StreetName, ZipCode, Subtotal, PhoneNumber, OrderNumber, Date, user_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    `;
+    const values = [
+      
+      Username,
+      Email,
+      hashedCardNumber,
+      ExpDate,
+      CVV,
+      StreetName,
+      ZipCode,
+      Subtotal,
+      PhoneNumber,
+      OrderNumber,
+      Date,
+      id, // Use the same value for user_id as the id parameter
+    ];
 
     await pool.query(query, values);
 
@@ -160,18 +194,35 @@ app.post('/confirmationPayment/:id', async (req, res) => {
 });
 
 
+
 app.get('/join-data/:user_id', (req, res) => {
   const userId = req.params.user_id;
-console.log(req.params.user_id)
+
+  if (!userId || isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID. Please provide a valid user ID.' });
+  }
+
   const query = `
-    SELECT orders.user_id, ConfirmationPayment.Subtotal, ConfirmationPayment.OrderNumber, orders.product_data
-    FROM ConfirmationPayment
-    JOIN orders ON ConfirmationPayment.ID = orders.user_id
-    WHERE orders.user_id = $1;
+  SELECT
+  cp.Subtotal,
+  o.OrderNumber,
+  cp.Date,
+  o.product_data,
+  o.user_id
+FROM
+  ConfirmationPayment cp
+INNER JOIN
+  orders o ON cp.OrderNumber = o.OrderNumber
+WHERE
+  o.user_id = $1;
+
   `;
 
   pool.query(query, [userId])
     .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'No orders found for the specified user ID.' });
+      }
       res.status(200).json(result.rows);
     })
     .catch((error) => {
@@ -179,6 +230,7 @@ console.log(req.params.user_id)
       res.status(500).json({ error: 'An error occurred while fetching data.' });
     });
 });
+
 
 
 app.get('/allUsers', (req, res) => {
@@ -226,6 +278,48 @@ app.post('/messages/:user_id', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while inserting data.' });
   }
 });
+
+
+
+
+
+
+app.post('/api/products', (req, res) => {
+  const { id, category, image, Description, price } = req.body;
+
+  // Validate the incoming data (You can add more validation as per your requirements)
+  if (!id || !category || !image || !Description || !price) {
+      return res.status(400).json({ error: 'Please provide all required fields.' });
+  }
+
+  // Create a new product object
+  const newProduct = {
+      id,
+      category,
+      image,
+      Description,
+      price
+  };
+
+  // Insert the new product into the 'products' table
+  const query = 'INSERT INTO products (id, category, image, Description, price) VALUES (?, ?, ?, ?, ?)';
+  connection.query(query, [id, category, image, Description, price], (err, result) => {
+      if (err) {
+          console.error('Error inserting product:', err.stack);
+          return res.status(500).json({ error: 'Error inserting product into database.' });
+      }
+
+      console.log('Product inserted successfully:', result.insertId);
+      return res.status(201).json({ message: 'Product added successfully.', data: newProduct });
+  });
+});
+
+
+
+
+
+
+
 
 
 app.listen(port, () => {

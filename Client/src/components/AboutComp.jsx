@@ -31,35 +31,6 @@ const AboutUsPage = () => {
           />
         </Box>
       </Flex>
-
-      <Stack spacing={9} mt={8}>
-        <Heading as="h2" size="lg">
-          Our Team
-        </Heading>
-        <Flex direction={{ base: "column", md: "row" }}>
-          <Box
-            flex="1"
-            p={4}
-            bg="gray.100"
-            borderRadius="md"
-            textAlign="center"
-            boxShadow="md"
-          >
-            <Image
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU"
-              alt="Team Member 1"
-              borderRadius="full"
-              boxSize="150px"
-              mb={4}
-              mx="auto"
-            />
-            <Heading as="h3" size="md" mb={2}>
-              John Doe
-            </Heading>
-            <Text>CEO</Text>
-          </Box>
-        </Flex>
-      </Stack>
     </Box>
   );
 };

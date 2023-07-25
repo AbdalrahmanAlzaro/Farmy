@@ -195,18 +195,29 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
       </Flex>
 
       <Box mt={8}>
-        <SimpleGrid columns={3} spacing={4}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
           {userData.map((item) => (
             <Fragment key={item.ordernumber}>
               <Box p={4} borderWidth="1px" borderRadius="md" boxShadow="md">
-                <Text fontWeight="bold">Order Number: {item.ordernumber}</Text>
-                <Text>Subtotal: {item.subtotal}</Text>
-                <Text fontWeight="bold">Product Data:</Text>
+                <Text fontSize="lg" fontWeight="bold">
+                  Order Number: {item.ordernumber}
+                </Text>
+                <Text mt={2}>Subtotal: ${item.subtotal}</Text>
+                <Text mt={4} fontWeight="bold">
+                  Product Data:
+                </Text>
                 {item.product_data.map((element, index) => (
-                  <Box key={element.name} ml={4} mt={index !== 0 ? 2 : 0}>
-                    <Text>Name: {element.name}</Text>
-                    <Text>Price: {element.price}</Text>
-                    <Text>Quantity: {element.quantity}</Text>
+                  <Box key={element.name} ml={4} mt={2}>
+                    <Text fontSize={{ base: "sm", md: "md" }}>
+                      <span style={{ color: "#519341" }}>Name:</span>{" "}
+                      {element.name}
+                    </Text>
+                    <Text fontSize={{ base: "sm", md: "md" }}>
+                      Price: ${element.price}
+                    </Text>
+                    <Text fontSize={{ base: "sm", md: "md" }}>
+                      Quantity: {element.quantity}
+                    </Text>
                   </Box>
                 ))}
               </Box>

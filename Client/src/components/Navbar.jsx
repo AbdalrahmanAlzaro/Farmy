@@ -45,9 +45,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
 
   useEffect(() => {
     // Update the counter of cart products when the cartProducts array changes
-    const cartProductsFromStorage = JSON.parse(
-      localStorage.getItem("Carts")
-    );
+    const cartProductsFromStorage = JSON.parse(localStorage.getItem("Carts"));
     const count = cartProductsFromStorage ? cartProductsFromStorage.length : 0;
     setCounterOfCart(count);
   }, []);
@@ -122,6 +120,18 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
               >
                 <Text>Products</Text>
               </Link>
+              <Link
+                to="/About"
+                className={isActiveLink("/About") ? "active-link" : ""}
+              >
+                <Text>About</Text>
+              </Link>
+              <Link
+                to="/Contact"
+                className={isActiveLink("/Contact") ? "active-link" : ""}
+              >
+                <Text>Contact</Text>
+              </Link>
               {isLog ? (
                 <>
                   <Link to="/" onClick={handleLogout}>
@@ -183,6 +193,19 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
           >
             <Text mb={2}>Animal farm</Text>
           </Link>
+
+          <Link
+            to="/About"
+            className={isActiveLink("/About") ? "active-link" : ""}
+          >
+            <Text mb={2}>About</Text>
+          </Link>
+          <Link
+            to="/Contact"
+            className={isActiveLink("/Contact") ? "active-link" : ""}
+          >
+            <Text mb={2}>Contact</Text>
+          </Link>
           {isLog ? (
             <>
               <Link
@@ -201,6 +224,9 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
               <Link to="/" onClick={handleLogout}>
                 <Text>Logout</Text>
               </Link>
+              <Link to="/ProfilePage">
+                <Icon as={BiUser} boxSize={6} />
+              </Link>
             </>
           ) : (
             <>
@@ -212,10 +238,6 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
               </Link>
             </>
           )}
-
-          <Link to="/ProfilePage">
-            <Icon as={BiUser} boxSize={6} />
-          </Link>
         </Box>
       )}
     </>

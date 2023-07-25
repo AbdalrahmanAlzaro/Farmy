@@ -12,14 +12,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import jwt_decode from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 const PayMent = () => {
   const [id, setId] = useState("");
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -68,6 +67,7 @@ const PayMent = () => {
     OrderNumber: generateOrderNumber(),
     Date: getCurrentDate(),
   });
+  let OrderNumber;
 
   const [errors, setErrors] = useState({});
 
@@ -140,41 +140,43 @@ const PayMent = () => {
 
     if (isValid) {
       try {
-        // Send the form values to the server
         const response = await axios.post(
           `http://localhost:3000/confirmationPayment/${id}`,
           formValues
         );
+        const OrderNumber = formValues.OrderNumber; // Get the OrderNumber from formValues
         console.log("Form values:", formValues);
         console.log("Server response:", response.data);
         // TODO: Handle the response and navigate to the next page
+
+        // Proceed to the second POST request only if the first one is successful
+        const product_data = localStorage.getItem("Carts");
+        const data = {
+          product_data,
+          OrderNumber, // Add the OrderNumber to the data object
+        };
+
+        try {
+          const response = await axios.post(
+            `http://localhost:3000/orders/${id}`,
+            data
+          );
+          console.log(response.data.message); // Success message received from the server
+        } catch (error) {
+          console.error("Error submitting form:", error);
+          // TODO: Handle the error
+        }
+
+        navigate("/Check");
       } catch (error) {
         console.error("Error submitting form:", error);
         // TODO: Handle the error
       }
     }
-
-    const product_data = localStorage.getItem("Carts");
-
-    const data = {
-      product_data,
-    };
-
-    // Make the POST request to the endpoint using Axios
-    axios
-      .post(`http://localhost:3000/orders/${id}`, data)
-      .then((response) => {
-        console.log(response.data.message); // Success message received from the server
-      })
-      .catch((error) => {
-        console.error(error); // Log any errors that occurred during the request
-      });
-
-      navigate('/Check');
   };
 
   return (
-      <Container py={5} maxW="50%">
+    <Container py={5} maxW="50%">
       <Grid placeItems="center">
         <GridItem md="10" lg="8" xl="5">
           <Box rounded="md" bg="white" p={4}>
@@ -222,7 +224,9 @@ const PayMent = () => {
               >
                 <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
-                    <FormLabel htmlFor="CardNumber">Card Number <span style={{color:"red"}}>*</span></FormLabel>
+                    <FormLabel htmlFor="CardNumber">
+                      Card Number <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
                     <Input
                       id="CardNumber"
                       type="text"
@@ -241,7 +245,9 @@ const PayMent = () => {
                 </GridItem>
                 <GridItem colSpan={{ base: 1, md: 3 }}>
                   <FormControl>
-                    <FormLabel htmlFor="ExpDate">Expire <span style={{color:"red"}}>*</span></FormLabel>
+                    <FormLabel htmlFor="ExpDate">
+                      Expire <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
                     <Input
                       id="ExpDate"
                       type="text"
@@ -261,7 +267,9 @@ const PayMent = () => {
                 </GridItem>
                 <GridItem colSpan={{ base: 1, md: 2 }}>
                   <FormControl>
-                    <FormLabel htmlFor="CVV">CVV <span style={{color:"red"}}>*</span></FormLabel>
+                    <FormLabel htmlFor="CVV">
+                      CVV <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
                     <Input
                       id="CVV"
                       type="text"
@@ -282,7 +290,7 @@ const PayMent = () => {
                 <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
                     <FormLabel htmlFor="StreetName">
-                      Shipping Address <span style={{color:"red"}}>*</span>
+                      Shipping Address <span style={{ color: "red" }}>*</span>
                     </FormLabel>
                     <Input
                       id="StreetName"
@@ -303,7 +311,9 @@ const PayMent = () => {
                 </GridItem>
                 <GridItem colSpan={{ base: 1, md: 3 }}>
                   <FormControl>
-                    <FormLabel htmlFor="ZipCode">ZIP <span style={{color:"red"}}>*</span></FormLabel>
+                    <FormLabel htmlFor="ZipCode">
+                      ZIP <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
                     <Input
                       id="ZipCode"
                       type="text"
@@ -338,7 +348,9 @@ const PayMent = () => {
                 </GridItem>
                 <GridItem colSpan={{ base: 1, md: 7 }}>
                   <FormControl>
-                    <FormLabel htmlFor="PhoneNumber">Phone Number <span style={{color:"red"}}>*</span></FormLabel>
+                    <FormLabel htmlFor="PhoneNumber">
+                      Phone Number <span style={{ color: "red" }}>*</span>
+                    </FormLabel>
                     <Input
                       id="PhoneNumber"
                       type="tel"
@@ -374,7 +386,7 @@ const PayMent = () => {
                 color="white"
                 size="lg"
                 onClick={handleSubmit}
-                style={{backgroundColor:"#454545"}}
+                style={{ backgroundColor: "#454545" }}
               >
                 Place Order
               </Button>
