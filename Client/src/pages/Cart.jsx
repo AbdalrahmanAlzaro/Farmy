@@ -17,13 +17,13 @@ import {
 } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import { FiTrash, FiPlus, FiMinus } from "react-icons/fi";
-import axios from "axios";
 
 const Cart = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [id, setId] = useState("");
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const getUserNameFromToken = () => {

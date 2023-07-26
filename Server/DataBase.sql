@@ -35,7 +35,7 @@ CREATE TABLE messages (
 
 
 CREATE TABLE products (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     category VARCHAR(255),
     image VARCHAR(255),
     Description TEXT,

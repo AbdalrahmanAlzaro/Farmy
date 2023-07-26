@@ -196,20 +196,6 @@ const App = () => {
               }
             />
             <Route path="/NoPage" element={<NoPage />} />
-          </>
-        )}
-
-        {/* Private routes (for users who are logged in) */}
-        {isLog && (
-          <>
-            <Route
-              path="/"
-              element={<Home setCartProductss={setCartProducts} />}
-            />
-            <Route
-              path="/ProfilePage"
-              element={<ProfilePage updateIsLog={updateIsLog} />}
-            />
             <Route
               path="/cart"
               element={
@@ -219,6 +205,30 @@ const App = () => {
                   setCartProductss={setCartProducts}
                 />
               }
+            />
+          </>
+        )}
+
+        {/* Private routes (for users who are logged in) */}
+        {isLog && (
+          <>
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  isLog={isLog}
+                  cartProductss={cartProducts}
+                  setCartProductss={setCartProducts}
+                />
+              }
+            />
+            <Route
+              path="/"
+              element={<Home setCartProductss={setCartProducts} />}
+            />
+            <Route
+              path="/ProfilePage"
+              element={<ProfilePage updateIsLog={updateIsLog} />}
             />
             <Route path="/PayMent" element={<PayMent />} />
             <Route

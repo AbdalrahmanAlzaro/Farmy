@@ -1,4 +1,4 @@
-import { Stack, Box, Img, Text, HStack, Icon } from "@chakra-ui/react";
+import { Box, Img, Text, HStack, Icon } from "@chakra-ui/react";
 import { BiCart } from "react-icons/bi";
 
 const ProductCard = ({ product, onAddToCart, setCartProducts }) => {

@@ -3,6 +3,8 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors"); // Add the cors module
+const multer = require('multer')
+const path = require('path')
 
 const app = express();
 const port = 3000;
@@ -15,6 +17,32 @@ const pool = new Pool({
   password: "Abd2001@",
   port: 5432,
 });
+
+
+
+
+
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images"); // Specify the destination folder for saving the images
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    ); // Generate a unique filename
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
+
+
+
+
 
 const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
 
@@ -29,6 +57,8 @@ pool
     console.error("Error connecting to PostgreSQL database:", err);
   });
 
+
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
 
@@ -194,7 +224,6 @@ app.post('/confirmationPayment/:id', async (req, res) => {
 });
 
 
-
 app.get('/join-data/:user_id', (req, res) => {
   const userId = req.params.user_id;
 
@@ -232,7 +261,6 @@ WHERE
 });
 
 
-
 app.get('/allUsers', (req, res) => {
   pool.query('SELECT * FROM public."user"', (error, result) => {
     if (error) {
@@ -257,7 +285,6 @@ app.get('/allOrders', (req, res) => {
 });
 
 
-
 app.post('/messages/:user_id', async (req, res) => {
   try {
     const { user_id } = req.params;
@@ -280,43 +307,85 @@ app.post('/messages/:user_id', async (req, res) => {
 });
 
 
-
-
-
-
-app.post('/api/products', (req, res) => {
-  const { id, category, image, Description, price } = req.body;
-
-  // Validate the incoming data (You can add more validation as per your requirements)
-  if (!id || !category || !image || !Description || !price) {
-      return res.status(400).json({ error: 'Please provide all required fields.' });
+app.post('/products', upload.single('image'), (req, res) => {
+  const { category, description, price } = req.body;
+  const file = req.file.path; // Multer adds 'file' object to the request
+  const image = `http://localhost:3000/${file}`
+  // Perform input validation (e.g., check if required fields are present)
+  if (!category || !image || !description || !price) {
+    return res.status(400).json({ message: 'All fields are required.' });
   }
 
-  // Create a new product object
-  const newProduct = {
-      id,
-      category,
-      image,
-      Description,
-      price
-  };
-
   // Insert the new product into the 'products' table
-  const query = 'INSERT INTO products (id, category, image, Description, price) VALUES (?, ?, ?, ?, ?)';
-  connection.query(query, [id, category, image, Description, price], (err, result) => {
-      if (err) {
-          console.error('Error inserting product:', err.stack);
-          return res.status(500).json({ error: 'Error inserting product into database.' });
-      }
+  const query = 'INSERT INTO products (category, image, description, price) VALUES ($1, $2, $3, $4)';
 
-      console.log('Product inserted successfully:', result.insertId);
-      return res.status(201).json({ message: 'Product added successfully.', data: newProduct });
-  });
+  pool
+    .query(query, [category, image, description, price])
+    .then(() => {
+      console.log('Product added successfully.');
+      res.status(201).json({ message: 'Product added successfully.' });
+    })
+    .catch((error) => {
+      console.error('Error adding product:', error);
+      res.status(500).json({ message: 'An error occurred while adding the product.' });
+    });
+});
+
+
+app.get('/allproducts', (req, res) => {
+  const query = 'SELECT * FROM products';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
 });
 
 
 
 
+
+
+
+
+
+
+app.get('/allproductsAgriculturalNursery', (req, res) => {
+  const query = 'SELECT * FROM products WHERE category = \'AgriculturalNursery\'';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+});
+
+
+app.get('/allproductsOffer', (req, res) => {
+  const query = 'SELECT * FROM products WHERE category = \'Offer\'';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+});
 
 
 
