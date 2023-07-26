@@ -120,6 +120,7 @@ const Cart = (props) => {
                 borderRadius="md"
                 p={4}
                 position="relative"
+                _hover={{ boxShadow: "lg" }} // Add hover effect
               >
                 <Box
                   display="flex"
@@ -136,7 +137,9 @@ const Cart = (props) => {
                     />
                   </Box>
                   <Box ml={4}>
-                    <Text fontSize="lg">{product.name}</Text>
+                    <Text fontSize="lg" fontWeight="bold">
+                      {product.name}
+                    </Text>
                     <Text fontSize="sm" color="gray.500">
                       Quantity: {product.quantity}
                     </Text>
@@ -209,7 +212,6 @@ const Cart = (props) => {
                   // colorScheme="blue"
                   mr={3}
                   onClick={handleCloseModal}
-                 
                 >
                   Cancel
                 </Button>
@@ -220,7 +222,7 @@ const Cart = (props) => {
                     pathname: "/payment",
                     search: `?total=${calculateTotal()}`,
                   }}
-                  style={{ backgroundColor: "#454545", color:"white" }}
+                  style={{ backgroundColor: "#454545", color: "white" }}
                 >
                   Go to Payment
                 </Button>

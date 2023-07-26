@@ -97,10 +97,10 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
   console.log(userData);
   return (
     <>
-      <Flex direction="column" align="center" p={8}>
+      <Flex direction="column" align="center" p={6}>
         <Avatar
           size="xl"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU"
+          src="https://www.shutterstock.com/image-vector/farmer-icon-trendy-modern-placeholder-260nw-1684506436.jpg"
           mb={4}
         />
         <Flex
@@ -195,33 +195,71 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
       </Flex>
 
       <Box mt={8}>
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={4}>
           {userData.map((item) => (
-            <Fragment key={item.ordernumber}>
-              <Box p={4} borderWidth="1px" borderRadius="md" boxShadow="md">
-                <Text fontSize="lg" fontWeight="bold">
-                  Order Number: {item.ordernumber}
+            <Box key={item.ordernumber} textAlign="center">
+              <Box
+                p={4}
+                borderWidth="1px"
+                borderRadius="md"
+                boxShadow="md"
+                textAlign="center"
+                overflowY="auto"
+                maxH="300px" // Set the maximum height for overflow
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "rgba(0, 0, 0, 0.2)",
+                    borderRadius: "3px",
+                  },
+                }}
+              >
+                <Text fontSize="lg" fontWeight="bold" color="teal.600" mb={2}>
+                  Order Number:{" "}
+                  <span style={{ color: "#454545" }}>{item.ordernumber}</span>
                 </Text>
-                <Text mt={2}>Subtotal: ${item.subtotal}</Text>
-                <Text mt={4} fontWeight="bold">
-                  Product Data:
+                <Text fontSize="lg" fontWeight="bold" color="teal.600" mb={2}>
+                  Date:{" "}
+                  <span style={{ color: "#454545" }}>
+                    {new Date(item.date).toLocaleDateString("en-US")}
+                  </span>
                 </Text>
-                {item.product_data.map((element, index) => (
-                  <Box key={element.name} ml={4} mt={2}>
+                <Text mt={2} fontWeight="bold" color="teal.600 ">
+                  Subtotal:{" "}
+                  <span style={{ color: "#454545" }}> ${item.subtotal} </span>
+                </Text>
+                <Text mt={4} fontWeight="bold" style={{ color: "#454545" }}>
+                  Product:
+                </Text>
+                {item.product_data.map((element) => (
+                  <Box key={element.name} ml={4} mt={2} textAlign="center">
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      <span style={{ color: "#519341" }}>Name:</span>{" "}
+                      <Text as="span" color="teal.600" fontWeight="bold">
+                        Name:
+                      </Text>{" "}
                       {element.name}
                     </Text>
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      Price: ${element.price}
+                      <Text as="span" color="teal.600" fontWeight="bold">
+                        Price:
+                      </Text>{" "}
+                      ${element.price}
                     </Text>
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      Quantity: {element.quantity}
+                      <Text as="span" color="teal.600" fontWeight="bold">
+                        Quantity:
+                      </Text>{" "}
+                      {element.quantity}
                     </Text>
                   </Box>
                 ))}
               </Box>
-            </Fragment>
+            </Box>
           ))}
         </SimpleGrid>
       </Box>
