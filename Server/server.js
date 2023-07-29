@@ -19,11 +19,6 @@ const pool = new Pool({
 });
 
 
-
-
-
-
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images"); // Specify the destination folder for saving the images
@@ -39,9 +34,6 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
 });
-
-
-
 
 
 const secretKey = 'a24f41837ef05ad9e52a3794dab8c0055cc7baf383db5d19534454768751a344';
@@ -61,10 +53,6 @@ pool
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
-
-// Define your routes and middleware here
-
-//register and log in 
 
 
 app.post('/Register', async (req, res) => {
@@ -346,14 +334,6 @@ app.get('/allproducts', (req, res) => {
       res.status(500).json({ message: 'An error occurred while fetching products.' });
     });
 });
-
-
-
-
-
-
-
-
 
 
 app.get('/allproductsAgriculturalNursery', (req, res) => {
