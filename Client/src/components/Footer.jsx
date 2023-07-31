@@ -59,6 +59,7 @@ export default function SmallWithNavigation() {
         {showArrow && (
           <IconButton
             icon={<ChevronUpIcon />}
+            style={{backgroundColor:"#519341"}}
             aria-label="Scroll to top"
             onClick={scrollToTop}
             size="lg"
@@ -69,10 +70,10 @@ export default function SmallWithNavigation() {
             right={4}
             zIndex="tooltip"
             _hover={{
-              bg: useColorModeValue("blackAlpha.400", "whiteAlpha.400"),
+              bg: "rgba(0, 0, 0, 0.4)", // Black with 40% opacity for light mode
             }}
             _active={{
-              bg: useColorModeValue("blackAlpha.600", "whiteAlpha.600"),
+              bg: "rgba(0, 0, 0, 0.6)", // Black with 60% opacity for light mode
             }}
             transition="transform 0.3s ease"
             transform="scale(1)"

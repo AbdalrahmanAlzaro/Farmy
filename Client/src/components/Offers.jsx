@@ -2,60 +2,14 @@ import { useState, useEffect } from "react";
 import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
-import jwt_decode from "jwt-decode"; // Import jwt-decode library
-
-import d1 from "../assets/products2/A1.jpeg";
-import d2 from "../assets/products2/A2.jpg";
-import d3 from "../assets/products2/A3.jpeg";
-import d4 from "../assets/products2/A4.jpeg";
-
-import { v4 as uuidv4 } from "uuid"; // Import the uuidv4 function
-
-const products = [
-  {
-    id: uuidv4(),
-    name: "Strawberries",
-    img: d1,
-    price: "$45.00",
-    category: "fruitful",
-    quantity: 0,
-  },
-
-  {
-    id: uuidv4(),
-    name: "cabbage",
-    img: d2,
-    price: "$33.00",
-    category: "fruitful",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Berries",
-    img: d3,
-    price: "$27.00",
-    category: "fruitful",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Red Mistletoe",
-    img: d4,
-    price: "$22.00",
-    category: "fruitful",
-    quantity: 0,
-  },
-];
+import jwt_decode from "jwt-decode";
+import axios from "axios"; // Import Axios
 
 const Offers = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
-
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const [products, setProducts] = useState([]); // State to hold fetched products
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -113,24 +67,30 @@ const Offers = (props) => {
   };
 
   useEffect(() => {
-    const getCartFromLocalStorage = () => {
-      const storedCart = localStorage.getItem("Carts");
-      if (storedCart) {
-        const parsedCart = JSON.parse(storedCart);
-        setCartProducts(parsedCart);
-      }
-    };
-
-    getCartFromLocalStorage();
+    // Fetch data from the endpoint
+    axios
+      .get("http://localhost:3000/allproductsOffer") // Replace this with the correct endpoint URL
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        // Handle error if necessary
+      });
   }, []);
+
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   return (
     <>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Text fontSize="3xl" textAlign="center" ml={25} mb={10}>
         Our <span style={{ color: colors.green }}>Best</span> Offers
       </Text>

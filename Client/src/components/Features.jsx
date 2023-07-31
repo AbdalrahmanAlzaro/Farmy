@@ -15,7 +15,7 @@ const Feature = ({ icon, title, text }) => {
 
 const FeatureCard = () => {
   return (
-    <Center py={8}>
+    <Center py={8} m={30}>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
         <Feature
           icon={<Icon as={FcAssistant} boxSize={10} />}

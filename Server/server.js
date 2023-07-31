@@ -319,7 +319,7 @@ app.post('/products', upload.single('image'), (req, res) => {
     });
 });
 
-
+//Allproduct
 app.get('/allproducts', (req, res) => {
   const query = 'SELECT * FROM products';
 
@@ -335,7 +335,7 @@ app.get('/allproducts', (req, res) => {
     });
 });
 
-
+//AgriculturalNursery
 app.get('/allproductsAgriculturalNursery', (req, res) => {
   const query = 'SELECT * FROM products WHERE category = \'AgriculturalNursery\'';
 
@@ -352,6 +352,58 @@ app.get('/allproductsAgriculturalNursery', (req, res) => {
 });
 
 
+//AgriculturalNurseryTool
+app.get('/allproductsAgriculturalTool', (req, res) => {
+  const query = 'SELECT * FROM products WHERE category = \'AgriculturalTool\'';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+});
+
+
+//AnimalFarm
+app.get('/allproductsAimalFarm', (req, res) => {
+  const query = 'SELECT * FROM products WHERE category = \'AnimalFarm\'';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+});
+
+
+//AnimalFarmTool
+app.get('/allproductsAimalFarmTool', (req, res) => {
+  const query = 'SELECT * FROM products WHERE category = \'AnimalFarmTool\'';
+
+  pool
+    .query(query)
+    .then((result) => {
+      const products = result.rows;
+      res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+});
+
+
+//Offer
 app.get('/allproductsOffer', (req, res) => {
   const query = 'SELECT * FROM products WHERE category = \'Offer\'';
 

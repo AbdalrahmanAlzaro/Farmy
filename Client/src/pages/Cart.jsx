@@ -130,7 +130,7 @@ const Cart = (props) => {
                 >
                   <Box flex="1">
                     <img
-                      src={product.img}
+                      src={product.image}
                       alt={product.name}
                       width={100}
                       height={100}

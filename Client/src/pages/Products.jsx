@@ -2,131 +2,15 @@ import { useState, useEffect } from "react";
 import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
-import jwt_decode from "jwt-decode"; // Import jwt-decode library
-import d1 from "../assets/products/D1.png";
-import d2 from "../assets/products/D2.webp";
-import d3 from "../assets/products/D3.webp";
-import d4 from "../assets/products/D4.webp";
-import d5 from "../assets/products/D5.webp";
-import d6 from "../assets/products/D6.png";
-import o1 from "../assets/products/O1.jpg";
-import o2 from "../assets/products/O2.jpg";
-import o3 from "../assets/products/O3.jpg";
-import o4 from "../assets/products/O4.jpg";
-import o5 from "../assets/products/O5.jpg";
-import o6 from "../assets/products/O6.jpg";
-import { v4 as uuidv4 } from "uuid"; // Import the uuidv4 function
-
-const products = [
-  {
-    id: uuidv4(),
-    name: "Low Fat Cow Milk",
-    img: d1,
-    price: "$45.00",
-    category: "dairy",
-    quantity: 0,
-  },
-
-  {
-    id: uuidv4(),
-    name: "Premium Cheese",
-    img: d2,
-    price: "$33.00",
-    category: "dairy",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Mozzarella",
-    img: d3,
-    price: "$27.00",
-    category: "dairy",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Haloumi",
-    img: d4,
-    price: "$22.00",
-    category: "dairy",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Roquefort",
-    img: d5,
-    price: "$40.00",
-    category: "dairy",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Fresh Goat Milk",
-    img: d6,
-    price: "$28.00",
-    category: "dairy",
-    quantity: 0,
-  },
-
-  {
-    id: uuidv4(),
-    name: "Baby Plum Tomatoes",
-    img: o1,
-    price: "$28.00",
-    category: "organic",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Diet Snapple Tea",
-    img: o2,
-    price: "$40.00",
-    category: "organic",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Fresh Grapes",
-    img: o3,
-    price: "$22.00",
-    category: "organic",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Fresh Kiwi",
-    img: o4,
-    price: "$45.00",
-    category: "organic",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Blue Raisins",
-    img: o5,
-    price: "$27.00",
-    category: "organic",
-    quantity: 0,
-  },
-  {
-    id: uuidv4(),
-    name: "Sweet Mixed Grapes",
-    img: o6,
-    price: "$33.00",
-    category: "organic",
-    quantity: 0,
-  },
-];
+import jwt_decode from "jwt-decode";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios"; // Import Axios
 
 const Products = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
-
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const [products, setProducts] = useState([]); // State to hold fetched products
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -184,16 +68,22 @@ const Products = (props) => {
   };
 
   useEffect(() => {
-    const getCartFromLocalStorage = () => {
-      const storedCart = localStorage.getItem("Carts");
-      if (storedCart) {
-        const parsedCart = JSON.parse(storedCart);
-        setCartProducts(parsedCart);
-      }
-    };
-
-    getCartFromLocalStorage();
+    // Fetch data from the endpoint
+    axios
+      .get("http://localhost:3000/allproducts") // Replace this with the correct endpoint URL
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        // Handle error if necessary
+      });
   }, []);
+
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
   return (
     <>

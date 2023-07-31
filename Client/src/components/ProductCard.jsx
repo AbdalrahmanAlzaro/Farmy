@@ -26,33 +26,38 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
 
   return (
     <Box
-      maxW="sm"
+    width={275}
+      maxW="md"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
       shadow="md"
       _hover={{ shadow: "xl" }}
+      cursor="pointer"
+      transition="transform 0.2s ease"
+      onClick={addToCart}
     >
       <Img
-        src={product.img}
+        src={product.image}
         alt={product.name}
         w="100%"
-        h={200}
+        h={250}
         objectFit="cover"
       />
       <Box p={4}>
-        <Text fontSize="xl" fontWeight="bold" mb={2}>
-          {product.name}
+        <Text fontSize="2xl" fontWeight="bold" mb={2}>
+          {product.description}
         </Text>
         <HStack justifyContent="space-between" alignItems="center">
-          <Text fontWeight="semibold">{product.price}</Text>
+          <Text fontSize="lg" fontWeight="semibold">
+              {product.price} <span>$</span> 
+          </Text>
           <Icon
             as={BiCart}
-            w={6}
-            h={6}
-            cursor="pointer"
+            w={8}
+            h={8}
+            color="gray.500"
             _hover={{ color: "blue.500" }}
-            onClick={addToCart}
           />
         </HStack>
       </Box>
