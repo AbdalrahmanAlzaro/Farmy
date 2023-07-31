@@ -3,18 +3,15 @@ import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
 import jwt_decode from "jwt-decode";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios"; // Import Axios
+import SearchInput from "../components/SearchInput"; // Import the SearchInput component
 
 const AgriculturalProduct = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
   const [products, setProducts] = useState([]); // State to hold fetched products
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
+  const [filteredProductss, setFilteredProducts] = useState(products);
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -73,8 +70,7 @@ const AgriculturalProduct = (props) => {
       .get("http://localhost:3000/allproductsAgriculturalNursery") // Replace this with the correct endpoint URL
       .then((response) => {
         setProducts(response.data);
-        console.log(response.data)
-
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -82,10 +78,15 @@ const AgriculturalProduct = (props) => {
       });
   }, []);
 
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const handleSearch = (searchTerm) => {
+    setFilteredProducts(
+      products.filter((product) =>
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  };
+  console.log(filteredProductss);
+
 
   return (
     <>
@@ -95,29 +96,8 @@ const AgriculturalProduct = (props) => {
       </Text>
       <Flex justifyContent="center">
         <Stack spacing={10} direction="row">
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("all")}
-            textDecoration={selectedCategory === "all" ? "underline" : "none"}
-          >
-            All
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("dairy")}
-            textDecoration={selectedCategory === "dairy" ? "underline" : "none"}
-          >
-            Dairy
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("organic")}
-            textDecoration={
-              selectedCategory === "organic" ? "underline" : "none"
-            }
-          >
-            Organic
-          </Text>
+          {/* SearchInput component with the onSearch prop */}
+          <SearchInput onSearch={handleSearch} />
         </Stack>
       </Flex>
 
@@ -129,14 +109,18 @@ const AgriculturalProduct = (props) => {
         justifyContent="center"
       >
         <SimpleGrid columns={[1, 2, 4]} spacing={12}>
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-              setCartProducts={props.setCartProductss}
-            />
-          ))}
+          {/* Use the filteredProducts instead of products */}
+
+          {(filteredProductss.length === 0 ? products : filteredProductss).map(
+            (product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+                setCartProducts={props.setCartProductss}
+              />
+            )
+          )}
         </SimpleGrid>
       </Stack>
     </>
