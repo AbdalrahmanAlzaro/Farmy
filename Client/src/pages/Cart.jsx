@@ -32,7 +32,7 @@ const Cart = (props) => {
         const decodedToken = jwt_decode(token);
         const id1 = decodedToken.id;
         setId(id1);
-        console.log(id1);
+        // console.log(id1);
       }
     };
 
@@ -138,7 +138,7 @@ const Cart = (props) => {
                   </Box>
                   <Box ml={4}>
                     <Text fontSize="lg" fontWeight="bold">
-                      {product.name}
+                      {product.description}
                     </Text>
                     <Text fontSize="sm" color="gray.500">
                       Quantity: {product.quantity}

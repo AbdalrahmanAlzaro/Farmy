@@ -24,9 +24,11 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
     onAddToCart(product.id);
   };
 
+  // console.log(product.description);
+
   return (
     <Box
-    width={275}
+      width={275}
       maxW="md"
       borderWidth="1px"
       borderRadius="lg"
@@ -50,7 +52,7 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
         </Text>
         <HStack justifyContent="space-between" alignItems="center">
           <Text fontSize="lg" fontWeight="semibold">
-              {product.price} <span>$</span> 
+            {product.price} <span>$</span>
           </Text>
           <Icon
             as={BiCart}

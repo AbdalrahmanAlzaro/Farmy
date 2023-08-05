@@ -5,14 +5,17 @@ import ProductCard from "../components/ProductCard";
 import jwt_decode from "jwt-decode";
 import axios from "axios"; // Import Axios
 import SearchInput from "../components/SearchInput"; // Import the SearchInput component
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Offers = (props) => {
   const [userid, setUserid] = useState("");
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState(
+    JSON.parse(localStorage.getItem("Carts")) ?? []
+  );
+  // console.log(cartProducts);
   const [products, setProducts] = useState([]); // State to hold fetched products
   const [filteredProductss, setFilteredProducts] = useState(products);
-
-
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -58,6 +61,17 @@ const Offers = (props) => {
 
       setCartProducts(updatedCartProducts);
       saveToLocalStorage(updatedCartProducts);
+
+      // Show the toast notification
+      toast.success("Product added to cart!", {
+        position: "top-right",
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -87,7 +101,6 @@ const Offers = (props) => {
   };
   // console.log(filteredProductss);
 
-
   return (
     <>
       <br />
@@ -95,6 +108,8 @@ const Offers = (props) => {
       <br />
       <br />
       <br />
+      <ToastContainer />
+
       <Text fontSize="3xl" textAlign="center" ml={25} mb={10}>
         Our <span style={{ color: colors.green }}>Best</span> Offers
       </Text>

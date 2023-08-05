@@ -3,13 +3,16 @@ import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
 import jwt_decode from "jwt-decode";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios"; // Import Axios
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Products = (props) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState(
+    JSON.parse(localStorage.getItem("Carts")) ?? []
+  );
   const [products, setProducts] = useState([]); // State to hold fetched products
 
   const handleCategoryClick = (category) => {
@@ -60,6 +63,17 @@ const Products = (props) => {
 
       setCartProducts(updatedCartProducts);
       saveToLocalStorage(updatedCartProducts);
+
+      // Show the toast notification
+      toast.success("Product added to cart!", {
+        position: "top-right",
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -87,6 +101,8 @@ const Products = (props) => {
 
   return (
     <>
+      <ToastContainer />
+
       <Text fontSize="3xl" textAlign="center" ml={25}>
         Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection
