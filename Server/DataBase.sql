@@ -41,3 +41,12 @@ CREATE TABLE products (
     Description TEXT,
     price DECIMAL(10, 2)
 );
+
+
+-- edite info
+CREATE TABLE contact_info (
+  id SERIAL PRIMARY KEY,
+  address TEXT,
+  phone_number TEXT,
+  email TEXT
+);

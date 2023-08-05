@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import {
   Container,
   FormControl,
@@ -15,36 +15,18 @@ import {
   Icon,
   Divider,
 } from "@chakra-ui/react";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
 import { GoLocation } from "react-icons/go";
 import { BsPhone } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
-import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-
-const contactOptions = [
-  {
-    label: "Address",
-    value: "A108 Adam Street, NY 535022, USA",
-    icon: GoLocation,
-  },
-  {
-    label: "PHONE NUMBER",
-    value: "+1 5589 55488 55",
-    icon: BsPhone,
-  },
-  {
-    label: "EMAIL",
-    value: "info@example.com",
-    icon: HiOutlineMail,
-  },
-];
 
 const Contact = (props) => {
   const [userid, setUserid] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [contactInfo, setContactInfo] = useState({});
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -53,7 +35,7 @@ const Contact = (props) => {
         const decodedToken = jwt_decode(token);
         const id = decodedToken.id;
         setUserid(id);
-        console.log(id);
+ 
       }
     };
 
@@ -61,6 +43,20 @@ const Contact = (props) => {
       getUserNameFromToken();
     }
   }, [props.isLog]);
+
+  useEffect(() => {
+    const fetchContactInfo = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/contact-info");
+        setContactInfo(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching contact info:", error);
+      }
+    };
+
+    fetchContactInfo();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,8 +98,8 @@ const Contact = (props) => {
           direction={{ base: "column", md: "row" }}
           justify="space-between"
         >
-          {contactOptions.map((option, index) => (
-            <Fragment key={index}>
+          {contactInfo.address && (
+            <Fragment>
               <Stack
                 spacing={3}
                 direction="column"
@@ -111,21 +107,56 @@ const Contact = (props) => {
                 alignItems="center"
                 px={3}
               >
-                <Icon as={option.icon} w={10} h={10} color="green.400" />
+                <Icon as={GoLocation} w={10} h={10} color="green.400" />
                 <Text fontSize="lg" fontWeight="semibold">
-                  {option.label}
+                  Address
                 </Text>
                 <Text fontSize="md" textAlign="center">
-                  {option.value}
+                  {contactInfo.address}
                 </Text>
               </Stack>
-              {contactOptions.length - 1 !== index && (
-                <Flex d={{ base: "none", md: "flex" }}>
+              {contactInfo.phone_number && (
+                <Fragment>
                   <Divider orientation="vertical" />
-                </Flex>
+                  <Stack
+                    spacing={3}
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    px={3}
+                  >
+                    <Icon as={BsPhone} w={10} h={10} color="green.400" />
+                    <Text fontSize="lg" fontWeight="semibold">
+                      PHONE NUMBER
+                    </Text>
+                    <Text fontSize="md" textAlign="center">
+                      {contactInfo.phone_number}
+                    </Text>
+                  </Stack>
+                </Fragment>
+              )}
+              {contactInfo.email && (
+                <Fragment>
+                  <Divider orientation="vertical" />
+                  <Stack
+                    spacing={3}
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                    px={3}
+                  >
+                    <Icon as={HiOutlineMail} w={10} h={10} color="green.400" />
+                    <Text fontSize="lg" fontWeight="semibold">
+                      EMAIL
+                    </Text>
+                    <Text fontSize="md" textAlign="center">
+                      {contactInfo.email}
+                    </Text>
+                  </Stack>
+                </Fragment>
               )}
             </Fragment>
-          ))}
+          )}
         </Stack>
         <VStack
           as="form"
@@ -135,7 +166,7 @@ const Contact = (props) => {
           rounded="lg"
           boxShadow="lg"
           p={{ base: 5, sm: 10 }}
-          onSubmit={handleSubmit} // Add onSubmit handler to the form
+          onSubmit={handleSubmit} 
         >
           <VStack spacing={4} w="100%">
             <Stack

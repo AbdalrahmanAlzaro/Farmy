@@ -109,7 +109,7 @@ app.post('/LogIn', (req, res) => {
 
 });
 
-
+//profile
 app.put("/user/:id", async (req, res) => {
 
   try {
@@ -211,7 +211,7 @@ app.post('/confirmationPayment/:id', async (req, res) => {
   }
 });
 
-
+// the order for the user 
 app.get('/join-data/:user_id', (req, res) => {
   const userId = req.params.user_id;
 
@@ -417,6 +417,43 @@ app.get('/allproductsOffer', (req, res) => {
       console.error('Error fetching products:', error);
       res.status(500).json({ message: 'An error occurred while fetching products.' });
     });
+});
+
+
+app.get('/contact-info', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM contact_info');
+    const contactInfo = result.rows;
+    client.release();
+
+    res.status(200).json(contactInfo);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// nooooooottttttttt ussssseddddddddd
+// PUT endpoint to update contact information
+app.put("/contact-info", async (req, res) => {
+  const { address, phone_number, email } = req.body;
+
+  try {
+    const client = await pool.connect();
+
+    // Update the contact_info with the new data
+    await client.query(
+      "UPDATE contact_info SET address = $1, phone_number = $2, email = $3 WHERE id = 1",
+      [address, phone_number, email]
+    );
+
+    client.release();
+    res.status(200).json({ message: "Contact updated successfully" });
+  } catch (error) {
+    console.error("Error updating contact info:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 

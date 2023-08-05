@@ -85,7 +85,7 @@ const Offers = (props) => {
       )
     );
   };
-  console.log(filteredProductss);
+  // console.log(filteredProductss);
 
 
   return (

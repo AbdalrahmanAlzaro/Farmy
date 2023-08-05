@@ -51,7 +51,7 @@ const About = () => {
     >
       <Stack>
         <Image src={aboutBlob} w={imageWidth} h={imageHeight} marginLeft={10} />
-        <Image src={aboutBG} w={350} h={300} position="absolute" top={2070} />
+        <Image src={aboutBG} w={350} h={300} position="absolute" top={2600} />
       </Stack>
       <Stack spacing={stackSpacing} maxW={{ base: "100%", md: "500px" }}>
         <Text fontSize="3xl">Our Commitment to Quality</Text>

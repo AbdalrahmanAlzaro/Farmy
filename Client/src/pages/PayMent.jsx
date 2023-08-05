@@ -176,7 +176,7 @@ const PayMent = () => {
   };
 
   return (
-    <Container py={5} maxW="50%">
+    <Container  py={5} maxW={{ base: "80ch", md: "50%" }}>
       <Grid placeItems="center">
         <GridItem md="10" lg="8" xl="5">
           <Box rounded="md" bg="white" p={4}>
