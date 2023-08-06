@@ -1,4 +1,5 @@
-import { Box, Img, Text, HStack, Icon } from "@chakra-ui/react";
+import { Box, HStack, Icon, Img, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { BiCart } from "react-icons/bi";
 
 const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
@@ -24,46 +25,42 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
     onAddToCart(product.id);
   };
 
-  // console.log(product.description);
-
   return (
-    <Box
-      width={275}
-      maxW="md"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      shadow="md"
-      _hover={{ shadow: "xl" }}
-      cursor="pointer"
-      transition="transform 0.2s ease"
-      onClick={addToCart}
+    <motion.div
+      whileHover={{ scale: 1.05, boxShadow: "xl" }}
+      whileTap={{ scale: 0.95 }}
     >
-      <Img
-        src={product.image}
-        alt={product.name}
-        w="100%"
-        h={250}
-        objectFit="cover"
-      />
-      <Box p={4}>
-        <Text fontSize="2xl" fontWeight="bold" mb={2}>
-          {product.description}
-        </Text>
-        <HStack justifyContent="space-between" alignItems="center">
-          <Text fontSize="lg" fontWeight="semibold">
-            {product.price} <span>$</span>
+      <Box
+        width={275}
+        maxW="md"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        shadow="md"
+        cursor="pointer"
+        transition="transform 0.2s ease"
+        onClick={addToCart}
+      >
+        <Img src={product.image} alt={product.name} w="100%" h={250} objectFit="cover" />
+        <Box p={4}>
+          <Text fontSize="2xl" fontWeight="bold" mb={2}>
+            {product.description}
           </Text>
-          <Icon
-            as={BiCart}
-            w={8}
-            h={8}
-            color="gray.500"
-            _hover={{ color: "blue.500" }}
-          />
-        </HStack>
+          <HStack justifyContent="space-between" alignItems="center">
+            <Text fontSize="lg" fontWeight="semibold">
+              {product.price} <span>$</span>
+            </Text>
+            <Icon
+              as={BiCart}
+              w={8}
+              h={8}
+              color="gray.500"
+              _hover={{ color: "blue.500" }}
+            />
+          </HStack>
+        </Box>
       </Box>
-    </Box>
+    </motion.div>
   );
 };
 

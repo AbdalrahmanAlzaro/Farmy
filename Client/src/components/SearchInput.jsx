@@ -37,7 +37,7 @@ const SearchInput = ({ onSearch }) => {
       />
       <InputRightElement>
         <IconButton
-          colorScheme="teal"
+        style={{color:"black", backgroundColor:"#D38030"}}
           icon={<SearchIcon />}
           aria-label="Search"
           onClick={() => handleSearch(searchTerm)}
