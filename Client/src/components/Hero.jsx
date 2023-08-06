@@ -13,10 +13,9 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   const imageWidth = useBreakpointValue({ base: "100%", md: "500px" });
 
-
   return (
     <Flex
-      alignItems="center"
+      alignItems={{ base: "center", md: "flex-start" }} // Align items in the center for small screens and flex-start for medium screens and above
       justifyContent="space-around"
       mb={10}
       mt={100}
@@ -37,14 +36,15 @@ const Hero = () => {
         </Text>
         <Stack direction={{ base: "column", md: "row" }} spacing={2} mt={4}>
           <Button
+            width={150}
             bg={colors.primary}
             color="white"
             _hover={{ color: colors.primary, bg: "white" }}
             fontWeight="thin"
+            alignSelf="center" // Center the button on small screens
           >
             <Link to="/products">Get Fresh & Healthy</Link>
           </Button>
-          {/* <Image src={label} boxSize="20px" /> */}
         </Stack>
       </Stack>
       <Image

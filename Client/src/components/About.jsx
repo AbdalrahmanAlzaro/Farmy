@@ -28,7 +28,7 @@ const services = [
     img: wheat,
   },
   {
-    text: "sustainable lifestyle",
+    text: "Sustainable lifestyle",
     img: sprout,
   },
 ];
@@ -37,8 +37,16 @@ const About = () => {
   const stackDirection = useBreakpointValue({ base: "column", md: "row" });
   const stackSpacing = useBreakpointValue({ base: 4, md: 10 });
   const gridColumns = useBreakpointValue({ base: 1, md: 2 });
-  const imageWidth = useBreakpointValue({ base: "200px", md: "300px" });
-  const imageHeight = useBreakpointValue({ base: "auto", md: "400px" });
+  const imageWidth = useBreakpointValue({
+    base: "200px",
+    md: "300px",
+    lg: "400px",
+  });
+  const imageHeight = useBreakpointValue({
+    base: "auto",
+    md: "400px",
+    lg: "500px",
+  });
 
   return (
     <HStack
@@ -49,13 +57,20 @@ const About = () => {
       direction={stackDirection}
       spacing={{ base: 10, md: 0 }}
     >
-      <Stack>
+      {/* The Stack with images will disappear on small screens */}
+      <Stack display={{ base: "none", md: "block" }}>
         <Image src={aboutBlob} w={imageWidth} h={imageHeight} marginLeft={10} />
-        <Image src={aboutBG} w={350} h={300} position="absolute" top={2600} />
+        <Image src={aboutBG} w={390} h={450} position="absolute" top={2490} />
       </Stack>
-      <Stack spacing={stackSpacing} maxW={{ base: "100%", md: "500px" }}>
-        <Text fontSize="3xl">Our Commitment to Quality</Text>
-        <Text maxW={500}>
+      <Stack
+      padding={10}
+        spacing={stackSpacing}
+        maxW={{ base: "100%", md: "500px", lg: "800px" }}
+      >
+        <Text fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}>
+          Our Commitment to Quality
+        </Text>
+        <Text maxW={{ base: "100%", md: "500px", lg: "800px" }}>
           We believe in the power of nature and its ability to provide us with
           nourishing food and products. That's why we work closely with local
           farmers who share our values to source the freshest organic produce
@@ -66,8 +81,8 @@ const About = () => {
         <SimpleGrid columns={gridColumns} spacing={10} alignItems="center">
           {services.map((service) => (
             <HStack alignItems="center" spacing={4} key={service.text}>
-              <Image src={service.img} boxSize="50px" />
-              <Text maxW={150}>{service.text}</Text>
+              <Image src={service.img} boxSize={{ base: "30px", md: "50px" }} />
+              <Text maxW={{ base: "100%", md: "150px" }}>{service.text}</Text>
             </HStack>
           ))}
         </SimpleGrid>

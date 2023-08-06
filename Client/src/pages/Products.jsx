@@ -16,10 +16,6 @@ const Products = (props) => {
   const [products, setProducts] = useState([]); // State to hold fetched products
   const [filteredProductss, setFilteredProducts] = useState(products);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
-
   useEffect(() => {
     const getUserNameFromToken = () => {
       const token = localStorage.getItem("token");
@@ -82,10 +78,6 @@ const Products = (props) => {
     }
   };
 
-  const saveToLocalStorage = (cart) => {
-    localStorage.setItem("Carts", JSON.stringify(cart));
-  };
-
   useEffect(() => {
     // Fetch data from the endpoint
     axios
@@ -99,11 +91,6 @@ const Products = (props) => {
       });
   }, []);
 
-  // const filteredProducts =
-  //   selectedCategory === "all"
-  //     ? products
-  //     : products.filter((product) => product.category === selectedCategory);
-
   const handleSearch = (searchTerm) => {
     setFilteredProducts(
       products.filter((product) =>
@@ -114,7 +101,6 @@ const Products = (props) => {
   return (
     <>
       <ToastContainer />
-
       <Text fontSize="3xl" textAlign="center" ml={25}>
         Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection

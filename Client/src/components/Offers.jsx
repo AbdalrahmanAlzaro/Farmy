@@ -79,9 +79,7 @@ const Offers = (props) => {
     }
   };
 
-  const saveToLocalStorage = (cart) => {
-    localStorage.setItem("Carts", JSON.stringify(cart));
-  };
+
 
   useEffect(() => {
     // Fetch data from the endpoint
@@ -103,7 +101,7 @@ const Offers = (props) => {
       )
     );
   };
-  // console.log(filteredProductss);
+
 
   return (
     <>
@@ -119,7 +117,6 @@ const Offers = (props) => {
       </Text>
       <Flex justifyContent="center">
         <Stack spacing={10} direction="row">
-          {/* SearchInput component with the onSearch prop */}
           <SearchInput onSearch={handleSearch} />
         </Stack>
       </Flex>

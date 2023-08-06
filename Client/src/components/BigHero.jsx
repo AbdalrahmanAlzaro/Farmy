@@ -1,49 +1,81 @@
+"use client";
+
 import {
-    Stack,
-    Flex,
-    Button,
-    Text,
-    VStack,
-    useBreakpointValue,
-} from '@chakra-ui/react';
-import imm from '../assets/images.png'
-import { colors } from "../utils/colors";
-export default function WithBackgroundImage() {
-    return (
-        <Flex
-            w={'full'}
-            h={'90vh'}
-            backgroundImage={
-                `url(${imm})`
-            }
-            backgroundSize={'cover'}
-            backgroundPosition={'center center'}>
-            <VStack
-                w={'full'}
-                justify={'center'}
-                px={useBreakpointValue({ base: 4, md: 8 })}
-                bgGradient={'linear(to-r, blackAlpha.600, transparent)'}>
-                <Stack maxW={'2xl'} align={'flex-start'} spacing={3}>
-                    <Text
-                        color={'white'}
-                        fontWeight={700}
-                        lineHeight={1.2}
-                        fontSize={useBreakpointValue({ base: '3xl', md: '4xl' })}>
-                        For Animal Farm, a popular product is Orwellian-themed merchandise, while for Agricultural Nursery, specialized fertilizers and pest control solutions are essential products.
-                    </Text>
-                    <Stack direction={'row'}>
-                        <Button
-                            bg={colors.primary}
-                            rounded={'full'}
-                            color={'white'}
-                            _hover={{ color: colors.primary, bg: "white" }}
-                            // style={{backgroundColor:"#454545"}}
-                            >
-                            Show me more
-                        </Button>
-                    </Stack>
-                </Stack>
-            </VStack>
-        </Flex>
-    );
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+export default function SplitScreen() {
+  return (
+    <Stack minH={"80vh"} direction={{ base: "column", md: "row" }}>
+      <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Stack spacing={6} w={"full"} maxW={"lg"}>
+            <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+            <motion.div
+              initial={{ x: -1000 }} // Initial position (off the screen to the left)
+              animate={{ x: 0 }} // Final position (on the screen)
+              transition={{ duration: 1 }} // Duration of the animation in seconds
+            >
+              <Text
+                as={"span"}
+                position={"relative"}
+                _after={{
+                  content: "''",
+                  width: "full",
+                  height: useBreakpointValue({ base: "20%", md: "30%" }),
+                  position: "absolute",
+                  bottom: 1,
+                  left: 0,
+                  bg: "#519341",
+                  zIndex: -1,
+                }}
+              >
+                HarvestMart
+              </Text>
+              <br />
+            <Text color={"#519341"} as={"span"}>
+              For organic and healthy living
+            </Text>
+            </motion.div>
+          </Heading>
+          <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
+            Explore the captivating world of 'Animal Farm' as the animals take
+            center stage, while in the adjacent Agricultural nursery, witness
+            the meticulous care and nurturing of plants and crops for a
+            flourishing harvest
+          </Text>
+          <Stack direction={{ base: "column", md: "row" }} spacing={4}>
+            <Link to="/products">
+              <Button
+                rounded={"full"}
+                style={{ backgroundColor: "#454545", color: "white" }}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                See Our Product
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={"Login Image"}
+          objectFit={"cover"}
+          src={
+            "https://media.istockphoto.com/id/1304018826/photo/a-place-for-poultry-to-call-home.jpg?b=1&s=612x612&w=0&k=20&c=MDwmhTSOd8y19R1Rj4pbOElvOaN5_UDneQwpcdeQkdE="
+          }
+          borderRadius="lg" // Add the borderRadius prop to set the border radius
+        />
+      </Flex>
+    </Stack>
+  );
 }
