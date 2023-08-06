@@ -50,26 +50,30 @@ const AnimalFarmProductTools = (props) => {
   const handleAddToCart = (productId) => {
     const product = products.find((p) => p.id === productId);
     if (product) {
-      const updatedCartProducts = [...cartProducts];
-      const existingProductIndex = updatedCartProducts.findIndex(
+      const existingCartProducts =
+        JSON.parse(localStorage.getItem("Carts")) || [];
+      const existingProduct = existingCartProducts.find(
         (p) => p.id === productId
       );
 
-      if (existingProductIndex !== -1) {
-        // Update the quantity of the existing product
-        updatedCartProducts[existingProductIndex].quantity += 1;
+      if (existingProduct) {
+        // If the product already exists in the cart, update its quantity
+        existingProduct.quantity += 1;
       } else {
-        // Add the new product to the cart
-        updatedCartProducts.push({ ...product, quantity: 1 });
+        // If the product does not exist in the cart, add it with quantity 1
+        existingCartProducts.push({ ...product, quantity: 1 });
       }
 
-      setCartProducts(updatedCartProducts);
-      saveToLocalStorage(updatedCartProducts);
+      // Update the cart in localStorage with the updated cart products
+      localStorage.setItem("Carts", JSON.stringify(existingCartProducts));
+
+      // Update the state of the cartProducts in the Offers component
+      setCartProducts(existingCartProducts);
 
       // Show the toast notification
       toast.success("Product added to cart!", {
         position: "top-right",
-        autoClose: 3000, // Close the toast after 3 seconds
+        autoClose: 3000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -105,11 +109,6 @@ const AnimalFarmProductTools = (props) => {
   };
   // console.log(filteredProductss);
 
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
-
   return (
     <>
       <br />
@@ -125,31 +124,6 @@ const AnimalFarmProductTools = (props) => {
         <Stack spacing={10} direction="row">
           {/* SearchInput component with the onSearch prop */}
           <SearchInput onSearch={handleSearch} />
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("all")}
-            textDecoration={selectedCategory === "all" ? "underline" : "none"}
-          >
-            All
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("fertilizers")}
-            textDecoration={
-              selectedCategory === "fertilizers" ? "underline" : "none"
-            }
-          >
-            Fertilizers
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("equipment")}
-            textDecoration={
-              selectedCategory === "equipment" ? "underline" : "none"
-            }
-          >
-            Equipment
-          </Text>
         </Stack>
       </Flex>
 
