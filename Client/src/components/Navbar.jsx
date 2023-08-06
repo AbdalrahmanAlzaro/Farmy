@@ -44,11 +44,23 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
   };
 
   useEffect(() => {
-    // Update the counter of cart products when the cartProducts array changes
-    const cartProductsFromStorage = JSON.parse(localStorage.getItem("Carts"));
-    const count = cartProductsFromStorage ? cartProductsFromStorage.length : 0;
-    setCounterOfCart(count);
-  }, []);
+    // Function to get the count of cart products from the cartProducts prop
+    const getCartProductCount = () => {
+      const count = cartProducts ? cartProducts.length : 0;
+      setCounterOfCart(count);
+    };
+
+    // Get the initial count when the component mounts
+    getCartProductCount();
+
+    // Listen for changes to the "Carts" item in localStorage
+    window.addEventListener("storage", getCartProductCount);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("storage", getCartProductCount);
+    };
+  }, [cartProducts]);
 
   const handleMenuClick = () => {
     setMenuOpen(!isMenuOpen);

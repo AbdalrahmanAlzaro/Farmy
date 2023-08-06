@@ -6,14 +6,15 @@ import jwt_decode from "jwt-decode";
 import axios from "axios"; // Import Axios
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SearchInput from "../components/SearchInput"; // Import the SearchInput component
 
 const Products = (props) => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
   );
   const [products, setProducts] = useState([]); // State to hold fetched products
+  const [filteredProductss, setFilteredProducts] = useState(products);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -94,11 +95,18 @@ const Products = (props) => {
       });
   }, []);
 
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  // const filteredProducts =
+  //   selectedCategory === "all"
+  //     ? products
+  //     : products.filter((product) => product.category === selectedCategory);
 
+  const handleSearch = (searchTerm) => {
+    setFilteredProducts(
+      products.filter((product) =>
+        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  };
   return (
     <>
       <ToastContainer />
@@ -109,29 +117,8 @@ const Products = (props) => {
       </Text>
       <Flex justifyContent="center">
         <Stack spacing={10} direction="row">
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("all")}
-            textDecoration={selectedCategory === "all" ? "underline" : "none"}
-          >
-            All
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("dairy")}
-            textDecoration={selectedCategory === "dairy" ? "underline" : "none"}
-          >
-            Dairy
-          </Text>
-          <Text
-            cursor="pointer"
-            onClick={() => handleCategoryClick("organic")}
-            textDecoration={
-              selectedCategory === "organic" ? "underline" : "none"
-            }
-          >
-            Organic
-          </Text>
+          {/* SearchInput component with the onSearch prop */}
+          <SearchInput onSearch={handleSearch} />
         </Stack>
       </Flex>
 
@@ -143,14 +130,18 @@ const Products = (props) => {
         justifyContent="center"
       >
         <SimpleGrid columns={[1, 2, 4]} spacing={12}>
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-              setCartProducts={props.setCartProductss}
-            />
-          ))}
+          {/* Use the filteredProducts instead of products */}
+
+          {(filteredProductss.length === 0 ? products : filteredProductss).map(
+            (product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+                setCartProducts={props.setCartProductss}
+              />
+            )
+          )}
         </SimpleGrid>
       </Stack>
     </>
