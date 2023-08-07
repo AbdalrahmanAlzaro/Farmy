@@ -5,10 +5,12 @@ import {
   Text,
   IconButton,
   useColorModeValue,
+  Image,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ChevronUpIcon } from "@chakra-ui/icons";
+import logo from "../assets/logo.png";
 
 export default function SmallWithNavigation() {
   // State to track whether the user has scrolled down
@@ -50,16 +52,25 @@ export default function SmallWithNavigation() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Stack direction={"row"} spacing={6}>
+        <Stack direction="row" spacing={2} align="center">
+          <Link to={"/"}>
+            <Image src={logo} alt="logo" boxSize="35px" />
+          </Link>
+          <Link to="/">
+            <Text fontSize="1xl" style={{ color: "#519341" }}>
+              HarvestMart
+            </Text>
+          </Link>
           <Link to={"/"}>Home</Link>
           <Link to={"/About"}>About</Link>
           <Link to={"/Contact"}>Contact</Link>
         </Stack>
+
         <Text>© 2023 HarvestMart. All rights reserved</Text>
         {showArrow && (
           <IconButton
             icon={<ChevronUpIcon />}
-            style={{backgroundColor:"#519341"}}
+            style={{ backgroundColor: "#519341" }}
             aria-label="Scroll to top"
             onClick={scrollToTop}
             size="lg"

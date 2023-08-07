@@ -29,6 +29,8 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
     <motion.div
       whileHover={{ scale: 1.05, boxShadow: "xl" }}
       whileTap={{ scale: 0.95 }}
+      onClick={() => addToCart(product)} // Pass the product to addToCart function
+      cursor="pointer"
     >
       <Box
         width={275}
@@ -37,11 +39,15 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
         borderRadius="lg"
         overflow="hidden"
         shadow="md"
-        cursor="pointer"
         transition="transform 0.2s ease"
-        onClick={addToCart}
       >
-        <Img src={product.image} alt={product.name} w="100%" h={250} objectFit="cover" />
+        <Img
+          src={product.image}
+          alt={product.name}
+          w="100%"
+          h={250}
+          objectFit="cover"
+        />
         <Box p={4}>
           <Text fontSize="2xl" fontWeight="bold" mb={2}>
             {product.description}

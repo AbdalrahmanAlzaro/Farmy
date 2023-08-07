@@ -1,60 +1,54 @@
-import { Fragment } from 'react';
-import { Container, Text, Stack, Avatar, Icon, Image, Box } from '@chakra-ui/react';
-import { ImQuotesLeft } from 'react-icons/im';
+import {
+  Stack,
+  Flex,
+  Text,
+  VStack,
+  useBreakpointValue,
+  Heading, // Import the Heading component
+} from "@chakra-ui/react";
+// import image from "../assets/imagesTooooooooools.png";
 
-const testimonials = [
-    {
-        name: 'Abd Al-zaro',
-        position: 'CEO',
-        company: 'HarvestMart',
-        image: 'https://images.pexels.com/photos/7772719/pexels-photo-7772719.jpeg?auto=compress&cs=tinysrgb&w=600',
-        content: 'Animal tools and equipment refer to specialized devices and implements used in animal husbandry and care. These tools are designed to assist with tasks such as feeding, grooming, handling, and health monitoring of animals. They play a crucial role in ensuring the welfare and proper management of animals in various agricultural, veterinary, and research settings.'
-    }
-];
-
-const Testimonials = () => {
-    return (
-
-        <Container maxW="5xl" p={{ base: 5, md: 8 }} mt={100}>
-            {testimonials.map((obj, index) => (
-                <Fragment key={index}>
-                    <Stack
-                        direction={{ base: 'column', sm: 'row' }}
-                        bgGradient="linear(to-br, #EDF2F7, #EDF2F7)"
-                        spacing={{ base: 0, sm: 10 }}
-                        p={{ base: 4, sm: 10 }}
-                        rounded="lg"
-                        justify="center"
-                    >
-                        <Box width="100rem" pos="relative" d={{ base: 'none', sm: 'block' }}>
-                            <Image
-                                size="2xl"
-                                pos="absolute"
-                                rounded="lg"
-                                src={obj.image}
-                                top="-3.8rem"
-                                boxShadow="lg"
-                            />
-                        </Box>
-                        <Stack direction="column" spacing={4} textAlign="left" maxW="4xl">
-                            <Icon as={ImQuotesLeft} w={10} h={10} color="#454545" />
-                            <Text fontSize="md" fontWeight="medium" color="#454545">
-                                {obj.content}
-                            </Text>
-                            <Stack alignItems={{ base: 'center', sm: 'flex-start' }} spacing={0}>
-                                <Text fontWeight="bold" fontSize="lg" color="#454545">
-                                    {obj.name}
-                                </Text>
-                                <Text fontWeight="medium" fontSize="sm" color="#454545">
-                                    {obj.position}, {obj.company}
-                                </Text>
-                            </Stack>
-                        </Stack>
-                    </Stack>
-                </Fragment>
-            ))}
-        </Container>
-    );
-};
-
-export default Testimonials;
+export default function WithBackgroundImage() {
+  return (
+    <>
+      {/* Centered section for small screens */}
+      <Stack
+        align="center" // Center-align horizontally
+        justify="center" // Center-align vertically
+        minH={{ base: "40vh", md: "20vh" }} // Adjust min height for different screen sizes
+        p="3rem"
+      >
+        <Text style={{ color: "#454545", fontSize: "3rem" }}>
+          See the best <span style={{ color: "#519341" }}>equipment</span>
+        </Text>
+      </Stack>
+      <Flex
+        w={"full"}
+        h={"65vh"}
+        backgroundImage={`url(https://d39tecv29ke92n.cloudfront.net/assets/blog/what-is-a-farm-23d9915e1acf700b9956a7b6372e1b3b335cec386c5109e73744177a2ecb492b.jpg)`}
+        backgroundSize={"cover"}
+        backgroundPosition={"center center"}
+      >
+        <VStack
+          w={"full"}
+          justify={"center"}
+          px={useBreakpointValue({ base: 4, md: 8 })}
+          bgGradient={"linear(to-r, blackAlpha.600, transparent)"}
+        >
+          <Stack maxW={"2xl"} align={"flex-start"} spacing={6}>
+            <Text
+              color={"white"}
+              fontWeight={700}
+              lineHeight={1.2}
+              fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
+            >
+              Animal farm tools encompass a range of equipment and implements
+              designed to facilitate efficient care, management, and maintenance
+              of livestock and animals in farming operations.
+            </Text>
+          </Stack>
+        </VStack>
+      </Flex>
+    </>
+  );
+}
