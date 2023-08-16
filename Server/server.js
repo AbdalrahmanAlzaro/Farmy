@@ -60,6 +60,7 @@ app.post('/Register', async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 10);
 
   try {
+    
     const checkEmailSql = 'SELECT * FROM "user" WHERE email = $1';
     const checkEmailValues = [email];
     const checkEmailResult = await pool.query(checkEmailSql, checkEmailValues);
@@ -83,7 +84,9 @@ app.post('/Register', async (req, res) => {
 
 
 app.post('/LogIn', (req, res) => {
-  const { email, password } = req.body; // Assuming the email and password are provided in the request body
+  const { email, password } = req.body; 
+  // console.log(email, password)
+  // Assuming the email and password are provided in the request body
 
   const sql = 'SELECT * FROM public.user WHERE email = $1';
 
@@ -239,6 +242,34 @@ WHERE
     .then((result) => {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: 'No orders found for the specified user ID.' });
+      }
+      res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while fetching data.' });
+    });
+});
+
+
+app.get('/join-data-for-all-order', (req, res) => {
+  const query = `
+    SELECT
+      cp.Subtotal,
+      o.OrderNumber,
+      cp.Date,
+      o.product_data,
+      o.user_id
+    FROM
+      ConfirmationPayment cp
+    INNER JOIN
+      orders o ON cp.OrderNumber = o.OrderNumber;
+  `;
+
+  pool.query(query)
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'No orders found.' });
       }
       res.status(200).json(result.rows);
     })

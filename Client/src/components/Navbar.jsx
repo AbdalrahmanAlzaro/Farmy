@@ -93,6 +93,10 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
 
         {isSmallerThanMd ? (
           <>
+            <Link to="/cart" style={{paddingLeft:"4.5rem"}}>
+              <Icon as={BiCart} boxSize={6} />
+              <span>{counterOfCart}</span>
+            </Link>
             <Box
               display="flex"
               alignItems="center"

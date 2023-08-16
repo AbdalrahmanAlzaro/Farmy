@@ -27,6 +27,7 @@ const App = () => {
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
   );
+  
   const [isLog, updateIsLog] = useState(
     localStorage.getItem("token") ? true : false
   );
