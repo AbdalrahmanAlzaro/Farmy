@@ -326,35 +326,27 @@ app.post('/messages/:user_id', async (req, res) => {
 });
 
 
-app.post('/products', upload.single('image'), (req, res) => {
-  const { category, description, price } = req.body;
-  const file = req.file.path; // Multer adds 'file' object to the request
-  const image = `http://localhost:3000/${file}`
-  // Perform input validation (e.g., check if required fields are present)
-  if (!category || !image || !description || !price) {
-    return res.status(400).json({ message: 'All fields are required.' });
-  }
-
-  // Insert the new product into the 'products' table
-  const query = 'INSERT INTO products (category, image, description, price) VALUES ($1, $2, $3, $4)';
-
-  pool
-    .query(query, [category, image, description, price])
-    .then(() => {
-      console.log('Product added successfully.');
-      res.status(201).json({ message: 'Product added successfully.' });
-    })
-    .catch((error) => {
-      console.error('Error adding product:', error);
-      res.status(500).json({ message: 'An error occurred while adding the product.' });
-    });
-});
-
 //Allproduct
 app.get('/allproducts', (req, res) => {
-  const query = 'SELECT * FROM products';
-
+  const query = 'SELECT * FROM products where deleted = false';
+  
   pool
+  .query(query)
+  .then((result) => {
+    const products = result.rows;
+    res.json(products);
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'An error occurred while fetching products.' });
+    });
+  });
+  
+  //AgriculturalNursery
+  app.get('/allproductsAgriculturalNursery', (req, res) => {
+    const query = 'SELECT * FROM products WHERE category = \'AgriculturalNursery\' and deleted = false';
+    
+    pool
     .query(query)
     .then((result) => {
       const products = result.rows;
@@ -364,13 +356,14 @@ app.get('/allproducts', (req, res) => {
       console.error('Error fetching products:', error);
       res.status(500).json({ message: 'An error occurred while fetching products.' });
     });
-});
-
-//AgriculturalNursery
-app.get('/allproductsAgriculturalNursery', (req, res) => {
-  const query = 'SELECT * FROM products WHERE category = \'AgriculturalNursery\'';
-
-  pool
+  });
+  
+  
+  //AgriculturalNurseryTool
+  app.get('/allproductsAgriculturalTool', (req, res) => {
+    const query = 'SELECT * FROM products WHERE category = \'AgriculturalTool\' and deleted = false';
+    
+    pool
     .query(query)
     .then((result) => {
       const products = result.rows;
@@ -380,14 +373,14 @@ app.get('/allproductsAgriculturalNursery', (req, res) => {
       console.error('Error fetching products:', error);
       res.status(500).json({ message: 'An error occurred while fetching products.' });
     });
-});
-
-
-//AgriculturalNurseryTool
-app.get('/allproductsAgriculturalTool', (req, res) => {
-  const query = 'SELECT * FROM products WHERE category = \'AgriculturalTool\'';
-
-  pool
+  });
+  
+  
+  //AnimalFarm
+  app.get('/allproductsAimalFarm', (req, res) => {
+    const query = 'SELECT * FROM products WHERE category = \'AnimalFarm\' and deleted = false';
+    
+    pool
     .query(query)
     .then((result) => {
       const products = result.rows;
@@ -397,31 +390,14 @@ app.get('/allproductsAgriculturalTool', (req, res) => {
       console.error('Error fetching products:', error);
       res.status(500).json({ message: 'An error occurred while fetching products.' });
     });
-});
-
-
-//AnimalFarm
-app.get('/allproductsAimalFarm', (req, res) => {
-  const query = 'SELECT * FROM products WHERE category = \'AnimalFarm\'';
-
-  pool
-    .query(query)
-    .then((result) => {
-      const products = result.rows;
-      res.json(products);
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-      res.status(500).json({ message: 'An error occurred while fetching products.' });
-    });
-});
-
-
-//AnimalFarmTool
-app.get('/allproductsAimalFarmTool', (req, res) => {
-  const query = 'SELECT * FROM products WHERE category = \'AnimalFarmTool\'';
-
-  pool
+  });
+  
+  
+  //AnimalFarmTool
+  app.get('/allproductsAimalFarmTool', (req, res) => {
+    const query = 'SELECT * FROM products WHERE category = \'AnimalFarmTool\' and deleted = false';
+    
+    pool
     .query(query)
     .then((result) => {
       const products = result.rows;
@@ -436,18 +412,18 @@ app.get('/allproductsAimalFarmTool', (req, res) => {
 
 //Offer
 app.get('/allproductsOffer', (req, res) => {
-  const query = 'SELECT * FROM products WHERE category = \'Offer\'';
-
+  const query = 'SELECT * FROM products WHERE category = \'Offer\' and deleted = false';
+  
   pool
-    .query(query)
-    .then((result) => {
-      const products = result.rows;
-      res.json(products);
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-      res.status(500).json({ message: 'An error occurred while fetching products.' });
-    });
+  .query(query)
+  .then((result) => {
+    const products = result.rows;
+    res.json(products);
+  })
+  .catch((error) => {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ message: 'An error occurred while fetching products.' });
+  });
 });
 
 
@@ -457,7 +433,7 @@ app.get('/contact-info', async (req, res) => {
     const result = await client.query('SELECT * FROM contact_info');
     const contactInfo = result.rows;
     client.release();
-
+    
     res.status(200).json(contactInfo);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -469,28 +445,128 @@ app.get('/contact-info', async (req, res) => {
 // PUT endpoint to update contact information
 app.put("/contact-info", async (req, res) => {
   const { address, phone_number, email } = req.body;
-
+  
   try {
     const client = await pool.connect();
-
+    
     // Update the contact_info with the new data
     await client.query(
       "UPDATE contact_info SET address = $1, phone_number = $2, email = $3 WHERE id = 1",
       [address, phone_number, email]
-    );
+      );
+      
+      client.release();
+      res.status(200).json({ message: "Contact updated successfully" });
+    } catch (error) {
+      console.error("Error updating contact info:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
 
-    client.release();
-    res.status(200).json({ message: "Contact updated successfully" });
-  } catch (error) {
-    console.error("Error updating contact info:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+  app.put("/editeProducts/:id", upload.single('image'), async function (req, res) {
+    try {
+      const productId = req.params.id;
+      const { category, description, price } = req.body;
+      const file = req.file;
+  
+      // Build the array for the SQL query parameters
+      const values = [productId];
+      const columns = [];
+        
+      // Check and add fields to the query only if they are provided
+      if (category) {
+        columns.push(`category = $${values.push(category)}`);
+      }
+      if (description) {
+        columns.push(`description = $${values.push(description)}`);
+      }
+      if (price) {
+        columns.push(`price = $${values.push(price)}`);
+      }
+  
+      // Handle the image separately if it's provided
+      if (file) {
+        const imagePath = file.path;
+        const imageUrl = `http://localhost:3000/${imagePath}`;
+        columns.push(`image = $${values.push(imageUrl)}`);
+      }
+  
+      // Construct the SET clause for the SQL query
+      const setClause = columns.length > 0 ? `SET ${columns.join(", ")}` : "";
+  
+      const query = `UPDATE products ${setClause} WHERE id = $1 RETURNING *`;
+  
+      const all_records = await pool.query(query, values);
+      res.json(all_records.rows);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json({ error: "An error occurred while updating the product." });
+    }
+  });
+  
+
+  app.post('/products', upload.single('image'), (req, res) => {
+    const { category, description, price } = req.body;
+    const file = req.file.path; // Multer adds 'file' object to the request
+    const image = `http://localhost:3000/${file}`
+    // Perform input validation (e.g., check if required fields are present)
+    if (!category || !image || !description || !price) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+  
+    // Insert the new product into the 'products' table
+    const query = 'INSERT INTO products (category, image, description, price) VALUES ($1, $2, $3, $4)';
+  
+    pool
+      .query(query, [category, image, description, price])
+      .then(() => {
+        console.log('Product added successfully.');
+        res.status(201).json({ message: 'Product added successfully.' });
+      })
+      .catch((error) => {
+        console.error('Error adding product:', error);
+        res.status(500).json({ message: 'An error occurred while adding the product.' });
+      });
+  });
+  
+  
+  app.put("/deleteProduct/:id", async function (req, res) {
+    try {
+      const productId = req.params.id;
+      
+      // Update the "is_deleted" column to true for the specified product
+      const query = "UPDATE products SET deleted = true WHERE id = $1 RETURNING *";
+      const values = [productId];
+  
+      const deletedProduct = await pool.query(query, values);
+  
+      if (deletedProduct.rows.length === 0) {
+        return res.status(404).json({ error: "Product not found." });
+      }
+  
+      res.json({ message: "Product deleted successfully." });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ error: "An error occurred while deleting the product." });
+    }
+  });
 
 
+  app.get("/messages", async (req, res) => {
+    try {
+      const query = "SELECT * FROM messages";
+      const result = await pool.query(query);
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ error: "An error occurred while fetching messages" });
+    }
+  });
 
+  
 
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+  

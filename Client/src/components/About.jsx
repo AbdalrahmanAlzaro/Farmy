@@ -57,10 +57,10 @@ const About = () => {
       direction={stackDirection}
       spacing={{ base: 10, md: 0 }}
     >
-      {/* The Stack with images will disappear on small screens */}
+
       <Stack display={{ base: "none", md: "block" }}>
         <Image src={aboutBlob} w={imageWidth} h={imageHeight} marginLeft={10} />
-        <Image src={aboutBG} w={390} h={450} position="absolute" top={2490} />
+        <Image src={aboutBG} w={390} h={450} position="absolute" top={2100} />
       </Stack>
       <Stack
       padding={10}

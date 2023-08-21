@@ -79,6 +79,10 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
         justify="space-between"
         p={4}
         wrap={isMenuOpen ? "wrap" : "nowrap"}
+        position="sticky" // Set the position to sticky
+        top={0} // Stick it at the top
+        bg="white" // Add a background color
+        zIndex={100} // Ensure it's above other elements
       >
         <Flex align="center" mr={5}>
           <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
@@ -93,7 +97,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
 
         {isSmallerThanMd ? (
           <>
-            <Link to="/cart" style={{paddingLeft:"4.5rem"}}>
+            <Link to="/cart" style={{ paddingLeft: "4.5rem" }}>
               <Icon as={BiCart} boxSize={6} />
               <span>{counterOfCart}</span>
             </Link>

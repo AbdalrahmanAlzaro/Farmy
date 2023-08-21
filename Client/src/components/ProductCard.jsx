@@ -27,10 +27,10 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05, boxShadow: "xl" }}
+      whileHover={{ scale: 1.05, boxShadow: "xl", cursor: "pointer" }}
       whileTap={{ scale: 0.95 }}
-      onClick={() => addToCart(product)} // Pass the product to addToCart function
-      cursor="pointer"
+      onClick={() => addToCart(product)}
+      display="inline-block" // Ensures the card takes only the necessary width
     >
       <Box
         width={275}
@@ -48,8 +48,12 @@ const ProductCard = ({ product, onAddToCart, setCartProducts }) => {
           h={250}
           objectFit="cover"
         />
-        <Box p={4}>
-          <Text fontSize="2xl" fontWeight="bold" mb={2}>
+        <Box p={4} minHeight={150} display="flex" flexDirection="column">
+          {" "}
+          {/* Set minHeight and flex layout */}
+          <Text fontSize="2xl" fontWeight="bold" mb={2} flexGrow={1}>
+            {" "}
+            {/* Allow description to take available height */}
             {product.description}
           </Text>
           <HStack justifyContent="space-between" alignItems="center">

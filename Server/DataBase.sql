@@ -40,6 +40,7 @@ CREATE TABLE products (
     image VARCHAR(255),
     Description TEXT,
     price DECIMAL(10, 2)
+    is_deleted BOOLEAN DEFAULT false
 );
 
 
