@@ -256,6 +256,9 @@ app.get('/join-data-for-all-order', (req, res) => {
   const query = `
     SELECT
       cp.Subtotal,
+      cp.Username,
+      cp.Email,
+      cp.PhoneNumber,
       o.OrderNumber,
       cp.Date,
       o.product_data,
@@ -278,6 +281,7 @@ app.get('/join-data-for-all-order', (req, res) => {
       res.status(500).json({ error: 'An error occurred while fetching data.' });
     });
 });
+
 
 
 app.get('/allUsers', (req, res) => {
@@ -441,9 +445,8 @@ app.get('/contact-info', async (req, res) => {
   }
 });
 
-// nooooooottttttttt ussssseddddddddd
-// PUT endpoint to update contact information
-app.put("/contact-info", async (req, res) => {
+
+app.put("/contact-infoo", async (req, res) => {
   const { address, phone_number, email } = req.body;
   
   try {
@@ -563,6 +566,48 @@ app.put("/contact-info", async (req, res) => {
       res.status(500).json({ error: "An error occurred while fetching messages" });
     }
   });
+
+
+
+  app.get('/user-count', async (req, res) => {
+    try {
+      const result = await pool.query('SELECT COUNT(*) AS user_count FROM public."user"');
+      const userCount = result.rows[0].user_count;
+  
+      res.status(200).json({ userCount });
+    } catch (error) {
+      console.error('Error fetching user count:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
+  app.get('/user-orders', async (req, res) => {
+    try {
+      const result = await pool.query('SELECT COUNT(*) AS user_count FROM public."orders"');
+      const userOrder = result.rows[0].user_count;
+  
+      res.status(200).json({ userOrder });
+    } catch (error) {
+      console.error('Error fetching user count:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
+  app.get('/calculate-subtotal', async (req, res) => {
+    try {
+      const result = await pool.query('SELECT SUM(Subtotal) AS totalSubtotal FROM ConfirmationPayment');
+      const totalSubtotal = result.rows[0].totalsubtotal;
+  
+      res.status(200).json({ totalSubtotal });
+    } catch (error) {
+      console.error('Error calculating total subtotal:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  
 
   
 
