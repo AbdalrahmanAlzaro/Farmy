@@ -218,11 +218,9 @@ const Contact = (props) => {
               <Button
                 type="submit" // Specify the button type as "submit"
                 //   bg="green.300"
-                style={{ backgroundColor: "#454545" }}
+                backgroundColor="#454545"
+                colorScheme="teal"
                 color="white"
-                _hover={{
-                  bg: "green.500",
-                }}
                 rounded="md"
                 w={{ base: "100%", md: "max-content" }}
               >

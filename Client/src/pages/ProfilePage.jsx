@@ -19,6 +19,7 @@ import {
   useToast,
   Card,
   SimpleGrid,
+  Input ,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { Fragment } from "react";
@@ -129,7 +130,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
           mt={8}
           colorScheme="teal"
           onClick={onOpen}
-          style={{ backgroundColor: "#454545" }}
+          backgroundColor="#454545"
         >
           Edit Profile
         </Button>
@@ -145,34 +146,24 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   <Box>
                     <Flex justifyContent="space-between" alignItems="center">
                       <label htmlFor="name">Name:</label>
-                      <input
+                      <Input
                         type="text"
                         id="name"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         required
-                        className="chakra-input"
-                        style={{
-                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                          borderRadius: "4px",
-                        }}
                       />
                     </Flex>
                   </Box>
                   <Box>
                     <Flex justifyContent="space-between" alignItems="center">
                       <label htmlFor="email">Email:</label>
-                      <input
+                      <Input
                         type="email"
                         id="email"
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
                         required
-                        className="chakra-input"
-                        style={{
-                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                          borderRadius: "4px",
-                        }}
                       />
                     </Flex>
                   </Box>
@@ -183,7 +174,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   type="submit"
                   colorScheme="teal"
                   mr={3}
-                  style={{ backgroundColor: "#454545" }}
+                  backgroundColor="#454545"
                 >
                   Save Changes
                 </Button>
@@ -194,6 +185,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
         </Modal>
       </Flex>
 
+      
       <Box mt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={4}>
           {userData.map((item) => (

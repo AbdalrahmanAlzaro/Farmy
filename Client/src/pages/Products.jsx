@@ -15,6 +15,23 @@ const Products = (props) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
+  const [selectedCategory, setSelectedCategory] = useState(null); // State to hold the selected category
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+
+    // Fetch data based on the selected category
+    axios
+      .get(`http://localhost:3000/allproducts${category}`)
+      .then((response) => {
+        setProducts(response.data);
+        setFilteredProducts(response.data);
+        setCurrentPage(1); // Reset the current page when changing categories
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  };
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -112,9 +129,79 @@ const Products = (props) => {
         Explore <span style={{ color: colors.green }}>Nature's</span> Finest
         Selection
       </Text>
+      <br />
       <Flex justifyContent="center">
         <Stack spacing={10} direction="row">
           <SearchInput onSearch={handleSearch} />
+        </Stack>
+      </Flex>
+
+      <Flex justifyContent="center" mt={5}>
+        <Stack
+          direction={{ base: "column", md: "row" }}
+          spacing={{ base: 2, md: 4 }}
+        >
+          {/* Category buttons */}
+          <Button
+            onClick={() => handleCategorySelect("")} // To show all products
+            colorScheme={selectedCategory === "" ? "green" : "gray"}
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => handleCategorySelect("AgriculturalNursery")}
+            colorScheme={
+              selectedCategory === "AgriculturalNursery" ? "green" : "gray"
+            }
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            Agricultural Nursery
+          </Button>
+          <Button
+            onClick={() => handleCategorySelect("AgriculturalTool")}
+            colorScheme={
+              selectedCategory === "AgriculturalTool" ? "green" : "gray"
+            }
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            Agricultural Tool
+          </Button>
+          <Button
+            onClick={() => handleCategorySelect("AimalFarm")}
+            colorScheme={selectedCategory === "AimalFarm" ? "green" : "gray"}
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            Animal Farm
+          </Button>
+          <Button
+            onClick={() => handleCategorySelect("AimalFarmTool")}
+            colorScheme={
+              selectedCategory === "AimalFarmTool" ? "green" : "gray"
+            }
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            Animal Farm Tool
+          </Button>
+          <Button
+            onClick={() => handleCategorySelect("Offer")}
+            colorScheme={selectedCategory === "Offer" ? "green" : "gray"}
+            size="md"
+            mb={{ base: 2, md: 0 }}
+            width={{ base: "100%", md: "auto" }}
+          >
+            Offer
+          </Button>
         </Stack>
       </Flex>
 

@@ -19,6 +19,25 @@ import { useLocation } from "react-router-dom";
 const PayMent = () => {
   const [id, setId] = useState("");
   const navigate = useNavigate();
+  const [userName, setUserName] = useState(""); // State to store user's name
+  const [userEmail, setUserEmail] = useState(""); // State to store user's name
+
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const name = decodedToken.username;
+        const email = decodedToken.email;
+        setUserName(name);
+        setUserEmail(email);
+        setFormValues({ ...formValues, Email: email, Username: name });
+        console.log(name, email); // Log inside the function
+      }
+    };
+
+    getUserNameFromToken(); // Call the function
+  }, []);
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -176,7 +195,7 @@ const PayMent = () => {
   };
 
   return (
-    <Container  py={5} maxW={{ base: "80ch", md: "50%" }}>
+    <Container py={5} maxW={{ base: "80ch", md: "50%" }}>
       <Grid placeItems="center">
         <GridItem md="10" lg="8" xl="5">
           <Box rounded="md" bg="white" p={4}>
@@ -195,6 +214,7 @@ const PayMent = () => {
                   name="Username"
                   value={formValues.Username}
                   onChange={handleChange}
+                  defaultValue={userName}
                 />
               </FormControl>
               <FormControl>
@@ -207,6 +227,7 @@ const PayMent = () => {
                   value={formValues.Email}
                   onChange={handleChange}
                   isInvalid={!!errors.Email}
+                  defaultValue={userEmail}
                 />
                 {errors.Email && (
                   <Text color="red" fontSize="sm">
@@ -386,7 +407,8 @@ const PayMent = () => {
                 color="white"
                 size="lg"
                 onClick={handleSubmit}
-                style={{ backgroundColor: "#454545" }}
+                backgroundColor="#454545"
+                colorScheme="teal"
               >
                 Place Order
               </Button>

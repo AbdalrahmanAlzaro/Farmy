@@ -88,7 +88,7 @@ app.post('/LogIn', (req, res) => {
   // console.log(email, password)
   // Assuming the email and password are provided in the request body
 
-  const sql = 'SELECT * FROM public.user WHERE email = $1';
+  const sql = 'SELECT * FROM public."user" WHERE email = $1 AND state = false;';
 
   pool.query(
     sql, [email],
@@ -634,9 +634,6 @@ app.put("/contact-infoo", async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-
-
-
 
 
   //not test yet

@@ -151,10 +151,10 @@ const Login = ({ updateIsLog }) => {
             </Text>
           )}
           <Button
-            bg={colors.primary}
+            backgroundColor="#454545"
+            colorScheme="teal"
             color="white"
             size="md"
-            _hover={{ color: colors.primary, bg: "white" }}
             fontWeight="thin"
             w="100%"
             type="submit"

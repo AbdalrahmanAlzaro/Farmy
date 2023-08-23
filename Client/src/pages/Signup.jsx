@@ -16,50 +16,51 @@ import loginImg from "../assets/login-img.png";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import axios from 'axios';
+import axios from "axios";
 
 const Signup = ({ updateIsLog }) => {
-  console.log(updateIsLog)
+  console.log(updateIsLog);
   // const [path, setPath] = useState("/");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
   const validateField = (fieldName, value) => {
-    let errorMessage = '';
+    let errorMessage = "";
 
     switch (fieldName) {
-      case 'username':
+      case "username":
         if (!value.trim()) {
-          errorMessage = 'Username is required';
+          errorMessage = "Username is required";
         }
         break;
-      case 'email':
+      case "email":
         if (!value.trim()) {
-          errorMessage = 'Email is required';
+          errorMessage = "Email is required";
         } else if (!emailRegex.test(value)) {
-          errorMessage = 'Invalid email address';
+          errorMessage = "Invalid email address";
         }
         break;
-      case 'password':
+      case "password":
         if (!value.trim()) {
-          errorMessage = 'Password is required';
+          errorMessage = "Password is required";
         } else if (!passwordRegex.test(value)) {
-          errorMessage = 'Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, and one number';
+          errorMessage =
+            "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, and one number";
         }
         break;
       default:
@@ -86,15 +87,15 @@ const Signup = ({ updateIsLog }) => {
       // localStorage.setItem('values', JSON.stringify(values));
 
       try {
-        const response = await axios.post('http://localhost:3000/Register', {
+        const response = await axios.post("http://localhost:3000/Register", {
           username: values.username,
           email: values.email,
           password: values.password,
         });
         const { token } = response.data;
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
         updateIsLog(true);
-        navigate('/')
+        navigate("/");
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -113,7 +114,6 @@ const Signup = ({ updateIsLog }) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   return (
     <Stack
@@ -188,10 +188,10 @@ const Signup = ({ updateIsLog }) => {
             </Text>
           )}
           <Button
-            bg={colors.primary}
+            backgroundColor="#454545"
+            colorScheme="teal"
             color="white"
             size="md"
-            _hover={{ color: colors.primary, bg: "white" }}
             fontWeight="thin"
             w="100%"
             type="submit"
@@ -225,7 +225,11 @@ const Signup = ({ updateIsLog }) => {
           </Text>
         </Link>
       </Stack>
-      <Img src={loginImg} w={["100%", "100%", "450px"]} h={["auto", "auto", "450px"]} />
+      <Img
+        src={loginImg}
+        w={["100%", "100%", "450px"]}
+        h={["auto", "auto", "450px"]}
+      />
     </Stack>
   );
 };

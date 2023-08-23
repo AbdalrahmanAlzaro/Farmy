@@ -37,9 +37,9 @@ const Hero = () => {
         <Stack direction={{ base: "column", md: "row" }} spacing={2} mt={4}>
           <Button
             width={150}
-            bg={colors.primary}
+            backgroundColor="#454545"
+            colorScheme="teal"
             color="white"
-            _hover={{ color: colors.primary, bg: "white" }}
             fontWeight="thin"
             alignSelf="center" // Center the button on small screens
           >

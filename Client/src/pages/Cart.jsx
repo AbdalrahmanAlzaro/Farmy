@@ -23,7 +23,6 @@ const Cart = (props) => {
   const [cartProducts, setCartProducts] = useState([]);
   const [id, setId] = useState("");
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const getUserNameFromToken = () => {
@@ -186,10 +185,10 @@ const Cart = (props) => {
             Total: ${calculateTotal()}
           </Text>
           <Button
-            bg={colors.primary}
+            backgroundColor="#454545"
+            colorScheme="teal"
             color="white"
             size="md"
-            _hover={{ color: colors.primary, bg: "white" }}
             fontWeight="thin"
             mt={4}
             onClick={handleOpenModal}
@@ -216,13 +215,14 @@ const Cart = (props) => {
                   Cancel
                 </Button>
                 <Button
-                  variant="ghost"
                   as={Link}
                   to={{
                     pathname: "/payment",
                     search: `?total=${calculateTotal()}`,
                   }}
-                  style={{ backgroundColor: "#454545", color: "white" }}
+                  backgroundColor="#454545"
+                  colorScheme="teal"
+                  color= 'white'
                 >
                   Go to Payment
                 </Button>

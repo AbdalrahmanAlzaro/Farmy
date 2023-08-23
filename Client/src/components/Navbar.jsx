@@ -50,13 +50,10 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
       setCounterOfCart(count);
     };
 
-    // Get the initial count when the component mounts
     getCartProductCount();
 
-    // Listen for changes to the "Carts" item in localStorage
     window.addEventListener("storage", getCartProductCount);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("storage", getCartProductCount);
     };

@@ -17,7 +17,7 @@ export default function SplitScreen() {
     <Stack minH={"80vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={6} w={"full"} maxW={"lg"}>
-            <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+          <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
             <motion.div
               initial={{ x: -1000 }} // Initial position (off the screen to the left)
               animate={{ x: 0 }} // Final position (on the screen)
@@ -40,9 +40,9 @@ export default function SplitScreen() {
                 HarvestMart
               </Text>
               <br />
-            <Text color={"#519341"} as={"span"}>
-              For organic and healthy living
-            </Text>
+              <Text color={"#519341"} as={"span"}>
+                For organic and healthy living
+              </Text>
             </motion.div>
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
@@ -55,10 +55,8 @@ export default function SplitScreen() {
             <Link to="/products">
               <Button
                 rounded={"full"}
-                style={{ backgroundColor: "#454545", color: "white" }}
-                _hover={{
-                  bg: "blue.500",
-                }}
+                backgroundColor="#454545"
+                colorScheme="teal"
               >
                 See Our Product
               </Button>

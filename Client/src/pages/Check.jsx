@@ -18,11 +18,11 @@ export default function Success() {
       <Button
         as={Link}
         to="/"
-        colorScheme="white"
         size="lg"
         fontWeight="thin"
         borderRadius="md"
-       style={{backgroundColor:"#454545"}}
+        backgroundColor="#454545"
+        colorScheme="teal"
       >
         Go Back Home
       </Button>
