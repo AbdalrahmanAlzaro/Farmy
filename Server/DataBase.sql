@@ -83,3 +83,11 @@ CREATE TABLE contact_info (
   phone_number TEXT,
   email TEXT
 );
+
+
+
+CREATE TABLE AboutUs (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL
+);

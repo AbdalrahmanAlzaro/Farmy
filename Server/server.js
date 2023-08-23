@@ -607,9 +607,64 @@ app.put("/contact-infoo", async (req, res) => {
     }
   });
   
-  
+
+  app.get('/aboutus', async (req, res) => {
+    try {
+      const query = 'SELECT * FROM AboutUs';
+      const { rows } = await pool.query(query);
+      res.json(rows);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
   
+  app.put('/aboutus/:id', async (req, res) => {
+    const id = req.params.id;
+    const { title, description } = req.body;
+  
+    try {
+      const query = 'UPDATE AboutUs SET title = $1, description = $2 WHERE id = $3';
+      await pool.query(query, [title, description, id]);
+      
+      res.json({ message: 'AboutUs record updated successfully' });
+    } catch (error) {
+      console.error('Error updating data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+
+
+
+
+  //not test yet
+  app.delete('/users/:id', async (req, res) => {
+    const userId = req.params.id;
+  
+    try {
+      // Soft delete the user by updating the state column
+      const query = 'UPDATE public."user" SET state = true WHERE id = $1 RETURNING *';
+      const values = [userId];
+  
+      const result = await pool.query(query, values);
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      res.json({ message: 'User soft deleted.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error.' });
+    }
+  });
+
+
+
+
+
 
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

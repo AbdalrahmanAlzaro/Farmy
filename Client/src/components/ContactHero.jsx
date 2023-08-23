@@ -15,7 +15,7 @@ export default function WithBackgroundImage() {
       w={"full"}
       h={"50vh"}
       backgroundImage={
-        "url(https://images.pexels.com/photos/17849326/pexels-photo-17849326/free-photo-of-panoramic-view-of-a-vineyard.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)"
+        "url(https://images.pexels.com/photos/120011/pexels-photo-120011.jpeg?auto=compress&cs=tinysrgb&w=600)"
       }
       backgroundSize={"cover"}
       backgroundPosition={"center center"}
@@ -33,7 +33,7 @@ export default function WithBackgroundImage() {
             lineHeight={1.2}
             fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
           >
-            About Us
+            Contact Us
           </Text>
         </Stack>
       </VStack>

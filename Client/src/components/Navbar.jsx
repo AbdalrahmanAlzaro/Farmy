@@ -144,13 +144,13 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                 to="/About"
                 className={isActiveLink("/About") ? "active-link" : ""}
               >
-                <Text>About</Text>
+                <Text>Who are we</Text>
               </Link>
               <Link
                 to="/Contact"
                 className={isActiveLink("/Contact") ? "active-link" : ""}
               >
-                <Text>Contact</Text>
+                <Text>Get in touch</Text>
               </Link>
               {isLog ? (
                 <>
@@ -218,13 +218,13 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
             to="/About"
             className={isActiveLink("/About") ? "active-link" : ""}
           >
-            <Text mb={2}>About</Text>
+            <Text mb={2}>Who are we</Text>
           </Link>
           <Link
             to="/Contact"
             className={isActiveLink("/Contact") ? "active-link" : ""}
           >
-            <Text mb={2}>Contact</Text>
+            <Text mb={2}>Get in touch</Text>
           </Link>
           {isLog ? (
             <>

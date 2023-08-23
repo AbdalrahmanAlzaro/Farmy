@@ -21,21 +21,23 @@ const FeatureCard = () => {
           icon={<Icon as={FcAssistant} boxSize={10} />}
           title={"Lifetime Support"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "HarvestMart: Your Lifelong Partner in Ethical Agriculture, Nurture, and Animal Farming."
           }
         />
         <Feature
           icon={<Icon as={FcDonate} boxSize={10} />}
           title={"Unlimited Donations"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "HarvestMart: Enabling Endless Giving through Sustainable Agriculture and Animal Farming."
+
+            
           }
         />
         <Feature
           icon={<Icon as={FcInTransit} boxSize={10} />}
           title={"Instant Delivery"}
           text={
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore..."
+            "HarvestMart: Your Instant Access to Agricultural Nurseries and Animal Farming."
           }
         />
       </SimpleGrid>
