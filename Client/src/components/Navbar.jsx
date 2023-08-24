@@ -22,6 +22,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [userName, setUserName] = useState(""); // State to store user's name
   const [counterOfCart, setCounterOfCart] = useState(0); // State to store the counter of cart products
+  
 
   useEffect(() => {
     const getUserNameFromToken = () => {

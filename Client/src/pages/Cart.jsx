@@ -15,7 +15,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import { colors } from "../utils/colors";
+
 import { FiTrash, FiPlus, FiMinus } from "react-icons/fi";
 
 const Cart = (props) => {
