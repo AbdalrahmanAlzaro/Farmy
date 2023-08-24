@@ -19,7 +19,7 @@ import {
   useToast,
   Card,
   SimpleGrid,
-  Input ,
+  Input,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { Fragment } from "react";
@@ -128,7 +128,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
 
         <Button
           mt={8}
-          colorScheme="teal"
+          colorScheme="green"
           onClick={onOpen}
           backgroundColor="#454545"
         >
@@ -185,7 +185,6 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
         </Modal>
       </Flex>
 
-      
       <Box mt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={4}>
           {userData.map((item) => (
@@ -211,17 +210,17 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   },
                 }}
               >
-                <Text fontSize="lg" fontWeight="bold" color="teal.600" mb={2}>
+                <Text fontSize="lg" fontWeight="bold" color="green" mb={2}>
                   Order Number:{" "}
                   <span style={{ color: "#454545" }}>{item.ordernumber}</span>
                 </Text>
-                <Text fontSize="lg" fontWeight="bold" color="teal.600" mb={2}>
+                <Text fontSize="lg" fontWeight="bold" color="green" mb={2}>
                   Date:{" "}
                   <span style={{ color: "#454545" }}>
                     {new Date(item.date).toLocaleDateString("en-US")}
                   </span>
                 </Text>
-                <Text mt={2} fontWeight="bold" color="teal.600 ">
+                <Text mt={2} fontWeight="bold" color="green">
                   Subtotal:{" "}
                   <span style={{ color: "#454545" }}> ${item.subtotal} </span>
                 </Text>
@@ -231,19 +230,19 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                 {item.product_data.map((element) => (
                   <Box key={element.name} ml={4} mt={2} textAlign="center">
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="teal.600" fontWeight="bold">
+                      <Text as="span" color="green" fontWeight="bold">
                         Name:
                       </Text>{" "}
-                      {element.name}
+                      {element.description}
                     </Text>
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="teal.600" fontWeight="bold">
+                      <Text as="span" color="green" fontWeight="bold">
                         Price:
                       </Text>{" "}
                       ${element.price}
                     </Text>
                     <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="teal.600" fontWeight="bold">
+                      <Text as="span" color="green" fontWeight="bold">
                         Quantity:
                       </Text>{" "}
                       {element.quantity}

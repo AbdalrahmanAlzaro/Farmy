@@ -56,7 +56,7 @@ export default function SplitScreen() {
               <Button
                 rounded={"full"}
                 backgroundColor="#454545"
-                colorScheme="teal"
+                colorScheme="green"
               >
                 See Our Product
               </Button>

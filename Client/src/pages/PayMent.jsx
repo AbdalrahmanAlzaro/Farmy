@@ -10,6 +10,7 @@ import {
   Input,
   Stack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
@@ -198,10 +199,15 @@ const PayMent = () => {
     <Container py={5} maxW={{ base: "80ch", md: "50%" }}>
       <Grid placeItems="center">
         <GridItem md="10" lg="8" xl="5">
-          <Box rounded="md" bg="white" p={4}>
+          <Box
+            p={4}
+            bg={useColorModeValue("white", "gray.700")}
+            rounded="lg"
+            boxShadow="lg"
+          >
             <Stack spacing={4}>
               <Box textAlign="center" mb={4}>
-                <Text fontSize="xl" fontWeight="bold">
+                <Text fontSize="3xl" fontWeight="bold">
                   Payment
                 </Text>
               </Box>
@@ -408,7 +414,7 @@ const PayMent = () => {
                 size="lg"
                 onClick={handleSubmit}
                 backgroundColor="#454545"
-                colorScheme="teal"
+                colorScheme="green"
               >
                 Place Order
               </Button>

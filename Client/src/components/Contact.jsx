@@ -108,7 +108,7 @@ const Contact = (props) => {
                   alignItems="center"
                   px={3}
                 >
-                  <Icon as={GoLocation} w={10} h={10} color="green.400" />
+                  <Icon as={GoLocation} w={10} h={10} color="green"    />
                   <Text fontSize="lg" fontWeight="semibold">
                     Address
                   </Text>
@@ -126,7 +126,7 @@ const Contact = (props) => {
                       alignItems="center"
                       px={3}
                     >
-                      <Icon as={BsPhone} w={10} h={10} color="green.400" />
+                      <Icon as={BsPhone} w={10} h={10} color="green" />
                       <Text fontSize="lg" fontWeight="semibold">
                         PHONE NUMBER
                       </Text>
@@ -150,7 +150,7 @@ const Contact = (props) => {
                         as={HiOutlineMail}
                         w={10}
                         h={10}
-                        color="green.400"
+                        color="green"
                       />
                       <Text fontSize="lg" fontWeight="semibold">
                         EMAIL
@@ -219,7 +219,7 @@ const Contact = (props) => {
                 type="submit" // Specify the button type as "submit"
                 //   bg="green.300"
                 backgroundColor="#454545"
-                colorScheme="teal"
+                colorScheme="green"
                 color="white"
                 rounded="md"
                 w={{ base: "100%", md: "max-content" }}

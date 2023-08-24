@@ -22,7 +22,7 @@ export default function Success() {
         fontWeight="thin"
         borderRadius="md"
         backgroundColor="#454545"
-        colorScheme="teal"
+        colorScheme="green"
       >
         Go Back Home
       </Button>

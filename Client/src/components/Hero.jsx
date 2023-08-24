@@ -38,7 +38,7 @@ const Hero = () => {
           <Button
             width={150}
             backgroundColor="#454545"
-            colorScheme="teal"
+            colorScheme="green"
             color="white"
             fontWeight="thin"
             alignSelf="center" // Center the button on small screens

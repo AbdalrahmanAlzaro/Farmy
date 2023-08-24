@@ -189,7 +189,7 @@ const Signup = ({ updateIsLog }) => {
           )}
           <Button
             backgroundColor="#454545"
-            colorScheme="teal"
+            colorScheme="green"
             color="white"
             size="md"
             fontWeight="thin"
