@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors"); // Add the cors module
 const multer = require('multer')
 const path = require('path')
+const nodemailer = require('nodemailer')
 
 const app = express();
 const port = 3000;
@@ -678,6 +679,94 @@ app.put("/contact-infoo", async (req, res) => {
 
 
 
+  ///////////////////reset
+app.post('/reset-password/:id/:token', async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const client = await pool.connect();
+
+    // Verify the JWT token
+    jwt.verify(token, 'jwt_secret_key', async (err, decoded) => {
+      if (err) {
+        client.release();
+        return res.json({ Status: 'Error with token' });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Update the user's password in the database
+      const updateQuery = `UPDATE public."user"
+      SET password = $1
+      WHERE id = $2`
+      ;
+      await client.query(updateQuery, [hashedPassword, id]);
+
+      client.release();
+      return res.send({ Status: 'Success' });
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ Status: 'Server error' });
+  }
+});
+
+
+
+
+
+//////////////////forgetpassword
+app.post('/forgotpassword', async (req, res) => {
+  const { email } = req.body;
+// console.log(email)
+  try {
+    const client = await pool.connect();
+// console.log("hjvbsvjhbsa")
+    const userQuery = `SELECT * FROM "user" WHERE email = $1`;
+    // console.log(userQuery)
+    const userResult = await client.query(userQuery, [email]);
+
+    if (userResult.rows.length === 0) {
+      client.release();
+      return res.send({ Status: 'User not existed' });
+    }
+
+    const user = userResult.rows[0];
+    const token = jwt.sign({ id: user.id }, 'jwt_secret_key', { expiresIn: '1d' });
+    const base64Token = Buffer.from(token).toString('base64');
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'abdalrahman.h.alzaro@gmail.com',
+        pass: 'kdxajpbfgxirnvmo ',
+      },
+    });
+// محتوى الايميل يلي بده يوصل اليوزر
+    const mailOptions = {
+      from: 'abdalrahman.h.alzaro@gmail.com',
+      to: user.email,
+      subject: 'Reset Password Link',
+      //لينك الصفحة يلي رح يعمل فيها ابديت للباسوورد يلي بدي ابعتها ع الايميل
+      text: `http://localhost:5173/reset_password/${user.id}/${base64Token}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      client.release();
+      if (error) {
+        console.log(error);
+        return res.send({ Status: 'Error sending email' });
+      } else {
+        return res.send({ Status: 'Success' });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ Status: 'Server error' });
+  }
+});
 
 
 

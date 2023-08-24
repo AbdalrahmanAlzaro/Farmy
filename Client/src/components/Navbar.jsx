@@ -15,10 +15,10 @@ import { FiMenu } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
 import jwt_decode from "jwt-decode"; // Import jwt-decode library
 import logo from "../assets/logo.png";
-import {CartContext} from "../hooks/CartContext"
+import { CartContext } from "../hooks/CartContext";
 
 const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
-  const {cartNavRefresh,setCartNavRefresh} =useContext(CartContext)
+  const { cartNavRefresh, setCartNavRefresh } = useContext(CartContext);
 
   const [isSmallerThanMd] = useMediaQuery("(max-width: 768px)");
   const { isOpen, onToggle } = useDisclosure();
@@ -192,74 +192,74 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
             )}
           </>
         )}
+
+        {isSmallerThanMd && isMenuOpen && (
+          <Box p={4} style={{ color: "#454545" }}>
+            <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
+              <Text mb={2}>Home</Text>
+            </Link>
+            <Link
+              to="/Agriculturalnursery"
+              className={
+                isActiveLink("/Agriculturalnursery") ? "active-link" : ""
+              }
+            >
+              <Text mb={2}>Agricultural nursery</Text>
+            </Link>
+            <Link
+              to="/AnimalFarm"
+              className={isActiveLink("/AnimalFarm") ? "active-link" : ""}
+            >
+              <Text mb={2}>Animal farm</Text>
+            </Link>
+
+            <Link
+              to="/About"
+              className={isActiveLink("/About") ? "active-link" : ""}
+            >
+              <Text mb={2}>Who are we</Text>
+            </Link>
+            <Link
+              to="/Contact"
+              className={isActiveLink("/Contact") ? "active-link" : ""}
+            >
+              <Text mb={2}>Get in touch</Text>
+            </Link>
+            {isLog ? (
+              <>
+                <Link
+                  to="/products"
+                  className={isActiveLink("/products") ? "active-link" : ""}
+                >
+                  <Text mb={2}>Products</Text>
+                </Link>
+                <Link to="/cart" onClick={handleMenuClick}>
+                  <Text mb={2}>
+                    <Icon as={BiCart} boxSize={6} />
+                    {cartNavRefresh}
+                  </Text>
+                </Link>
+                <Text mb={2}>Hi, {userName}!</Text> {/* Display user's name */}
+                <Link to="/" onClick={handleLogout}>
+                  <Text>Logout</Text>
+                </Link>
+                <Link to="/ProfilePage">
+                  <Icon as={BiUser} boxSize={6} />
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signup"
+                  className={isActiveLink("/signup") ? "active-link" : ""}
+                >
+                  <Text mb={2}>Signup</Text>
+                </Link>
+              </>
+            )}
+          </Box>
+        )}
       </Flex>
-
-      {isSmallerThanMd && isMenuOpen && (
-        <Box p={4} style={{ color: "#454545" }}>
-          <Link to="/" className={isActiveLink("/") ? "active-link" : ""}>
-            <Text mb={2}>Home</Text>
-          </Link>
-          <Link
-            to="/Agriculturalnursery"
-            className={
-              isActiveLink("/Agriculturalnursery") ? "active-link" : ""
-            }
-          >
-            <Text mb={2}>Agricultural nursery</Text>
-          </Link>
-          <Link
-            to="/AnimalFarm"
-            className={isActiveLink("/AnimalFarm") ? "active-link" : ""}
-          >
-            <Text mb={2}>Animal farm</Text>
-          </Link>
-
-          <Link
-            to="/About"
-            className={isActiveLink("/About") ? "active-link" : ""}
-          >
-            <Text mb={2}>Who are we</Text>
-          </Link>
-          <Link
-            to="/Contact"
-            className={isActiveLink("/Contact") ? "active-link" : ""}
-          >
-            <Text mb={2}>Get in touch</Text>
-          </Link>
-          {isLog ? (
-            <>
-              <Link
-                to="/products"
-                className={isActiveLink("/products") ? "active-link" : ""}
-              >
-                <Text mb={2}>Products</Text>
-              </Link>
-              <Link to="/cart" onClick={handleMenuClick}>
-                <Text mb={2}>
-                  <Icon as={BiCart} boxSize={6} />
-                  {cartNavRefresh}
-                </Text>
-              </Link>
-              <Text mb={2}>Hi, {userName}!</Text> {/* Display user's name */}
-              <Link to="/" onClick={handleLogout}>
-                <Text>Logout</Text>
-              </Link>
-              <Link to="/ProfilePage">
-                <Icon as={BiUser} boxSize={6} />
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/signup"
-                className={isActiveLink("/signup") ? "active-link" : ""}
-              >
-                <Text mb={2}>Signup</Text>
-              </Link>
-            </>
-          )}
-        </Box>
-      )}
     </>
   );
 };

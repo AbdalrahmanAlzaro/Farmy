@@ -23,6 +23,8 @@ import ProductCard from "./components/ProductCard";
 import About from "./pages/About";
 import NoPage from "./pages/NoPage";
 import {CartContext} from "./hooks/CartContext"
+import ForgotPassword from "./pages/ForgetPass";
+import RestPassword from "./pages/ResetPass";
 const App = () => {
 
   const {cartNavRefresh,setCartNavRefresh} =useContext(CartContext)
@@ -61,6 +63,8 @@ const App = () => {
               element={<Signup updateIsLog={updateIsLog} />}
             />
             <Route path="/Contact" element={<Contact isLog={isLog} />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword isLog={isLog} />} />
+            <Route path="/reset_password/:id/:token" element={<RestPassword isLog={isLog} />} />
             <Route path="/About" element={<About isLog={isLog} />} />
             <Route path="/TranslationPage" element={<TranslationPage />} />
             <Route

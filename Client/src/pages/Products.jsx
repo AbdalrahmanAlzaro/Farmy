@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Stack, Text, SimpleGrid, Flex, Button } from "@chakra-ui/react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -7,8 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import SearchInput from "../components/SearchInput";
 import ProductCard from "../components/ProductCard";
 import { colors } from "../utils/colors";
+import { CartContext } from "../hooks/CartContext";
 
 const Products = (props) => {
+  const { cartNavRefresh, setCartNavRefresh } = useContext(CartContext);
+
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState([]);
   const [products, setProducts] = useState([]);
@@ -75,6 +78,8 @@ const Products = (props) => {
       }
 
       localStorage.setItem("Carts", JSON.stringify(existingCartProducts));
+      setCartNavRefresh(existingCartProducts.length);
+
       setCartProducts(existingCartProducts);
 
       toast.success("Product added to cart!", {

@@ -162,6 +162,11 @@ const Login = ({ updateIsLog }) => {
             Continue
           </Button>
         </form>
+        <Link to="/ForgotPassword">
+          <Text as="span" fontWeight="bold">
+            Forget Your PassWord
+          </Text>
+        </Link>
         <Text>Or</Text>
         <Button
           leftIcon={<FcGoogle fontSize={20} />}
