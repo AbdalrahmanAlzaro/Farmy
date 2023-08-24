@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
@@ -7,8 +7,10 @@ import axios from "axios"; // Import Axios
 import SearchInput from "../components/SearchInput"; // Import the SearchInput component
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CartContext } from "../hooks/CartContext";
 
 const Offers = (props) => {
+  const { cartNavRefresh, setCartNavRefresh } = useContext(CartContext);
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
@@ -62,6 +64,7 @@ const Offers = (props) => {
 
       // Update the cart in localStorage with the updated cart products
       localStorage.setItem("Carts", JSON.stringify(existingCartProducts));
+      setCartNavRefresh(existingCartProducts.length);
 
       // Update the state of the cartProducts in the Offers component
       setCartProducts(existingCartProducts);
@@ -78,8 +81,6 @@ const Offers = (props) => {
       });
     }
   };
-
-
 
   useEffect(() => {
     // Fetch data from the endpoint
@@ -101,7 +102,6 @@ const Offers = (props) => {
       )
     );
   };
-
 
   return (
     <>

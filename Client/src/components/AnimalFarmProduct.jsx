@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Stack, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { colors } from "../utils/colors";
 import ProductCard from "../components/ProductCard";
@@ -7,8 +7,11 @@ import axios from "axios"; // Import Axios
 import SearchInput from "../components/SearchInput"; // Import the SearchInput component
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CartContext } from "../hooks/CartContext";
 
 const AnimalFarmProduct = (props) => {
+  const { cartNavRefresh, setCartNavRefresh } = useContext(CartContext);
+
   const [userid, setUserid] = useState("");
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
@@ -45,9 +48,12 @@ const AnimalFarmProduct = (props) => {
   const handleAddToCart = (productId) => {
     const product = products.find((p) => p.id === productId);
     if (product) {
-      const existingCartProducts = JSON.parse(localStorage.getItem("Carts")) || [];
-      const existingProduct = existingCartProducts.find((p) => p.id === productId);
-  
+      const existingCartProducts =
+        JSON.parse(localStorage.getItem("Carts")) || [];
+      const existingProduct = existingCartProducts.find(
+        (p) => p.id === productId
+      );
+
       if (existingProduct) {
         // If the product already exists in the cart, update its quantity
         existingProduct.quantity += 1;
@@ -55,13 +61,14 @@ const AnimalFarmProduct = (props) => {
         // If the product does not exist in the cart, add it with quantity 1
         existingCartProducts.push({ ...product, quantity: 1 });
       }
-  
+
       // Update the cart in localStorage with the updated cart products
       localStorage.setItem("Carts", JSON.stringify(existingCartProducts));
-  
+      setCartNavRefresh(existingCartProducts.length);
+
       // Update the state of the cartProducts in the Offers component
       setCartProducts(existingCartProducts);
-  
+
       // Show the toast notification
       toast.success("Product added to cart!", {
         position: "top-right",
@@ -74,7 +81,6 @@ const AnimalFarmProduct = (props) => {
       });
     }
   };
-  
 
   const saveToLocalStorage = (cart) => {
     localStorage.setItem("Carts", JSON.stringify(cart));
@@ -104,7 +110,7 @@ const AnimalFarmProduct = (props) => {
 
   return (
     <>
-          <ToastContainer />
+      <ToastContainer />
 
       <Text fontSize="3xl" textAlign="center" ml={25}>
         Explore <span style={{ color: colors.green }}>Nature's</span> Finest

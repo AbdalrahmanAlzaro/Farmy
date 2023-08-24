@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -15,10 +15,12 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-
+import { colors } from "../utils/colors";
 import { FiTrash, FiPlus, FiMinus } from "react-icons/fi";
+import {CartContext} from "../hooks/CartContext"
 
 const Cart = (props) => {
+  const {cartNavRefresh,setCartNavRefresh} =useContext(CartContext)
   const [isOpen, setIsOpen] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [id, setId] = useState("");
@@ -49,6 +51,7 @@ const Cart = (props) => {
   const updateCartProductsInStorage = (updatedCart) => {
     setCartProducts(updatedCart);
     localStorage.setItem("Carts", JSON.stringify(updatedCart));
+    setCartNavRefresh(updatedCart.length)
   };
 
   const handleDeleteProduct = (productId) => {
@@ -186,7 +189,7 @@ const Cart = (props) => {
           </Text>
           <Button
             backgroundColor="#454545"
-            colorScheme="green"
+            colorScheme="teal"
             color="white"
             size="md"
             fontWeight="thin"
@@ -221,7 +224,7 @@ const Cart = (props) => {
                     search: `?total=${calculateTotal()}`,
                   }}
                   backgroundColor="#454545"
-                  colorScheme="green"
+                  colorScheme="teal"
                   color= 'white'
                 >
                   Go to Payment

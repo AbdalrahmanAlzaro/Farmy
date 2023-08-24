@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,8 +22,13 @@ import TranslationPage from "./components/Transletor";
 import ProductCard from "./components/ProductCard";
 import About from "./pages/About";
 import NoPage from "./pages/NoPage";
-
+import {CartContext} from "./hooks/CartContext"
 const App = () => {
+
+  const {cartNavRefresh,setCartNavRefresh} =useContext(CartContext)
+  // console.log(cartNavRefresh)
+  console.log(cartNavRefresh)
+  // console.log(cartNavRefresh)
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
   );
