@@ -173,7 +173,7 @@ const PayMent = () => {
         const product_data = localStorage.getItem("Carts");
         const data = {
           product_data,
-          OrderNumber, // Add the OrderNumber to the data object
+          OrderNumber,
         };
 
         try {
@@ -181,16 +181,16 @@ const PayMent = () => {
             `http://localhost:3000/orders/${id}`,
             data
           );
-          console.log(response.data.message); // Success message received from the server
+          console.log(response.data.message);
         } catch (error) {
           console.error("Error submitting form:", error);
-          // TODO: Handle the error
         }
+
+        localStorage.removeItem("Carts");
 
         navigate("/Check");
       } catch (error) {
         console.error("Error submitting form:", error);
-        // TODO: Handle the error
       }
     }
   };

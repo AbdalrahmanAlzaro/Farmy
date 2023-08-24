@@ -33,17 +33,24 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
-    const getUserNameFromToken = () => {
+    const getUserNameFromToken = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         const decodedToken = jwt_decode(token);
-        const name = decodedToken.username;
-        const email = decodedToken.email;
         const id1 = decodedToken.id;
         setId(id1);
-        setUserName(name);
-        setUserEmail(email);
-        console.log(id1);
+
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/userinfo/${id1}`
+          );
+          const user = response.data;
+
+          setUserName(user.username);
+          setUserEmail(user.email);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        }
 
         axios
           .get(`http://localhost:3000/join-data/${id1}`)
@@ -61,7 +68,6 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
 
     getUserNameFromToken();
   }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -172,7 +178,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
               <ModalFooter>
                 <Button
                   type="submit"
-                  colorScheme="teal"
+                  colorScheme="green"
                   mr={3}
                   backgroundColor="#454545"
                 >
@@ -188,28 +194,8 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
       <Box mt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={4}>
           {userData.map((item) => (
-            <Box key={item.ordernumber} textAlign="center">
-              <Box
-                p={4}
-                borderWidth="1px"
-                borderRadius="md"
-                boxShadow="md"
-                textAlign="center"
-                overflowY="auto"
-                maxH="300px" // Set the maximum height for overflow
-                css={{
-                  "&::-webkit-scrollbar": {
-                    width: "6px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    background: "transparent",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "rgba(0, 0, 0, 0.2)",
-                    borderRadius: "3px",
-                  },
-                }}
-              >
+            <Box key={item.ordernumber}>
+              <Card boxShadow="md" p={4} borderRadius="md">
                 <Text fontSize="lg" fontWeight="bold" color="green" mb={2}>
                   Order Number:{" "}
                   <span style={{ color: "#454545" }}>{item.ordernumber}</span>
@@ -228,32 +214,39 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   Product:
                 </Text>
                 {item.product_data.map((element) => (
-                  <Box key={element.name} ml={4} mt={2} textAlign="center">
-                    <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="green" fontWeight="bold">
-                        Name:
-                      </Text>{" "}
-                      {element.description}
-                    </Text>
-                    <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="green" fontWeight="bold">
-                        Price:
-                      </Text>{" "}
-                      ${element.price}
-                    </Text>
-                    <Text fontSize={{ base: "sm", md: "md" }}>
-                      <Text as="span" color="green" fontWeight="bold">
-                        Quantity:
-                      </Text>{" "}
-                      {element.quantity}
-                    </Text>
+                  <Box key={element.name} mt={2} textAlign="left">
+                    <Card
+                      p={4}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      boxShadow="md"
+                    >
+                      <Text fontSize={{ base: "sm", md: "md" }}>
+                        <Text as="span" color="green" fontWeight="bold">
+                          Name:
+                        </Text>{" "}
+                        {element.description}
+                      </Text>
+                      <Text fontSize={{ base: "sm", md: "md" }}>
+                        <Text as="span" color="green" fontWeight="bold">
+                          Price:
+                        </Text>{" "}
+                        ${element.price}
+                      </Text>
+                      <Text fontSize={{ base: "sm", md: "md" }}>
+                        <Text as="span" color="green" fontWeight="bold">
+                          Quantity:
+                        </Text>{" "}
+                        {element.quantity}
+                      </Text>
+                    </Card>
                   </Box>
                 ))}
-              </Box>
+              </Card>
             </Box>
           ))}
         </SimpleGrid>
-      </Box>
+      </Box>  
     </>
   );
 };
