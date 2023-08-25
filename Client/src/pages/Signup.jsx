@@ -98,7 +98,16 @@ const Signup = ({ updateIsLog }) => {
         navigate("/");
         console.log(response);
       } catch (error) {
-        console.log(error);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          const errorMessage = error.response.data.error;
+          setErrors((prev) => ({ ...prev, email: errorMessage }));
+        } else {
+          console.log(error);
+        }
       }
     }
   };
@@ -208,15 +217,6 @@ const Signup = ({ updateIsLog }) => {
           fontWeight="thin"
         >
           Continue with Google
-        </Button>
-        <Button
-          leftIcon={<FaFacebook color="#1877F2" fontSize={20} />}
-          bg="white"
-          color={colors.primary}
-          size="md"
-          fontWeight="thin"
-        >
-          Continue with Facebook
         </Button>
         <Link to="/login">
           Already have an account?{" "}

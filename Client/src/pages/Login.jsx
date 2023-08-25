@@ -76,6 +76,7 @@ const Login = ({ updateIsLog }) => {
           email,
           password,
         });
+
         const { token } = response.data;
         // Save the token in local storage or cookies for future requests
         localStorage.setItem("token", token);
@@ -83,8 +84,13 @@ const Login = ({ updateIsLog }) => {
         updateIsLog(true);
         navigate("/");
       } catch (error) {
-        console.error(error);
-        // Handle error here (e.g., display error message to the user)
+        if (error.response && error.response.status === 401) {
+          // Handle incorrect email or password error
+          setErrors({ ...errors, email: "Incorrect email or password" });
+        } else {
+          console.error(error);
+          // Handle other errors (e.g., display error message to the user)
+        }
       }
     }
   };
@@ -176,15 +182,6 @@ const Login = ({ updateIsLog }) => {
           fontWeight="thin"
         >
           Continue with Google
-        </Button>
-        <Button
-          leftIcon={<FaFacebook color="#1877F2" fontSize={20} />}
-          bg="white"
-          color={colors.primary}
-          size="md"
-          fontWeight="thin"
-        >
-          Continue with Facebook
         </Button>
         <Link to="/signup">
           Don't have an account?{" "}

@@ -109,10 +109,9 @@ const AgriculturalProduct = (props) => {
       )
     );
   };
-  // console.log(filteredProductss);
 
   return (
-    <>
+    <>  
       <ToastContainer />
 
       <Text fontSize="3xl" textAlign="center" ml={25}>

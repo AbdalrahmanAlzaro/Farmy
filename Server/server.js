@@ -69,6 +69,7 @@ app.post('/Register', async (req, res) => {
     if (checkEmailResult.rows.length > 0) {
       return res.status(400).json({ error: 'Email already registered' });
     }
+    
 
     const sql = 'INSERT INTO "user" (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *';
     const values = [username, email, hashedPassword, 'user'];
@@ -678,7 +679,6 @@ app.put("/contact-infoo", async (req, res) => {
   });
 
 
-
   ///////////////////reset
 app.post('/reset-password/:id/:token', async (req, res) => {
   const { id, token } = req.params;
@@ -712,9 +712,6 @@ app.post('/reset-password/:id/:token', async (req, res) => {
     return res.status(500).send({ Status: 'Server error' });
   }
 });
-
-
-
 
 
 //////////////////forgetpassword
