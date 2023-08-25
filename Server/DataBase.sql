@@ -14,19 +14,8 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."user"
     OWNER to postgres;
 
-    -- Add a new column named "state" with a default value of false
 ALTER TABLE public."user"
 ADD COLUMN state boolean NOT NULL DEFAULT false;
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -55,6 +44,10 @@ CREATE TABLE orders (
     user_id INT,
     OrderNumber VARCHAR(10) REFERENCES ConfirmationPayment(OrderNumber)
 );
+ALTER TABLE orders
+ADD COLUMN state BOOLEAN DEFAULT FALSE;
+
+
 
 
 CREATE TABLE messages (
@@ -76,7 +69,6 @@ CREATE TABLE products (
 );
 
 
--- edite info
 CREATE TABLE contact_info (
   id SERIAL PRIMARY KEY,
   address TEXT,

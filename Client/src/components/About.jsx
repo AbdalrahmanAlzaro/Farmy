@@ -40,12 +40,12 @@ const About = () => {
   const imageWidth = useBreakpointValue({
     base: "200px",
     md: "300px",
-    lg: "400px",
+    lg: "350px",
   });
   const imageHeight = useBreakpointValue({
     base: "auto",
     md: "400px",
-    lg: "500px",
+    lg: "400px",
   });
 
   return (
@@ -57,13 +57,29 @@ const About = () => {
       direction={stackDirection}
       spacing={{ base: 10, md: 0 }}
     >
-
       <Stack display={{ base: "none", md: "block" }}>
-        <Image src={aboutBlob} w={imageWidth} h={imageHeight} marginLeft={10} />
-        <Image src={aboutBG} w={390} h={450} position="absolute" top={2100} />
+        <Box
+          width={15}
+          as="img"
+          src={aboutBlob}
+          w={imageWidth}
+          h={imageHeight}
+          marginLeft={10}
+          alt="About Blob"
+        />
+        <Box
+          as="img"
+          src={aboutBG}
+          w={390}
+          h={450}
+          position="absolute"
+          top={2100}
+          alt="About Background"
+        />
       </Stack>
+
       <Stack
-      padding={10}
+        padding={10}
         spacing={stackSpacing}
         maxW={{ base: "100%", md: "500px", lg: "800px" }}
       >

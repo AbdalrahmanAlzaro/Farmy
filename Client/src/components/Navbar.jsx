@@ -98,8 +98,12 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
         {isSmallerThanMd ? (
           <>
             <Link to="/cart" style={{ paddingLeft: "4.5rem" }}>
-              <Icon as={BiCart} boxSize={6} />
-              <span>{cartNavRefresh}</span>
+              <Icon
+                as={BiCart}
+                boxSize={6}
+                className={isActiveLink("/cart") ? "active-link" : ""}
+              />
+              <span style={{ color: "#D38030" }}> {cartNavRefresh}</span>
             </Link>
             <Box
               display="flex"
@@ -167,8 +171,12 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                     <Text>Signup</Text>
                   </Link>
                   <Link to="/cart">
-                    <Icon as={BiCart} boxSize={6} />
-                    <span>{cartNavRefresh}</span>
+                    <Icon
+                      as={BiCart}
+                      boxSize={6}
+                      className={isActiveLink("/cart") ? "active-link" : ""}
+                    />
+                    <span style={{ color: "#D38030" }}> {cartNavRefresh}</span>
                   </Link>
                 </>
               )}
@@ -181,12 +189,22 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                 style={{ color: "#454545" }}
               >
                 <Link to="/cart">
-                  <Icon as={BiCart} boxSize={6} />
-                  <span>{cartNavRefresh}</span>
+                  <Icon
+                    as={BiCart}
+                    boxSize={6}
+                    className={isActiveLink("/cart") ? "active-link" : ""}
+                  />
+                  <span style={{ color: "#D38030" }}> {cartNavRefresh}</span>
                 </Link>
                 <Text>Hi, {userName}!</Text> {/* Display user's name */}
                 <Link to="/ProfilePage">
-                  <Icon as={BiUser} boxSize={6} />
+                  <Icon
+                    as={BiUser}
+                    boxSize={6}
+                    className={
+                      isActiveLink("/ProfilePage") ? "active-link" : ""
+                    }
+                  />
                 </Link>
               </HStack>
             )}
@@ -233,18 +251,18 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                 >
                   <Text mb={2}>Products</Text>
                 </Link>
-                <Link to="/cart" onClick={handleMenuClick}>
-                  <Text mb={2}>
-                    <Icon as={BiCart} boxSize={6} />
-                    {cartNavRefresh}
-                  </Text>
-                </Link>
                 <Text mb={2}>Hi, {userName}!</Text> {/* Display user's name */}
                 <Link to="/" onClick={handleLogout}>
                   <Text>Logout</Text>
                 </Link>
                 <Link to="/ProfilePage">
-                  <Icon as={BiUser} boxSize={6} />
+                  <Icon
+                    as={BiUser}
+                    boxSize={6}
+                    className={
+                      isActiveLink("/ProfilePage") ? "active-link" : ""
+                    }
+                  />
                 </Link>
               </>
             ) : (

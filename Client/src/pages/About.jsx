@@ -7,8 +7,8 @@ function About() {
   return (
     <div>
       <AboutHero/>
-        <Features/>
         <AboutComp/>
+        <Features/>
     </div>
   )
 }

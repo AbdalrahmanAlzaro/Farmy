@@ -123,6 +123,7 @@ const AgriculturaNnurseryTool = (props) => {
         Explore The Best <span style={{ color: colors.green }}>Equipment </span>
         Selection
       </Text>
+      <br />
       <Flex justifyContent="center">
         <Stack spacing={10} direction="row">
           {/* SearchInput component with the onSearch prop */}

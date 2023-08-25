@@ -131,8 +131,8 @@ const Products = (props) => {
     <>
       <ToastContainer />
       <Text fontSize="3xl" textAlign="center" ml={25}>
-        Explore <span style={{ color: colors.green }}>Nature's</span> Finest
-        Selection
+        Explore the best <span style={{ color: colors.green }}>products</span>{" "}
+        
       </Text>
       <br />
       <Flex justifyContent="center">
