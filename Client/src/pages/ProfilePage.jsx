@@ -196,6 +196,18 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
           {userData.map((item) => (
             <Box key={item.ordernumber}>
               <Card boxShadow="md" p={4} borderRadius="md">
+                <Flex justifyContent="center" alignItems="center">
+                  <Text
+                    fontSize="lg"
+                    fontWeight="bold"
+                    style={{ color: "#454545" }}
+                    mb={2}
+                  >
+                    Order status :{" "}
+                    <span style={{ color: "#D38030" }}>{item.state}</span>
+                  </Text>
+                </Flex>
+                <br />
                 <Text fontSize="lg" fontWeight="bold" color="green" mb={2}>
                   Order Number:{" "}
                   <span style={{ color: "#454545" }}>{item.ordernumber}</span>
@@ -246,7 +258,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
             </Box>
           ))}
         </SimpleGrid>
-      </Box>  
+      </Box>
     </>
   );
 };

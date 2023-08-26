@@ -189,7 +189,7 @@ const Cart = (props) => {
           </Text>
           <Button
             backgroundColor="#454545"
-            colorScheme="teal"
+            colorScheme="green"
             color="white"
             size="md"
             fontWeight="thin"
@@ -224,7 +224,7 @@ const Cart = (props) => {
                     search: `?total=${calculateTotal()}`,
                   }}
                   backgroundColor="#454545"
-                  colorScheme="teal"
+                  colorScheme="green"
                   color= 'white'
                 >
                   Go to Payment

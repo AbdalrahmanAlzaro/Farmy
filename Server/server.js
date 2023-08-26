@@ -246,6 +246,7 @@ app.get('/join-data/:user_id', (req, res) => {
   SELECT
   cp.Subtotal,
   o.OrderNumber,
+  o.state,
   cp.Date,
   o.product_data,
   o.user_id
@@ -275,6 +276,7 @@ WHERE
 app.get('/join-data-for-all-order', (req, res) => {
   const query = `
     SELECT
+      o.state,
       cp.Subtotal,
       cp.Username,
       cp.Email,
@@ -299,6 +301,27 @@ app.get('/join-data-for-all-order', (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).json({ error: 'An error occurred while fetching data.' });
+    });
+});
+
+
+app.put('/update-order-state/:orderNumber', (req, res) => {
+  const orderNumber = req.params.orderNumber;
+  const newState = req.body.newState; // Assuming you send the new state in the request body
+
+  const query = `
+    UPDATE orders
+    SET state = $1
+    WHERE OrderNumber = $2;
+  `;
+
+  pool.query(query, [newState, orderNumber])
+    .then(() => {
+      res.status(200).json({ message: 'Order state updated successfully.' });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while updating order state.' });
     });
 });
 

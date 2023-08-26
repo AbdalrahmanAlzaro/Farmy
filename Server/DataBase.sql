@@ -45,7 +45,8 @@ CREATE TABLE orders (
     OrderNumber VARCHAR(10) REFERENCES ConfirmationPayment(OrderNumber)
 );
 ALTER TABLE orders
-ADD COLUMN state BOOLEAN DEFAULT FALSE;
+ADD COLUMN state VARCHAR(50) DEFAULT 'pending';
+
 
 
 
