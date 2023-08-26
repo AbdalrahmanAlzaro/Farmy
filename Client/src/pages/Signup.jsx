@@ -210,6 +210,7 @@ const Signup = ({ updateIsLog }) => {
         </form>
         <Text>Or</Text>
         <Button
+          w="100%"
           leftIcon={<FcGoogle fontSize={20} />}
           bg="white"
           color={colors.primary}

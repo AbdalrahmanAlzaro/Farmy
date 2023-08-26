@@ -107,7 +107,7 @@ const Login = ({ updateIsLog }) => {
       mb={20}
       justifyContent="space-around"
     >
-      <Stack spacing={5} alignItems="center" maxW={["100%", "100%", "400px"]}>
+      <Stack spacing={5} alignItems="center" maxW={["100%", "100%", "800px"]}>
         <Img src={logo} w={14} h={14} />
         <Text fontSize={["xl", "xl", "2xl"]} fontWeight="bold">
           Welcome Back
@@ -115,12 +115,12 @@ const Login = ({ updateIsLog }) => {
         <Text fontSize="xs">Please Enter your Details</Text>
         <form onSubmit={handleLogin}>
           <Input
+            style={{ width: "26rem" }}
             name="email"
             type="email"
             placeholder="Email"
             size="md"
             mb={4}
-            // style={{ width: "23rem" }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             isInvalid={!!errors.email}
@@ -132,10 +132,10 @@ const Login = ({ updateIsLog }) => {
           )}
           <InputGroup size="md" mb={4}>
             <Input
+              w="100%"
               name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              pr="4.5rem"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               isInvalid={!!errors.password}
@@ -175,6 +175,7 @@ const Login = ({ updateIsLog }) => {
         </Link>
         <Text>Or</Text>
         <Button
+          w="100%"
           leftIcon={<FcGoogle fontSize={20} />}
           bg="white"
           color={colors.primary}
