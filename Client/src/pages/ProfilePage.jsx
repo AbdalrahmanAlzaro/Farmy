@@ -68,6 +68,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
 
     getUserNameFromToken();
   }, []);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -89,10 +89,6 @@ const Contact = (props) => {
             <Heading fontSize="4xl" mb={2}>
               Get in touch
             </Heading>
-            <Text fontSize="md" textAlign="center">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque
-            </Text>
           </Flex>
           <Stack
             spacing={{ base: 6, md: 0 }}

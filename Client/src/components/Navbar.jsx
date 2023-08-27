@@ -16,6 +16,7 @@ import { Link, useLocation } from "react-router-dom";
 import jwt_decode from "jwt-decode"; // Import jwt-decode library
 import logo from "../assets/logo.png";
 import { CartContext } from "../hooks/CartContext";
+import axios from "axios";
 
 const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
   const { cartNavRefresh, setCartNavRefresh } = useContext(CartContext);
@@ -26,21 +27,37 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [userName, setUserName] = useState(""); // State to store user's name
   const [counterOfCart, setCounterOfCart] = useState(0); // State to store the counter of cart products
+  const [abb, setabb] = useState(0); // State to store the counter of cart products
+  const [id, setId] = useState("");
 
   useEffect(() => {
-    const getUserNameFromToken = () => {
+    const getUserNameFromToken = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         const decodedToken = jwt_decode(token);
-        const name = decodedToken.username;
-        setUserName(name);
+        const id1 = decodedToken.id;
+        setId(id1);
+
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/userinfo/${id1}`
+          );
+          const user = response.data;
+            console.log(user)
+          setUserName(user.username);
+          // setUserEmail(user.email);
+        } catch (error) {
+          console.error("Error fetching user information:", error);
+        }
+
       }
     };
 
-    if (isLog) {
-      getUserNameFromToken();
-    }
-  }, [isLog]);
+    getUserNameFromToken();
+  }, []);
+
+  
+
 
   const isActiveLink = (path) => {
     return location.pathname === path;

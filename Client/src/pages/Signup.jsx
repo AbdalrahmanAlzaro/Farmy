@@ -14,9 +14,9 @@ import { colors } from "../utils/colors";
 import logo from "../assets/logo.png";
 import loginImg from "../assets/login-img.png";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Signup = ({ updateIsLog }) => {
   console.log(updateIsLog);
@@ -124,6 +124,45 @@ const Signup = ({ updateIsLog }) => {
     setShowPassword(!showPassword);
   };
 
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      // setUserGoogle(codeResponse)
+
+      getGoogleLogin(codeResponse);
+    },
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  const getGoogleLogin = async (userGoogle) => {
+    if (userGoogle.length !== 0) {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userGoogle.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userGoogle.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+
+        console.log(response.data);
+        try {
+          const newUserResponse = await axios.post(
+            `http://localhost:3000/register-google`,
+            response.data
+          );
+          console.log(response);
+          localStorage.setItem("token", newUserResponse.data.token);
+          window.location.href = `/`;
+        } catch (err) {
+          console.log(err);
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+  };
   return (
     <Stack
       direction={["column", "column", "row"]}
@@ -216,6 +255,8 @@ const Signup = ({ updateIsLog }) => {
           color={colors.primary}
           size="md"
           fontWeight="thin"
+          id="google-sign-in"
+          onClick={() => login()}
         >
           Continue with Google
         </Button>
