@@ -84,6 +84,8 @@ const Login = ({ updateIsLog }) => {
         // Redirect to the home page
         updateIsLog(true);
         navigate("/");
+        window.location.reload(); // Refresh the page
+        window.location.href = `/`;
       } catch (error) {
         if (error.response && error.response.status === 401) {
           // Handle incorrect email or password error
@@ -128,7 +130,7 @@ const Login = ({ updateIsLog }) => {
             `http://localhost:3000/register-google`,
             response.data
           );
-          console.log(response)
+          console.log(response);
           localStorage.setItem("token", newUserResponse.data.token);
           window.location.href = `/`;
         } catch (err) {

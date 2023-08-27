@@ -96,7 +96,8 @@ const Signup = ({ updateIsLog }) => {
         localStorage.setItem("token", token);
         updateIsLog(true);
         navigate("/");
-        console.log(response);
+        window.location.reload(); // Refresh the page
+        window.location.href = `/`;
       } catch (error) {
         if (
           error.response &&

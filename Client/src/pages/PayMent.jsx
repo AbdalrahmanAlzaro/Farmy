@@ -24,51 +24,39 @@ const PayMent = () => {
   const [userEmail, setUserEmail] = useState(""); // State to store user's name
 
   useEffect(() => {
+    // This effect will run whenever userName changes
+    setFormValues({ ...formValues, Email: userEmail, Username: userName });
+  }, [userName, userEmail]); // Watch for changes in userName and userEmail
+
+  useEffect(() => {
     const getUserNameFromToken = () => {
       const token = localStorage.getItem("token");
       if (token) {
         const decodedToken = jwt_decode(token);
-        const name = decodedToken.username;
+        const name = decodedToken.username || decodedToken.name ;
         const email = decodedToken.email;
         setUserName(name);
         setUserEmail(email);
-        setFormValues({ ...formValues, Email: email, Username: userName });
-        console.log(name, email); // Log inside the function
-      }
-    };
-
-    getUserNameFromToken(); // Call the function
-  }, []);
-
-  // const [id, setId] = useState("");
-
-  useEffect(() => {
-    const getUserNameFromToken = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const decodedToken = jwt_decode(token);
-        const id1 = decodedToken.id;
-        setId(id1);
-
-        try {
-          const response = await axios.get(
-            `http://localhost:3000/userinfo/${id1}`
-          );
-          const user = response.data;
-            console.log(user)
-          setUserName(user.username);
-          console.log(userName)
-          // setUserEmail(user.email);
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        }
-
+        console.log(name, email);
       }
     };
 
     getUserNameFromToken();
   }, []);
 
+  useEffect(() => {
+    const getUserNameFromToken = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const id1 = decodedToken.id;
+        setId(id1);
+        // console.log(id1);
+      }
+    };
+
+    getUserNameFromToken();
+  }, []);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);

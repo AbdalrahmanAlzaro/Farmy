@@ -73,7 +73,7 @@ const About = () => {
           w={390}
           h={450}
           position="absolute"
-          top={2100}
+          top={2550}
           alt="About Background"
         />
       </Stack>
