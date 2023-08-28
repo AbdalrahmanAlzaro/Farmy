@@ -12,7 +12,11 @@ HarvestMart is a unique online platform that caters to both plant enthusiasts an
 ## Tools Used in This Project
 
 <img src="./Client/src/assets/react.png" alt="react" width="50" height="50" /> React
+<br/>
 <img src="./Client/src/assets/figma.png" alt="Figma" width="50" height="50" /> Figma
+<br/>
 <img src="./Client/src/assets/chakraui-removebg-preview.png" alt="Chakra UI" width="50" height="50" /> Chakra UI
+<br/>
 <img src="./Client/src/assets/node.png" alt="Node.js" width="50" height="50" /> Node.js
+<br/>
 <img src="./Client/src/assets/Postegresql.png" alt="PostgreSQL" width="50" height="50" /> PostgreSQL
