@@ -6,9 +6,9 @@
 
 Develop a comprehensive website aggregating plant and animal nursery offerings, providing users with a variety of high quality ethically sourced plant and animal products.
 The site will focus on promoting sustainable practices and responsible farming,
-<img src="./Client/src/assets/Screenshot (325).png" alt="HarvestMart Logo" width="200px" height="150px" />
 
 <br><br>
+<hr/>
 
 is a unique online platform that caters to both plant enthusiasts and animal lovers alike. This innovative website offers a captivating combination of plant nursery products and animal farm products, creating a one-stop destination for individuals seeking to connect with the beauty of nature
 ![ Alt text](<./Client/src/assets/localhost_5173__1524x694.4000244140625_default%20(1).h2d>)
