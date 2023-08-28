@@ -1,4 +1,4 @@
-<img src="./Client/src/assets/logo.png" alt="HarvestMart Logo" width="200" height="100" />
+<img src="./Client/src/assets/logo.png" alt="HarvestMart Logo" width="200px" height="100px" />
 
 # HarvestMart
 
