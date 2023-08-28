@@ -1,4 +1,6 @@
-# ![Alt text](./Client/src/assets/logo.png)HarvestMart
+<img src="./Client/src/assets/logo.png" alt="HarvestMart Logo" width="200" height="100" />
+
+# HarvestMart
 
 <hr/>
 
@@ -7,7 +9,7 @@ The site will focus on promoting sustainable practices and responsible farming,
 <br><br>
 
 is a unique online platform that caters to both plant enthusiasts and animal lovers alike. This innovative website offers a captivating combination of plant nursery products and animal farm products, creating a one-stop destination for individuals seeking to connect with the beauty of nature
-![ Alt text](./Client/src/assets/localhost_5173__1524x694.4000244140625_default%20(1).h2d)
+![ Alt text](<./Client/src/assets/localhost_5173__1524x694.4000244140625_default%20(1).h2d>)
 <br><br>
 
 <br><br>
