@@ -71,7 +71,6 @@ const Contact = (props) => {
       );
       ""
 
-      console.log(response.data);
 
       setName("");
       setEmail("");

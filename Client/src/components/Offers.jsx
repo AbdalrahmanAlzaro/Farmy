@@ -15,7 +15,6 @@ const Offers = (props) => {
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
   );
-  // console.log(cartProducts);
   const [products, setProducts] = useState([]); // State to hold fetched products
   const [filteredProductss, setFilteredProducts] = useState(products);
 

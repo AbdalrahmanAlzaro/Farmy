@@ -33,7 +33,6 @@ const Cart = (props) => {
         const decodedToken = jwt_decode(token);
         const id1 = decodedToken.id;
         setId(id1);
-        // console.log(id1);
       }
     };
 

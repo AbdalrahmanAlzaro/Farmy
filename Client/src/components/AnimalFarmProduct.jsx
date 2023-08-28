@@ -106,7 +106,6 @@ const AnimalFarmProduct = (props) => {
       )
     );
   };
-  // console.log(filteredProductss);
 
   return (
     <>

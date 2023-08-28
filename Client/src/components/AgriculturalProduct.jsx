@@ -94,7 +94,6 @@ const AgriculturalProduct = (props) => {
       .get("http://localhost:3000/allproductsAgriculturalNursery") // Replace this with the correct endpoint URL
       .then((response) => {
         setProducts(response.data);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);

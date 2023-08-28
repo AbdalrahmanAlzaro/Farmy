@@ -111,7 +111,6 @@ const AnimalFarmProductTools = (props) => {
       )
     );
   };
-  // console.log(filteredProductss);
 
   return (
     <>

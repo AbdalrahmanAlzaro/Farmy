@@ -43,9 +43,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
             `http://localhost:3000/userinfo/${id1}`
           );
           const user = response.data;
-            console.log(user)
           setUserName(user.username);
-          // setUserEmail(user.email);
         } catch (error) {
           console.error("Error fetching user information:", error);
         }

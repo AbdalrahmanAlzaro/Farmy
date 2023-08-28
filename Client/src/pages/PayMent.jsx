@@ -37,7 +37,6 @@ const PayMent = () => {
         const email = decodedToken.email;
         setUserName(name);
         setUserEmail(email);
-        console.log(name, email);
       }
     };
 
@@ -51,7 +50,6 @@ const PayMent = () => {
         const decodedToken = jwt_decode(token);
         const id1 = decodedToken.id;
         setId(id1);
-        // console.log(id1);
       }
     };
 
@@ -61,7 +59,6 @@ const PayMent = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const total = searchParams.get("total");
-  // console.log(total)
 
   const generateOrderNumber = () => {
     const prefix = "HM-";

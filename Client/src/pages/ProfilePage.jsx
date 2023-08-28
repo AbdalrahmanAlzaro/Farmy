@@ -68,7 +68,7 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
 
     getUserNameFromToken();
   }, []);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -77,7 +77,6 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
         username: userName,
         email: userEmail,
       });
-      console.log(id);
 
       if (response.status === 200) {
         toast({
@@ -102,7 +101,6 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
     }
   };
 
-  console.log(userData);
   return (
     <>
       <Flex direction="column" align="center" p={6}>

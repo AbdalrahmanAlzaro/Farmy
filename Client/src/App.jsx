@@ -28,9 +28,6 @@ import RestPassword from "./pages/ResetPass";
 const App = () => {
 
   const {cartNavRefresh,setCartNavRefresh} =useContext(CartContext)
-  // console.log(cartNavRefresh)
-  console.log(cartNavRefresh)
-  // console.log(cartNavRefresh)
   const [cartProducts, setCartProducts] = useState(
     JSON.parse(localStorage.getItem("Carts")) ?? []
   );

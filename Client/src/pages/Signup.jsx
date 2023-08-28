@@ -19,7 +19,6 @@ import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
 
 const Signup = ({ updateIsLog }) => {
-  console.log(updateIsLog);
   // const [path, setPath] = useState("/");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();

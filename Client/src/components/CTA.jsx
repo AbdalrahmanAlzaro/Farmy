@@ -48,7 +48,6 @@ const CTA = () => {
         </Text>
         <Img src={fruits} w={imageWidth} h={imageHeight} />
       </Stack>
-      {/* Use conditional rendering to show/hide the stack on small screens */}
       {isSmallScreen ? null : (
         <Stack>
           <Img
