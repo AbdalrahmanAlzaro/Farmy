@@ -33,7 +33,7 @@ const PayMent = () => {
       const token = localStorage.getItem("token");
       if (token) {
         const decodedToken = jwt_decode(token);
-        const name = decodedToken.username || decodedToken.name ;
+        const name = decodedToken.username || decodedToken.name;
         const email = decodedToken.email;
         setUserName(name);
         setUserEmail(email);
@@ -124,6 +124,16 @@ const PayMent = () => {
     const expireRegex = /^(0[1-9]|1[0-2])\/[0-9]{4}$/;
     if (!ExpDate.match(expireRegex)) {
       errors.ExpDate = "Invalid expiration date";
+    } else {
+      // Check if the expiration date is in the future
+      const currentDate = new Date();
+      console.log(currentDate);
+      const [expMonth, expYear] = ExpDate.split("/");
+      const expirationDate = new Date(expYear, expMonth - 1, 1);
+      console.log(expirationDate);
+      if (expirationDate <= currentDate) {
+        errors.ExpDate = "Expiration date must be in the future";
+      }
     }
 
     // CVV validation

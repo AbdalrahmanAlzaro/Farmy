@@ -189,7 +189,6 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
           </ModalContent>
         </Modal>
       </Flex>
-
       <Box mt={8}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={4}>
           {userData.map((item) => (
@@ -199,8 +198,10 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   <Text
                     fontSize="lg"
                     fontWeight="bold"
-                    style={{ color: "#454545" }}
+                    color="#454545"
                     mb={2}
+                    textAlign="center" // Center align the text
+                    style={{ flex: 1 }}
                   >
                     Order status :{" "}
                     <span style={{ color: "#D38030" }}>{item.state}</span>
@@ -221,36 +222,51 @@ const ProfilePage = ({ isLog, updateIsLog }) => {
                   Subtotal:{" "}
                   <span style={{ color: "#454545" }}> ${item.subtotal} </span>
                 </Text>
-                <Text mt={4} fontWeight="bold" style={{ color: "#454545" }}>
+                <Text mt={4} fontWeight="bold" color="#454545">
                   Product:
                 </Text>
                 {item.product_data.map((element) => (
-                  <Box key={element.name} mt={2} textAlign="left">
-                    <Card
-                      p={4}
-                      borderWidth="1px"
-                      borderRadius="md"
-                      boxShadow="md"
-                    >
-                      <Text fontSize={{ base: "sm", md: "md" }}>
-                        <Text as="span" color="green" fontWeight="bold">
-                          Name:
-                        </Text>{" "}
-                        {element.description}
-                      </Text>
-                      <Text fontSize={{ base: "sm", md: "md" }}>
-                        <Text as="span" color="green" fontWeight="bold">
-                          Price:
-                        </Text>{" "}
-                        ${element.price}
-                      </Text>
-                      <Text fontSize={{ base: "sm", md: "md" }}>
-                        <Text as="span" color="green" fontWeight="bold">
-                          Quantity:
-                        </Text>{" "}
-                        {element.quantity}
-                      </Text>
-                    </Card>
+                  <Box
+                    key={element.name}
+                    mt={2}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    boxShadow="md"
+                    p={4}
+                  >
+                    <Flex alignItems="center">
+                      <Box style={{ flex: 1 }}>
+                        <Text fontSize={{ base: "sm", md: "md" }}>
+                          <Text as="span" color="green" fontWeight="bold">
+                            Name:
+                          </Text>{" "}
+                          {element.description}
+                        </Text>
+                        <Text fontSize={{ base: "sm", md: "md" }}>
+                          <Text as="span" color="green" fontWeight="bold">
+                            Price:
+                          </Text>{" "}
+                          ${element.price}
+                        </Text>
+                        <Text fontSize={{ base: "sm", md: "md" }}>
+                          <Text as="span" color="green" fontWeight="bold">
+                            Quantity:
+                          </Text>{" "}
+                          {element.quantity}
+                        </Text>
+                      </Box>
+                      <Box width="100px" height="100px">
+                        <img
+                          src={element.image}
+                          alt=""
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </Box>
+                    </Flex>
                   </Box>
                 ))}
               </Card>

@@ -145,13 +145,13 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                   isActiveLink("/Agriculturalnursery") ? "active-link" : ""
                 }
               >
-                <Text>Agricultural nursery</Text>
+                <Text>Agricultural Nursery</Text>
               </Link>
               <Link
                 to="/AnimalFarm"
                 className={isActiveLink("/AnimalFarm") ? "active-link" : ""}
               >
-                <Text>Animal farm</Text>
+                <Text>Animal Farm</Text>
               </Link>
               <Link
                 to="/products"
@@ -163,13 +163,13 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                 to="/About"
                 className={isActiveLink("/About") ? "active-link" : ""}
               >
-                <Text>Who are we</Text>
+                <Text>Who Are We</Text>
               </Link>
               <Link
                 to="/Contact"
                 className={isActiveLink("/Contact") ? "active-link" : ""}
               >
-                <Text>Get in touch</Text>
+                <Text>Get In Touch</Text>
               </Link>
               {isLog ? (
                 <>
@@ -237,26 +237,26 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
                 isActiveLink("/Agriculturalnursery") ? "active-link" : ""
               }
             >
-              <Text mb={2}>Agricultural nursery</Text>
+              <Text mb={2}>Agricultural Nursery</Text>
             </Link>
             <Link
               to="/AnimalFarm"
               className={isActiveLink("/AnimalFarm") ? "active-link" : ""}
             >
-              <Text mb={2}>Animal farm</Text>
+              <Text mb={2}>Animal Farm</Text>
             </Link>
 
             <Link
               to="/About"
               className={isActiveLink("/About") ? "active-link" : ""}
             >
-              <Text mb={2}>Who are we</Text>
+              <Text mb={2}>Who Are We</Text>
             </Link>
             <Link
               to="/Contact"
               className={isActiveLink("/Contact") ? "active-link" : ""}
             >
-              <Text mb={2}>Get in touch</Text>
+              <Text mb={2}>Get In Touch</Text>
             </Link>
             {isLog ? (
               <>
