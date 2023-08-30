@@ -112,7 +112,7 @@ const Navbar = ({ isLog, updateIsLog, cartProducts }) => {
 
         {isSmallerThanMd ? (
           <>
-            <Link to="/cart" style={{ paddingLeft: "4.5rem" }}>
+            <Link to="/cart" style={{ paddingLeft: "2rem" }}>
               <Icon
                 as={BiCart}
                 boxSize={6}

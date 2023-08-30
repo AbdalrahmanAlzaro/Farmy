@@ -158,7 +158,7 @@ const Login = ({ updateIsLog }) => {
         <Text fontSize="xs">Please Enter your Details</Text>
         <form onSubmit={handleLogin}>
           <Input
-            style={{ width: "26rem" }}
+            style={{ width: "23rem" }}
             name="email"
             type="email"
             placeholder="Email"
