@@ -59,15 +59,15 @@ CREATE TABLE messages (
   user_id INT REFERENCES "User" (id)
 );
 
-
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     category VARCHAR(255),
     image VARCHAR(255),
     Description TEXT,
-    price DECIMAL(10, 2)
+    price DECIMAL(10, 2),
     is_deleted BOOLEAN DEFAULT false
 );
+
 
 
 CREATE TABLE contact_info (
