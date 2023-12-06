@@ -17,9 +17,6 @@ HarvestMart is a unique online platform that caters to both plant enthusiasts an
 <img src="./Client/src/assets/figma.png" alt="Figma" width="50" height="50" /> Figma
 <br/>
 <br/>
-<img src="./Client/src/assets/chakraui-removebg-preview.png" alt="Chakra UI" width="50" height="50" /> Chakra UI
-<br/>
-<br/>
 <img src="./Client/src/assets/node.png" alt="Node.js" width="50" height="50" /> Node.js
 <br/>
 <br/>
